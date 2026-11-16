@@ -16,10 +16,12 @@ EXTRA_ARGS = ""                                         # e.g. "--fold 0 --seeds
 REPO = "https://github.com/IdrisKulubi/crystal.git"
 BRANCH = "main\""""),
     ("code", """import os, subprocess, sys, json, hashlib, pathlib
-os.chdir("/kaggle/working")
+# work in /tmp (NOT /kaggle/working): Kaggle saves /kaggle/working as notebook output, and we
+# never want the audio in data/ to end up there. Only crystal_results.zip is written to output.
+os.chdir("/tmp")
 if not pathlib.Path("crystal").exists():
     subprocess.run(["git", "clone", "--depth", "1", "-b", BRANCH, REPO, "crystal"], check=True)
-os.chdir("/kaggle/working/crystal")
+os.chdir("/tmp/crystal")
 subprocess.run(["git", "log", "--oneline", "-1"], check=True)
 subprocess.run([sys.executable, "-m", "pip", "install", "-q", "librosa", "soundfile", "pyyaml", "scikit-learn", "pandas"], check=True)
 import torch; print("torch", torch.__version__, "cuda", torch.cuda.is_available(), torch.cuda.get_device_name(0) if torch.cuda.is_available() else "")"""),
