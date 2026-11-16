@@ -1,0 +1,30 @@
+# Python 3.13 (local); Kaggle/Colab notebooks use whatever Python they ship (3.10–3.12).
+# Versions are lower bounds for now; exact pins are written to requirements-lock.txt
+# (pip freeze) once the full pipeline runs end to end (HANDOFF §4).
+
+# --- core (needed from Phase 0: results, metrics, report) ---
+numpy>=1.26
+pandas>=2.1
+scipy>=1.11
+scikit-learn>=1.4
+pyyaml>=6.0
+matplotlib>=3.8
+pytest>=8.0
+
+# --- audio + data (Phase 1+) ---
+soundfile>=0.12
+librosa>=0.10
+seaborn>=0.13
+
+# --- deep learning (Phase 2+; install on Kaggle/Colab, optional locally for --debug) ---
+torch>=2.4
+torchaudio>=2.4
+transformers>=4.44
+datasets>=2.20
+accelerate>=0.33
+peft>=0.12
+evaluate>=0.4
+
+# --- optional ---
+# wandb
+# python-docx     # Phase 10: fill_paper.py

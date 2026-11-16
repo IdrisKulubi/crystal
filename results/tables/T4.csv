@@ -1,0 +1,8 @@
+Configuration,Macro-F1,Δ vs full,Run
+Ours (CRYSTAL),,,
+− domain-adaptive pretraining,,,
+− context features,,,
+− noise augmentation,,,
+− focal loss,,,
+"DeepInfant, random clip-level split",,,
+"Ours, random clip-level split",,,

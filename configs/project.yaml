@@ -1,0 +1,72 @@
+# Project-wide settings. The model name lives ONLY here (CLAUDE.md).
+model_name: CRYSTAL
+model_name_long: "CRY Self-supervised Transformer with Abstention Learning"
+
+paths:
+  data_dir: data
+  results_dir: results
+  metadata: data/metadata.csv
+  folds: data/metadata_folds.csv
+  randomsplit: data/metadata_randomsplit.csv   # E90 leakage demo ONLY
+
+# Label sets. unified_v1 is PROVISIONAL until Phase 1 inspects the data (HANDOFF §5.3);
+# the final decision is recorded in docs/DECISIONS.md.
+label_sets:
+  donateacry_v1: [belly_pain, burping, discomfort, hungry, tired]
+  unified_v1: [hungry, pain_discomfort, tired, burping]
+
+evaluation:
+  n_folds: 5
+  seeds: [0, 1, 2]
+  split_random_state: 42
+  val_group_fraction: 0.15
+  coverages: [0.9, 0.7, 0.5]
+  ece_bins: 15
+  bootstrap_resamples: 10000
+
+# Which paper table row plays which role in the abstract / headline numbers.
+roles:
+  ours:               {table: T3, row: "Ours (CRYSTAL)"}
+  deepinfant_repro:   {table: T3, row: "DeepInfant (reproduced)"}
+  detector:           {table: T6, row: "AST detector"}
+  leak_random_ours:   {table: T4, row: "Ours, random clip-level split"}
+
+# Expected rows of each results table. report.py lists every missing cell as unfilled.
+paper_rows:
+  T3:
+    - "Majority class"
+    - "MFCC + SVM"
+    - "DeepInfant (reported)"
+    - "DeepInfant (reproduced)"
+    - "wav2vec2-base, linear probe"
+    - "HuBERT-base, linear probe"
+    - "AST, linear probe"
+    - "Whisper-base encoder, linear probe"
+    - "BEATs, linear probe"
+    - "AST, fine-tuned"
+    - "AST, LoRA"
+    - "wav2vec2-base, fine-tuned"
+    - "wav2vec2-base, LoRA"
+    - "Best backbone + attention pooling"
+    - "DAPT wav2vec2, linear probe"
+    - "DAPT wav2vec2, fine-tuned"
+    - "Ours (CRYSTAL)"
+  T4:
+    - "Ours (CRYSTAL)"
+    - "− domain-adaptive pretraining"
+    - "− context features"
+    - "− noise augmentation"
+    - "− focal loss"
+    - "DeepInfant, random clip-level split"
+    - "Ours, random clip-level split"
+  T6:
+    - "AST detector"
+    - "Small CNN detector"
+
+# Rows that are constants from the literature, not runs (HANDOFF E04).
+constant_rows:
+  - experiment_id: E04
+    table: T3
+    row: "DeepInfant (reported)"
+    values: {accuracy: 0.89}
+    note: "As reported by DeepInfant (V2) README; partly private data, split unspecified."

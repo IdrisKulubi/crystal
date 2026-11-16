@@ -1,0 +1,3 @@
+Detector,Accuracy (%),F1,Precision (%),Recall (%),ROC-AUC,False alarms / h,Run
+AST detector,,,,,,,
+Small CNN detector,,,,,,,

@@ -1,0 +1,40 @@
+# Defaults merged under every configs/exp/*.yaml (exp file wins, then CLI overrides).
+# Keys follow docs/RESULTS_SPEC.md §2.
+experiment_id: null
+name: null
+parent_run: null
+change_vs_parent: null
+paper:
+  table: null
+  row: null
+task: reason
+data:
+  metadata: data/metadata_folds.csv
+  base_metadata: data/metadata.csv
+  datasets: [donateacry]
+  label_set: unified_v1
+  sample_rate: 16000
+  clip_seconds: 7.0
+model:
+  backbone: null
+  init_checkpoint: null
+  head: mean_pool
+  peft: null
+  context_features: []
+train:
+  epochs: 15
+  batch_size: 8
+  grad_accum: 4
+  lr: 3.0e-5
+  weight_decay: 0.01
+  warmup_ratio: 0.1
+  loss: weighted_ce
+  focal_gamma: 2.0
+  augment: {noise_snr_db: null, specaugment: false, mixup_alpha: null, pitch_shift: false}
+  early_stopping_metric: val_macro_f1
+  patience: 5
+eval:
+  folds: [0, 1, 2, 3, 4]
+  seeds: [0, 1, 2]
+  val_group_fraction: 0.15
+notes: ""

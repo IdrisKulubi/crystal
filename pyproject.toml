@@ -1,0 +1,10 @@
+[project]
+name = "crystal-infant-cry"
+version = "0.1.0"
+description = "CRYSTAL: calibrated, leak-free infant cry analysis (research code)"
+requires-python = ">=3.10"
+license = { text = "Apache-2.0" }
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"

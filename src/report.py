@@ -1,0 +1,409 @@
+"""registry + run folders -> results/paper_numbers.json, results/RESULTS.md, results/tables/.
+
+    python -m src.report
+
+This is the ONLY way numbers reach the paper (CLAUDE.md rule 3). Every key that has no
+source run yet is kept with value null and listed as unfilled in RESULTS.md.
+RESULTS.md is regenerated on every call; never edit it by hand.
+"""
+from __future__ import annotations
+
+import argparse
+import csv
+import datetime as dt
+import re
+from pathlib import Path
+from typing import Any
+
+from src.config import REPO_ROOT, load_project
+from src.results.run import (
+    DEFAULT_RESULTS_DIR, iso, read_json, read_registry, resolve_registry, select_runs_for_paper,
+    utcnow, write_json,
+)
+
+UNFILLED = "[ ]"
+
+# T3 columns: (key suffix, summary metric, kind)
+T3_COLS = [
+    ("accuracy", "accuracy", "pct"),
+    ("macro_f1", "macro_f1", "f3"),
+    ("balanced_acc", "balanced_accuracy", "pct"),
+    ("ece", "ece_15_cal", "f3"),
+]
+T6_COLS = [
+    ("accuracy", "accuracy", "pct"),
+    ("f1", "f1", "f3"),
+    ("precision", "precision", "pct"),
+    ("recall", "recall", "pct"),
+    ("roc_auc", "roc_auc", "f3"),
+    ("false_alarms_per_hour", "false_alarms_per_hour", "f1"),
+]
+COVERAGES = [("cov100", "1.0"), ("cov90", "0.9"), ("cov70", "0.7"), ("cov50", "0.5")]
+ABSTRACT_KEYS = [
+    "abstract.detection_acc", "abstract.reason_macro_f1_ours", "abstract.reason_macro_f1_deepinfant",
+    "abstract.selective_precision", "abstract.selective_coverage", "abstract.ece_ours",
+]
+OTHER_KEYS = [
+    "datasets.names_for_abstract", "dapt.hours_unlabelled",
+    "sig.ours_vs_deepinfant.delta", "sig.ours_vs_deepinfant.ci95", "sig.ours_vs_deepinfant.p",
+    "leak.random_split_macro_f1", "leak.grouped_split_macro_f1",
+]
+FIGURES = [
+    ("fig1_pipeline", "Figure 1: pipeline diagram"),
+    ("fig2_risk_coverage", "Figure 2: risk–coverage curves"),
+    ("fig3_reliability_before_after", "Figure 3: reliability before/after temperature scaling"),
+    ("fig4_confusion_ours", "Figure 4: normalised confusion matrix (ours, pooled OOF)"),
+    ("fig5_class_distribution", "Figure 5: class distribution"),
+    ("fig6_dapt_loss", "Figure 6: DAPT loss curve"),
+    ("figA_per_class_recall", "Figure A: per-class recall, ours vs DeepInfant reproduced"),
+]
+
+
+# --------------------------------------------------------------------------- formatting (RESULTS_SPEC §11)
+def slugify(text: str) -> str:
+    text = text.replace("−", "minus ").replace("+", " plus ")
+    return re.sub(r"[^a-z0-9]+", "_", text.lower()).strip("_")
+
+
+def fmt(kind: str, mean: float | None, std: float | None = None) -> str | None:
+    if mean is None:
+        return None
+    if kind == "pct":
+        s = f"{mean * 100:.1f}"
+        return s if std is None else f"{s} ± {std * 100:.1f}"
+    digits = {"f3": 3, "f1": 1}[kind]
+    s = f"{mean:.{digits}f}"
+    return s if std is None else f"{s} ± {std:.{digits}f}"
+
+
+def fmt_delta(d: float | None) -> str | None:
+    return None if d is None else f"{d:+.3f}"
+
+
+def fmt_p(p: float | None) -> str | None:
+    if p is None:
+        return None
+    return "< 0.001" if p < 0.001 else f"{p:.3f}"
+
+
+# --------------------------------------------------------------------------- builder
+class Numbers:
+    """Flat key -> formatted string, plus _raw and _sources (RESULTS_SPEC §11)."""
+
+    def __init__(self) -> None:
+        self.values: dict[str, Any] = {}
+        self.raw: dict[str, Any] = {}
+        self.sources: dict[str, str] = {}
+
+    def declare(self, key: str) -> None:
+        self.values.setdefault(key, None)
+
+    def set(self, key: str, value: Any, raw: Any = None, source: str | None = None) -> None:
+        self.values[key] = value
+        if raw is not None:
+            self.raw[key] = raw
+        if source:
+            self.sources[key] = source
+
+    def unfilled(self) -> list[str]:
+        return sorted(k for k, v in self.values.items() if v is None)
+
+    def to_json(self) -> dict:
+        out = dict(sorted(self.values.items()))
+        out["_raw"] = dict(sorted(self.raw.items()))
+        out["_sources"] = dict(sorted(self.sources.items()))
+        return out
+
+
+def _load_summary(results_dir: Path, run_id: str) -> dict | None:
+    p = results_dir / "runs" / run_id / "summary.json"
+    return read_json(p) if p.is_file() else None
+
+
+def _metric(summary: dict | None, name: str) -> tuple[float | None, float | None]:
+    m = (summary or {}).get("metrics", {}).get(name)
+    return (m["mean"], m["std"]) if m else (None, None)
+
+
+def build(results_dir: Path = DEFAULT_RESULTS_DIR, project: dict | None = None) -> dict:
+    results_dir = Path(results_dir)
+    project = project or load_project()
+    records = read_registry(results_dir)
+    chosen = select_runs_for_paper(records)
+    summaries = {key: _load_summary(results_dir, rec["run_id"]) for key, rec in chosen.items()}
+    warnings: list[str] = []
+    nums = Numbers()
+
+    nums.set("model_name", project["model_name"], source="configs/project.yaml")
+    for k in ABSTRACT_KEYS + OTHER_KEYS:
+        nums.declare(k)
+
+    rows = project.get("paper_rows", {})
+    constants = {(c["table"], c["row"]): c for c in project.get("constant_rows", [])}
+
+    # ---- T3 main results
+    t3_table = []
+    for row in rows.get("T3", []):
+        slug = slugify(row)
+        rec, summ, const = chosen.get(("T3", row)), summaries.get(("T3", row)), constants.get(("T3", row))
+        cells = {}
+        for suffix, metric, kind in T3_COLS:
+            key = f"T3.{slug}.{suffix}"
+            nums.declare(key)
+            if const and metric in const["values"]:
+                v = const["values"][metric]
+                nums.set(key, fmt(kind, v) + " (reported)", raw=v, source=f"constant:{const['experiment_id']}")
+            elif const:
+                nums.set(key, "n/a", source=f"constant:{const['experiment_id']}")
+            elif summ:
+                mean, std = _metric(summ, metric)
+                if mean is not None:
+                    nums.set(key, fmt(kind, mean, std), raw={"mean": mean, "std": std}, source=rec["run_id"])
+            cells[suffix] = nums.values[key]
+        t3_table.append({"row": row, **cells, "run_id": (rec or {}).get("run_id")})
+        if summ and summ.get("missing"):
+            warnings.append(f"T3 '{row}' ({rec['run_id']}): missing {len(summ['missing'])} fold×seed results")
+
+    # ---- T4 ablations (delta vs full model)
+    roles = project.get("roles", {})
+    ours_key = (roles.get("ours", {}).get("table"), roles.get("ours", {}).get("row"))
+    ours_f1, _ = _metric(summaries.get(ours_key), "macro_f1")
+    t4_table = []
+    for row in rows.get("T4", []):
+        slug = slugify(row)
+        key = ("T4", row)
+        rec, summ = chosen.get(key), summaries.get(key)
+        if summ is None and row == ours_key[1]:  # full model row comes from T3
+            rec, summ = chosen.get(ours_key), summaries.get(ours_key)
+        f1_key, d_key = f"T4.{slug}.macro_f1", f"T4.{slug}.delta"
+        nums.declare(f1_key)
+        nums.declare(d_key)
+        mean, std = _metric(summ, "macro_f1")
+        if mean is not None:
+            nums.set(f1_key, fmt("f3", mean, std), raw={"mean": mean, "std": std}, source=rec["run_id"])
+            if ours_f1 is not None:
+                nums.set(d_key, fmt_delta(mean - ours_f1), raw=mean - ours_f1, source=rec["run_id"])
+        t4_table.append({"row": row, "macro_f1": nums.values[f1_key], "delta": nums.values[d_key],
+                         "run_id": (rec or {}).get("run_id")})
+
+    # ---- T5 selective prediction (ours)
+    ours_summ = summaries.get(ours_key)
+    ours_rec = chosen.get(ours_key)
+    t5_table = []
+    for name, cov in COVERAGES:
+        pk, tk = f"T5.{name}.precision", f"T5.{name}.threshold"
+        nums.declare(pk)
+        nums.declare(tk)
+        mean, std = _metric(ours_summ, f"precision_at_coverage.{cov}")
+        if mean is not None:
+            nums.set(pk, fmt("pct", mean, std), raw={"mean": mean, "std": std}, source=ours_rec["run_id"])
+        thr = (ours_summ or {}).get("calibration", {}).get(f"thresholds.{cov}")
+        if thr:
+            nums.set(tk, fmt("f3", thr["mean"], thr["std"]), raw=thr["mean"], source=ours_rec["run_id"])
+        elif cov == "1.0" and mean is not None:
+            nums.set(tk, "—", source=ours_rec["run_id"])
+        t5_table.append({"coverage": cov, "precision": nums.values[pk], "threshold": nums.values[tk]})
+
+    # ---- T6 detection
+    t6_table = []
+    for row in rows.get("T6", []):
+        slug = slugify(row)
+        rec, summ = chosen.get(("T6", row)), summaries.get(("T6", row))
+        cells = {}
+        for suffix, metric, kind in T6_COLS:
+            key = f"T6.{slug}.{suffix}"
+            nums.declare(key)
+            mean, std = _metric(summ, metric)
+            if mean is not None:
+                nums.set(key, fmt(kind, mean, std), raw={"mean": mean, "std": std}, source=rec["run_id"])
+            cells[suffix] = nums.values[key]
+        t6_table.append({"row": row, **cells, "run_id": (rec or {}).get("run_id")})
+
+    # ---- abstract
+    def _copy(dst: str, src: str) -> None:
+        if nums.values.get(src) is not None:
+            nums.set(dst, nums.values[src], raw=nums.raw.get(src), source=nums.sources.get(src))
+
+    ours_slug = slugify(ours_key[1] or "")
+    di = roles.get("deepinfant_repro", {})
+    det = roles.get("detector", {})
+    _copy("abstract.reason_macro_f1_ours", f"T3.{ours_slug}.macro_f1")
+    _copy("abstract.reason_macro_f1_deepinfant", f"T3.{slugify(di.get('row', ''))}.macro_f1")
+    _copy("abstract.ece_ours", f"T3.{ours_slug}.ece")
+    _copy("abstract.detection_acc", f"T6.{slugify(det.get('row', ''))}.accuracy")
+    _copy("abstract.selective_precision", "T5.cov90.precision")
+    if nums.values.get("abstract.selective_precision") is not None:
+        nums.set("abstract.selective_coverage", "90", source=nums.sources["T5.cov90.precision"])
+    leak = roles.get("leak_random_ours", {})
+    _copy("leak.random_split_macro_f1", f"T4.{slugify(leak.get('row', ''))}.macro_f1")
+    _copy("leak.grouped_split_macro_f1", f"T3.{ours_slug}.macro_f1")
+
+    # ---- significance
+    di_rec = chosen.get((di.get("table"), di.get("row")))
+    sig_dir = results_dir / "significance"
+    if ours_rec and di_rec:
+        p = sig_dir / f"{ours_rec['run_id']}__vs__{di_rec['run_id']}.json"
+        if p.is_file():
+            s = read_json(p)
+            src = p.name
+            nums.set("sig.ours_vs_deepinfant.delta", fmt_delta(s["delta_macro_f1"]), raw=s["delta_macro_f1"], source=src)
+            nums.set("sig.ours_vs_deepinfant.ci95", f"[{s['ci95'][0]:.3f}, {s['ci95'][1]:.3f}]", raw=s["ci95"], source=src)
+            nums.set("sig.ours_vs_deepinfant.p", fmt_p(s["p_value"]), raw=s["p_value"], source=src)
+    sig_files = sorted(sig_dir.glob("*.json")) if sig_dir.is_dir() else []
+
+    # ---- datasets (Table 1) from dataset_stats.json
+    ds_path = results_dir / "dataset_stats.json"
+    if ds_path.is_file():
+        stats = read_json(ds_path)
+        for ds_id, d in (stats.get("datasets") or {}).items():
+            for field in ("n_clips", "n_groups", "total_minutes"):
+                if d.get(field) is not None:
+                    v = d[field]
+                    nums.set(f"datasets.{ds_id}.{field}", f"{v:.1f}" if isinstance(v, float) else str(v),
+                             raw=v, source="dataset_stats.json")
+        if stats.get("names_for_abstract"):
+            nums.set("datasets.names_for_abstract", stats["names_for_abstract"], source="dataset_stats.json")
+    else:
+        warnings.append("results/dataset_stats.json not found (Phase 1: python -m src.dataset_stats)")
+
+    # ---- DAPT corpus size
+    dapt_path = results_dir / "dapt_stats.json"
+    if dapt_path.is_file():
+        h = read_json(dapt_path).get("hours_unlabelled")
+        if h is not None:
+            nums.set("dapt.hours_unlabelled", f"{h:.1f}", raw=h, source="dapt_stats.json")
+
+    # ---- protocol warnings: all reason-task paper runs must share one folds file (E90 excluded)
+    hashes: dict[str, list[str]] = {}
+    for rec in chosen.values():
+        if rec.get("task") == "reason" and not str(rec.get("experiment_id", "")).startswith("E90"):
+            hashes.setdefault(str(rec.get("folds_file_sha256")), []).append(rec["run_id"])
+    if len(hashes) > 1:
+        warnings.append("paper runs used DIFFERENT folds files (cannot be compared): "
+                        + "; ".join(f"{h[:12]}…: {', '.join(r)}" for h, r in hashes.items()))
+    if "None" in hashes:
+        warnings.append(f"runs without a folds-file hash (debug/no data): {', '.join(hashes['None'])}")
+
+    resolved = resolve_registry(records)
+    superseded = [r for r in resolved.values() if r.get("superseded_by")]
+    failed = [r for r in resolved.values() if r.get("status") == "failed"]
+
+    return {
+        "numbers": nums, "warnings": warnings, "records": list(resolved.values()),
+        "superseded": superseded, "failed": failed, "sig_files": sig_files,
+        "tables": {"T3": t3_table, "T4": t4_table, "T5": t5_table, "T6": t6_table},
+    }
+
+
+# --------------------------------------------------------------------------- writers
+def _cell(v: Any) -> str:
+    return UNFILLED if v is None else str(v)
+
+
+def md_table(headers: list[str], rows: list[list[Any]]) -> str:
+    lines = ["| " + " | ".join(headers) + " |", "|" + "---|" * len(headers)]
+    lines += ["| " + " | ".join(_cell(c) for c in r) + " |" for r in rows]
+    return "\n".join(lines)
+
+
+TABLE_SPECS = {
+    "T3": (["Model", "Accuracy (%)", "Macro-F1", "Balanced acc. (%)", "ECE", "Run"],
+           lambda r: [r["row"], r["accuracy"], r["macro_f1"], r["balanced_acc"], r["ece"], r["run_id"] or ""]),
+    "T4": (["Configuration", "Macro-F1", "Δ vs full", "Run"],
+           lambda r: [r["row"], r["macro_f1"], r["delta"], r["run_id"] or ""]),
+    "T5": (["Coverage", "Precision (%)", "Threshold τ (val)"],
+           lambda r: [f"{float(r['coverage']) * 100:.0f}%", r["precision"], r["threshold"]]),
+    "T6": (["Detector", "Accuracy (%)", "F1", "Precision (%)", "Recall (%)", "ROC-AUC", "False alarms / h", "Run"],
+           lambda r: [r["row"], r["accuracy"], r["f1"], r["precision"], r["recall"], r["roc_auc"],
+                      r["false_alarms_per_hour"], r["run_id"] or ""]),
+}
+TABLE_TITLES = {"T3": "Table 3 — Cry-reason classification (mean ± std over folds × seeds)",
+                "T4": "Table 4 — Ablations", "T5": "Table 5 — Selective prediction (ours)",
+                "T6": "Table 6 — Stage-1 cry detection"}
+
+
+def write_outputs(result: dict, results_dir: Path = DEFAULT_RESULTS_DIR) -> dict[str, Path]:
+    results_dir = Path(results_dir)
+    tables_dir = results_dir / "tables"
+    tables_dir.mkdir(parents=True, exist_ok=True)
+    nums: Numbers = result["numbers"]
+
+    pn = results_dir / "paper_numbers.json"
+    payload = nums.to_json()
+    payload["_generated_utc"] = iso(utcnow())
+    write_json(pn, payload)
+
+    table_md = {}
+    for t, (headers, fn) in TABLE_SPECS.items():
+        rows = [fn(r) for r in result["tables"][t]]
+        table_md[t] = md_table(headers, rows)
+        (tables_dir / f"{t}.md").write_text(f"### {TABLE_TITLES[t]}\n\n{table_md[t]}\n", encoding="utf-8")
+        with open(tables_dir / f"{t}.csv", "w", newline="", encoding="utf-8") as f:
+            w = csv.writer(f)
+            w.writerow(headers)
+            w.writerows([["" if c is None else c for c in r] for r in rows])
+
+    recs = sorted(result["records"], key=lambda r: r.get("created_utc") or "")
+    run_rows = [[r.get("run_id"), r.get("status"), r.get("paper_table"), r.get("paper_row"),
+                 fmt("f3", r.get("macro_f1_mean"), r.get("macro_f1_std")), r.get("superseded_by") or ""]
+                for r in recs]
+    fig_dir = results_dir / "figures"
+    fig_rows = [[name, desc, "yes" if (fig_dir / f"{name}.png").is_file() else "missing"] for name, desc in FIGURES]
+    unfilled = nums.unfilled()
+    warnings = list(result["warnings"])
+    if result["superseded"]:
+        warnings.append("superseded runs (ignored): " + ", ".join(r["run_id"] for r in result["superseded"]))
+
+    parts = [
+        f"# RESULTS — {nums.values['model_name']}",
+        "",
+        f"_Generated by `python -m src.report` at {iso(utcnow())}. Do not edit by hand._",
+        "",
+        f"**Paper numbers filled:** {len(nums.values) - len(unfilled)} / {len(nums.values)}",
+        "",
+        "## Run index",
+        "",
+        md_table(["run_id", "status", "table", "row", "macro-F1", "superseded_by"], run_rows) if run_rows
+        else "_No runs registered yet._",
+        "",
+    ]
+    for t in ("T3", "T4", "T5", "T6"):
+        parts += [f"## {TABLE_TITLES[t]}", "", table_md[t], ""]
+    parts += ["## Figures", "", md_table(["file", "paper figure", "exists"], fig_rows), "",
+              "## Significance", ""]
+    if result["sig_files"]:
+        for p in result["sig_files"]:
+            s = read_json(p)
+            parts.append(f"- `{p.name}`: Δ macro-F1 {fmt_delta(s.get('delta_macro_f1'))}, "
+                         f"95% CI {s.get('ci95')}, p {fmt_p(s.get('p_value'))}")
+    else:
+        parts.append("_No significance tests yet._")
+    parts += ["", "## Failed runs", ""]
+    parts += [f"- `{r['run_id']}`: {r.get('notes', '')}" for r in result["failed"]] or ["_None._"]
+    parts += ["", "## Warnings", ""]
+    parts += [f"- {w}" for w in warnings] or ["_None._"]
+    parts += ["", f"## Unfilled paper placeholders ({len(unfilled)})", ""]
+    parts += [f"- [ ] `{k}`" for k in unfilled] or ["_All placeholders filled._"]
+    md = results_dir / "RESULTS.md"
+    md.write_text("\n".join(parts) + "\n", encoding="utf-8")
+    return {"paper_numbers": pn, "results_md": md, "tables": tables_dir}
+
+
+def main(argv: list[str] | None = None) -> None:
+    ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+    ap.add_argument("--results-dir", default=str(DEFAULT_RESULTS_DIR))
+    args = ap.parse_args(argv)
+    result = build(Path(args.results_dir))
+    paths = write_outputs(result, Path(args.results_dir))
+    n = result["numbers"]
+    print(f"{len(n.values) - len(n.unfilled())}/{len(n.values)} paper numbers filled; "
+          f"{len(result['warnings'])} warning(s)")
+    for p in paths.values():
+        try:
+            print(f"  wrote {Path(p).resolve().relative_to(REPO_ROOT)}")
+        except ValueError:
+            print(f"  wrote {p}")
+
+
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,32 @@
+# Infant audio is sensitive personal data: never commit it (CLAUDE.md rule 8)
+data/
+checkpoints/
+*.wav
+*.mp3
+*.flac
+*.ogg
+*.m4a
+*.3gp
+*.caf
+
+# Environments / tooling
+.venv/
+venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+wandb/
+.ipynb_checkpoints/
+.qodo/
+.vscode/
+.idea/
+
+# Model weights (large) — sync via a private HF repo if needed
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+*.mlmodel
+
+# Kit file only needed once
+README_FIRST.md
