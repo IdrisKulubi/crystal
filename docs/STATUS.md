@@ -1,15 +1,15 @@
 # STATUS
 Last updated: 2026-11-16 by Claude Code (Phase 1)
 
-## Current phase: 1 complete (pending Idris's grouping/label confirmation) → next is Phase 2 (baselines)
+## Current phase: 1 complete → next is Phase 2 (baselines)
 
 ## Next task:
 Phase 2 — E00 majority, E01 MFCC+SVM, E02 DeepInfant reproduced (port `baselines/DeepInfant/train.py`
 architecture into `src/models/deepinfant_repro.py`), generic `src/train.py`, Kaggle notebook.
 
 ## Blockers / needs Idris:
-- [ ] Confirm Donate-a-Cry grouping rule (group = app-install UUID) — see LAB_NOTEBOOK 2026-11-16 Phase 1
-- [ ] Decide burping (8 clips / 7 installs): keep as own class (recommended) or drop/merge
+- [x] Confirm Donate-a-Cry grouping rule (group = app-install UUID) — see LAB_NOTEBOOK 2026-11-16 Phase 1
+- [x] Burping kept as its own class (Idris, 2026-11-16)
 - [ ] Listening audit: fill `data/listen/listen_sheet.csv` (25 clips)
 - [ ] Request Baby Chillanto access (email INAOE) — pipeline will work without it
 - [ ] Accept CryCeleb terms on Hugging Face (needed by Phase 4, DAPT)

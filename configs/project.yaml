@@ -9,8 +9,7 @@ paths:
   folds: data/metadata_folds.csv
   randomsplit: data/metadata_randomsplit.csv   # E90 leakage demo ONLY
 
-# Label sets. unified_v1 is PROVISIONAL until Phase 1 inspects the data (HANDOFF §5.3);
-# the final decision is recorded in docs/DECISIONS.md.
+# Label sets (final, Phase 1; HANDOFF §5.3). burping kept as its own class (DECISIONS.md).
 label_sets:
   donateacry_v1: [belly_pain, burping, discomfort, hungry, tired]
   unified_v1: [hungry, pain_discomfort, tired, burping]
