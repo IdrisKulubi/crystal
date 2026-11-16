@@ -74,3 +74,10 @@ Observations:
   (max |Δ| = 0.0004 dB on 20 real clips; unit-tested) so training runs on GPU.
 - CPU speed: ~4 s per batch of 32 → ~38 min per fold×seed → ~9.5 h for 15 runs on this laptop.
   Full E02 to run on Kaggle (`notebooks/kaggle_train.ipynb`, results imported with `src.import_runs`).
+
+## 2026-11-17 — Kaggle split mismatch (caught by the notebook's guard)
+- First Kaggle run stopped before training: same 1511 metadata rows and 996 duplicate pairs, but
+  `make_splits` gave folds sha 9a3519aa… (with 4 test folds missing a rare class) instead of our 14c58690….
+  Cause: different scikit-learn version on Kaggle (local 1.9.1) → different StratifiedGroupKFold shuffle.
+- Fix: the fold assignment (clip_id, group, label, fold, split_f*) is now committed in `splits/` and
+  re-applied everywhere; local re-application reproduces 14c58690… byte-for-byte. No runs were affected.

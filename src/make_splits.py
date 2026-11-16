@@ -9,7 +9,14 @@ For each evaluation dataset (configs/project.yaml -> eval_datasets):
   StratifiedGroupKFold(n_splits=round(1/0.15)=7, shuffle=True, random_state=42+k), first split.
 * columns ``split_f0..split_f4`` in {train, val, test}; ``fold`` = the clip's test fold.
 
-Outputs: data/metadata_folds.csv, data/metadata_randomsplit.csv, results/splits_report.json
+The fold ASSIGNMENT is part of the protocol and is committed in ``splits/`` (clip_id, group,
+label, fold, split_f*; no audio). By default the committed assignment is re-applied (after checking
+that clip ids, groups and labels match exactly), so the folds do not depend on the installed
+scikit-learn version. ``--regenerate`` recomputes them with scikit-learn and overwrites ``splits/``
+(this changes the evaluation protocol: ask first). If ``splits/`` has no file yet it is created.
+
+Outputs: data/metadata_folds.csv, data/metadata_randomsplit.csv, results/splits_report.json,
+splits/{grouped,random}_<dataset>_<label_set>.csv
 Hard assertions (raise): no group in >1 test fold; no group in two roles within a fold;
 no duplicate clip_id; no duplicate audio. Warnings (logged): a class missing from a fold.
 """
@@ -140,13 +147,45 @@ def group_overlap(df: pd.DataFrame, n_folds: int) -> dict:
     return {"per_fold": out, "mean": float(np.mean(out))}
 
 
+SPLITS_DIR = REPO_ROOT / "splits"
+
+
+def split_cols(n_folds: int) -> list[str]:
+    return ["fold"] + [f"split_f{k}" for k in range(n_folds)]
+
+
+def save_assignment(df: pd.DataFrame, path: Path, label_col: str, n_folds: int) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    df[["clip_id", "group", label_col] + split_cols(n_folds)].to_csv(path, index=False, lineterminator="\n")
+
+
+def load_assignment(table: pd.DataFrame, path: Path, label_col: str, n_folds: int) -> pd.DataFrame:
+    """Apply a committed fold assignment to ``table``; refuse on any mismatch."""
+    a = pd.read_csv(path, dtype=str)
+    a["fold"] = a["fold"].astype(int)
+    missing = sorted(set(table["clip_id"]) - set(a["clip_id"]))
+    extra = sorted(set(a["clip_id"]) - set(table["clip_id"]))
+    if missing or extra:
+        raise SystemExit(f"{path.name}: clip set differs from data ({len(missing)} missing, {len(extra)} extra), "
+                         f"e.g. {(missing or extra)[:3]}")
+    m = table.merge(a, on="clip_id", how="left", suffixes=("", "__committed"), validate="one_to_one")
+    for c in ("group", label_col):
+        bad = m[c].astype(str) != m[f"{c}__committed"]
+        if bad.any():
+            raise SystemExit(f"{path.name}: column {c!r} differs for {int(bad.sum())} clips, "
+                             f"e.g. {m.loc[bad, 'clip_id'].iloc[0]}")
+    return m[list(table.columns) + split_cols(n_folds)].reset_index(drop=True)
+
+
 def sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
 def main(argv: list[str] | None = None) -> dict:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    ap.parse_args(argv)
+    ap.add_argument("--regenerate", action="store_true",
+                    help="recompute folds with scikit-learn and overwrite splits/ (changes the protocol)")
+    args = ap.parse_args(argv)
     project = load_project()
     ev = project["evaluation"]
     n_folds, seed, vf = ev["n_folds"], ev["split_random_state"], ev["val_group_fraction"]
@@ -161,9 +200,19 @@ def main(argv: list[str] | None = None) -> dict:
                                           "val_group_fraction": vf, "datasets": {}}
     for ds in project["eval_datasets"]:
         table = eval_table(meta, ds, project)
-        g = grouped_folds(table, label_col, n_folds, seed, vf)
+        g_path = SPLITS_DIR / f"grouped_{ds}_{split_ls}.csv"
+        r_path = SPLITS_DIR / f"random_{ds}_{split_ls}.csv"
+        if g_path.exists() and r_path.exists() and not args.regenerate:
+            g = load_assignment(table, g_path, label_col, n_folds)
+            r = load_assignment(table, r_path, label_col, n_folds)
+            print(f"[{ds}] using committed fold assignment {g_path.relative_to(REPO_ROOT).as_posix()}")
+        else:
+            g = grouped_folds(table, label_col, n_folds, seed, vf)
+            r = random_folds(table, label_col, n_folds, seed, vf)
+            save_assignment(g, g_path, label_col, n_folds)
+            save_assignment(r, r_path, label_col, n_folds)
+            print(f"[{ds}] computed folds with scikit-learn -> {g_path.relative_to(REPO_ROOT).as_posix()}")
         check_grouped(g, n_folds)
-        r = random_folds(table, label_col, n_folds, seed, vf)
         g_rep, g_warn = fold_report(g, label_col, n_folds, labels)
         r_rep, _ = fold_report(r, label_col, n_folds, labels)
         report["datasets"][ds] = {

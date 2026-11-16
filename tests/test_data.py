@@ -5,7 +5,9 @@ import pytest
 
 from src.audio import pcm16_sha256
 from src.dedup import find_duplicates, logmel_features, resolve, shifted_cosine
-from src.make_splits import check_grouped, choose_val_groups, group_overlap, grouped_folds, random_folds
+from src.make_splits import (
+    check_grouped, choose_val_groups, group_overlap, grouped_folds, load_assignment, random_folds, save_assignment,
+)
 from src.prepare_data import parse_filename
 
 SR = 16000
@@ -126,3 +128,19 @@ def test_choose_val_groups_covers_classes_when_possible():
     train = np.setdiff1d(np.arange(len(y)), val)
     assert {"a", "b", "c"} <= set(y[train])
     assert not set(groups[val]) & set(groups[train])
+
+
+def test_committed_assignment_round_trip_and_mismatch(tmp_path):
+    table = _fake_table()
+    g = grouped_folds(table, "label", 5, 42, 0.15)
+    path = tmp_path / "grouped.csv"
+    save_assignment(g, path, "label", 5)
+    back = load_assignment(table, path, "label", 5)
+    pd.testing.assert_frame_equal(back.sort_values("clip_id").reset_index(drop=True),
+                                  g.sort_values("clip_id").reset_index(drop=True), check_dtype=False)
+    bad = table.copy()
+    bad.loc[0, "group"] = "someone_else"
+    with pytest.raises(SystemExit):
+        load_assignment(bad, path, "label", 5)
+    with pytest.raises(SystemExit):
+        load_assignment(table.iloc[1:], path, "label", 5)
