@@ -1,0 +1,10 @@
+experiment_id: E01
+name: mfcc_svm
+paper: {table: T3, row: "MFCC + SVM"}
+data: {label_set: donateacry_v1}
+model:
+  type: mfcc_svm
+  features: "MFCC(40) + delta, mean/std over time (160-d), standardised on train"
+  grid_C: [0.1, 1, 10, 100]
+  grid_gamma: [scale, 0.001, 0.01, 0.1]
+notes: "RBF SVM, class_weight=balanced; C and gamma chosen per fold on validation macro-F1."

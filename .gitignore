@@ -31,3 +31,6 @@ wandb/
 # Kit file only needed once
 README_FIRST.md
 baselines/
+
+# smoke-test runs
+results/debug/

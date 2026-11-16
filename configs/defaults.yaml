@@ -12,10 +12,11 @@ data:
   metadata: data/metadata_folds.csv
   base_metadata: data/metadata.csv
   datasets: [donateacry]
-  label_set: unified_v1
+  label_set: donateacry_v1
   sample_rate: 16000
   clip_seconds: 7.0
 model:
+  type: null
   backbone: null
   init_checkpoint: null
   head: mean_pool

@@ -1,0 +1,7 @@
+experiment_id: E00
+name: majority
+change_vs_parent: null
+paper: {table: T3, row: "Majority class"}
+data: {label_set: donateacry_v1}
+model: {type: majority}
+notes: "Always predicts the training-set majority class (hungry); shows why accuracy misleads."
