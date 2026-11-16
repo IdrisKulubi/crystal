@@ -1,0 +1,57 @@
+experiment_id: E02
+name: deepinfant_repro
+parent_run: null
+change_vs_parent: null
+paper:
+  table: T3
+  row: DeepInfant (reproduced)
+task: reason
+data:
+  metadata: data/metadata_folds.csv
+  base_metadata: data/metadata.csv
+  datasets:
+  - donateacry
+  label_set: donateacry_v1
+  sample_rate: 16000
+  clip_seconds: 7.0
+model:
+  type: deepinfant_repro
+  backbone: null
+  init_checkpoint: null
+  head: mean_pool
+  peft: null
+  context_features: []
+  source: skytells-research/DeepInfant train.py @ 7526568 (deviations D1-D5 in src/models/deepinfant_repro.py)
+train:
+  epochs: 50
+  batch_size: 32
+  grad_accum: 1
+  lr: 0.001
+  weight_decay: 0.0
+  warmup_ratio: 0.0
+  loss: ce
+  focal_gamma: 2.0
+  augment:
+    noise_snr_db: null
+    specaugment: false
+    mixup_alpha: null
+    pitch_shift: false
+    time_shift_ms: 100
+    noise_std: 0.005
+    noise_p: 0.3
+  early_stopping_metric: val_acc
+  patience: null
+eval:
+  folds:
+  - 0
+  - 1
+  - 2
+  - 3
+  - 4
+  seeds:
+  - 0
+  - 1
+  - 2
+  val_group_fraction: 0.15
+notes: 'Original recipe: Adam 1e-3, batch 32, 50 epochs, unweighted CE, best epoch
+  by val accuracy.'

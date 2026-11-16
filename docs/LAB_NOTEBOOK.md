@@ -81,3 +81,18 @@ Observations:
   Cause: different scikit-learn version on Kaggle (local 1.9.1) → different StratifiedGroupKFold shuffle.
 - Fix: the fold assignment (clip_id, group, label, fold, split_f*) is now committed in `splits/` and
   re-applied everywhere; local re-application reproduces 14c58690… byte-for-byte. No runs were affected.
+
+## 2026-11-17 — E02 DeepInfant reproduced (Kaggle GPU)
+- Run E02__deepinfant_repro__20261116-220106__428232e, commit 428232e, folds sha 14c58690… (matches local).
+  15/15 fold×seed completed, ~2.2 s/epoch on Kaggle GPU; imported with `src.import_runs`.
+- Result: accuracy 83.3 ± 2.0 %, macro-F1 0.182 ± 0.002, balanced acc 19.9 ± 0.3 % — the same as the
+  majority baseline. 14/15 runs selected epoch 1 (the original criterion, best val ACCURACY, is maximised
+  by predicting "hungry" for everything); recall is 0 for every non-hungry class.
+- Diagnostic only (not a paper number, validation data): the best val macro-F1 over epochs was 0.18–0.27,
+  usually at epochs 35–50, so even under a macro-F1 criterion the CNN-BiLSTM learns little from 313
+  training clips. Train loss stayed ≈0.33–0.45 (it does not even fit the training set closely).
+- Interpretation: under a leak-free, baby-grouped protocol, DeepInfant's recipe does not beat "always hungry".
+  Its reported 89 % accuracy is ≈5 points over the majority rate (83.6 %) and came from a clip-level random
+  split (68 % of test clips share an app install with training — see splits_report.json).
+- Possible later ablation (one change vs E02): early-stop on val macro-F1 and/or class-weighted CE, to show
+  the failure is not only the selection criterion. Not run yet.
