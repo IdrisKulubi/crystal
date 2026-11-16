@@ -34,6 +34,9 @@ def _model_fn(model_type: str) -> Callable[[FoldData, dict, int], dict]:
     if model_type == "deepinfant_repro":
         from src.models.deepinfant_repro import deepinfant_fit_predict
         return deepinfant_fit_predict
+    if model_type == "linear_probe":
+        from src.models.probe import probe_fit_predict
+        return probe_fit_predict
     raise ValueError(f"unknown model.type {model_type!r}")
 
 

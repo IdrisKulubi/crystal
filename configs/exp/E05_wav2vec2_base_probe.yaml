@@ -1,0 +1,10 @@
+experiment_id: E05
+name: wav2vec2_base_probe
+paper: {table: T3, row: "wav2vec2-base, linear probe"}
+data: {label_set: donateacry_v1}
+model:
+  type: linear_probe
+  encoder: wav2vec2_base
+  layer: last
+  grid_C: [0.001, 0.01, 0.1, 1, 10]
+notes: "Frozen encoder, last layer pooled (see src/models/encoders.py), StandardScaler + LogisticRegression(class_weight=balanced); C chosen on val macro-F1. Deterministic given the fold, so the 3 seeds give identical results."
