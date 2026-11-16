@@ -60,7 +60,13 @@ def svm_fit_predict(fd: FoldData, cfg: dict, seed: int) -> dict:
     grid_g = mcfg.get("grid_gamma", ["scale", 1e-3, 1e-2, 1e-1])
     log, best = [], None
     for c, g in itertools.product(grid_c, grid_g):
-        clf = SVC(C=c, gamma=g, kernel="rbf", class_weight="balanced", probability=True, random_state=seed)
+        # Logits = one-vs-rest decision scores; break_ties=True makes predict() == argmax(scores),
+        # so the classifier tuned here is exactly the one evaluated. Probabilities come from
+        # temperature scaling on validation (src/calibrate.py), like every other model.
+        # (A first version used probability=True / Platt scaling: its argmax collapsed to the
+        # majority class for every clip — see LAB_NOTEBOOK 2026-11-16 E01.)
+        clf = SVC(C=c, gamma=g, kernel="rbf", class_weight="balanced", decision_function_shape="ovr",
+                  break_ties=True, random_state=seed)
         clf.fit(X["train"], ytr)
         f1 = f1_score(yva, clf.predict(X["val"]), labels=range(len(fd.labels)), average="macro", zero_division=0)
         log.append({"epoch": len(log), "val_macro_f1": f1})
@@ -69,11 +75,10 @@ def svm_fit_predict(fd: FoldData, cfg: dict, seed: int) -> dict:
     _, c, g, clf = best
 
     def logits(x):
-        # predict_proba is ordered by clf.classes_; classes absent from training get ~0 prob
-        p = np.full((len(x), len(fd.labels)), 1e-6)
-        p[:, clf.classes_] = np.clip(clf.predict_proba(x), 1e-6, 1.0)
-        p /= p.sum(1, keepdims=True)
-        return np.log(p)
+        # columns ordered by clf.classes_; classes absent from training get a very low score
+        s = np.full((len(x), len(fd.labels)), -10.0)
+        s[:, clf.classes_] = clf.decision_function(x)
+        return s
 
     def predict_one(wav):
         return logits(scaler.transform(mfcc_features(wav)[None, :]))
