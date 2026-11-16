@@ -114,3 +114,25 @@ def test_aggregate_rebuild_is_idempotent(new_run):
     first = (run.dir / "summary.json").read_text()
     aggregate_run(run.dir)
     assert (run.dir / "summary.json").read_text() == first
+
+
+def test_import_runs_from_zip(tmp_path, new_run):
+    import zipfile
+
+    from src.import_runs import import_runs
+
+    with new_run() as run:  # a "remote" run written into the fixture results dir
+        fill_fake_run(run)
+    remote_reg = (run.results_dir / "registry.jsonl").read_text().splitlines()
+    zpath = tmp_path / "crystal_results.zip"
+    with zipfile.ZipFile(zpath, "w") as z:
+        z.writestr("registry_new.jsonl", "\n".join(remote_reg) + "\n")
+        for f in run.dir.rglob("*"):
+            if f.is_file():
+                z.write(f, f"runs/{run.run_id}/{f.relative_to(run.dir).as_posix()}")
+    local = tmp_path / "local_results"
+    assert import_runs(zpath, local) == [run.run_id]
+    assert (local / "runs" / run.run_id / "summary.json").is_file()
+    assert read_registry(local)[0]["run_id"] == run.run_id
+    assert import_runs(zpath, local) == []          # idempotent: nothing imported twice
+    assert len(read_registry(local)) == 1

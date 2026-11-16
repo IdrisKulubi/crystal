@@ -1,0 +1,53 @@
+experiment_id: E00
+name: majority
+parent_run: null
+change_vs_parent: null
+paper:
+  table: T3
+  row: Majority class
+task: reason
+data:
+  metadata: data/metadata_folds.csv
+  base_metadata: data/metadata.csv
+  datasets:
+  - donateacry
+  label_set: donateacry_v1
+  sample_rate: 16000
+  clip_seconds: 7.0
+model:
+  type: majority
+  backbone: null
+  init_checkpoint: null
+  head: mean_pool
+  peft: null
+  context_features: []
+train:
+  epochs: 15
+  batch_size: 8
+  grad_accum: 4
+  lr: 3.0e-05
+  weight_decay: 0.01
+  warmup_ratio: 0.1
+  loss: weighted_ce
+  focal_gamma: 2.0
+  augment:
+    noise_snr_db: null
+    specaugment: false
+    mixup_alpha: null
+    pitch_shift: false
+  early_stopping_metric: val_macro_f1
+  patience: 5
+eval:
+  folds:
+  - 0
+  - 1
+  - 2
+  - 3
+  - 4
+  seeds:
+  - 0
+  - 1
+  - 2
+  val_group_fraction: 0.15
+notes: Always predicts the training-set majority class (hungry); shows why accuracy
+  misleads.

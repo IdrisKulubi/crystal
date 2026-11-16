@@ -50,6 +50,31 @@ def deepinfant_mel(wav: np.ndarray) -> np.ndarray:
     return librosa.power_to_db(mel, ref=np.max).astype(np.float32)
 
 
+class TorchDeepInfantMel(nn.Module):
+    """Batched GPU/CPU equivalent of ``deepinfant_mel`` (librosa 0.10+/1.0 defaults: periodic Hann,
+    centre padding with zeros, power 2, Slaney mel filterbank, power_to_db(ref=max, amin=1e-10,
+    top_db=80)). Uses librosa's own filterbank; equality is unit-tested (tests/test_models.py)."""
+
+    def __init__(self):
+        super().__init__()
+        import librosa
+
+        fb = librosa.filters.mel(sr=MEL_KW["sr"], n_fft=MEL_KW["n_fft"], n_mels=MEL_KW["n_mels"],
+                                 fmin=MEL_KW["fmin"], fmax=MEL_KW["fmax"])
+        self.register_buffer("fb", torch.from_numpy(fb).float())
+        self.register_buffer("window", torch.hann_window(MEL_KW["n_fft"], periodic=True))
+
+    def forward(self, wav: torch.Tensor) -> torch.Tensor:
+        # wav: [B, N_SAMPLES] -> [B, 80, T]
+        spec = torch.stft(wav, n_fft=MEL_KW["n_fft"], hop_length=MEL_KW["hop_length"], window=self.window,
+                          center=True, pad_mode="constant", return_complex=True)
+        power = spec.real ** 2 + spec.imag ** 2
+        mel = torch.matmul(self.fb, power)
+        ref = mel.amax(dim=(1, 2), keepdim=True)
+        db = 10.0 * torch.log10(torch.clamp(mel, min=1e-10)) - 10.0 * torch.log10(torch.clamp(ref, min=1e-10))
+        return torch.maximum(db, db.amax(dim=(1, 2), keepdim=True) - 80.0)
+
+
 def deepinfant_augment(wav: np.ndarray, rng: np.random.Generator) -> np.ndarray:
     """Random time shift in [-1600, 1600) samples (±100 ms) + Gaussian noise (p=0.3, σ=0.005)."""
     shift = int(rng.integers(-1600, 1600))
@@ -116,8 +141,18 @@ def deepinfant_fit_predict(fd: FoldData, cfg: dict, seed: int) -> dict:
     train_wavs = load_waveforms(fd.train["path"])
     ytr = torch.tensor(fd.train["label_idx"].to_numpy(), dtype=torch.long)
     yva = fd.val["label_idx"].to_numpy()
-    val_mels = np.stack([deepinfant_mel(w) for w in load_waveforms(fd.val["path"])])
-    test_mels = np.stack([deepinfant_mel(w) for w in load_waveforms(fd.test["path"])])
+    featurizer = TorchDeepInfantMel().to(device)
+
+    @torch.no_grad()
+    def mels_of(wavs: list[np.ndarray]) -> np.ndarray:
+        out = []
+        for i in range(0, len(wavs), 64):
+            x = torch.from_numpy(np.stack([pad_or_crop(w, N_SAMPLES) for w in wavs[i:i + 64]])).to(device)
+            out.append(featurizer(x).cpu().numpy())
+        return np.concatenate(out) if out else np.zeros((0, 80, 438), np.float32)
+
+    val_mels = mels_of(load_waveforms(fd.val["path"]))
+    test_mels = mels_of(load_waveforms(fd.test["path"]))
 
     model = DeepInfantRepro(len(fd.labels)).to(device)
     criterion = nn.CrossEntropyLoss()
@@ -129,8 +164,9 @@ def deepinfant_fit_predict(fd: FoldData, cfg: dict, seed: int) -> dict:
         model.train()
         tot, n = 0.0, 0
         for b in _batches(len(train_wavs), bs, rng):
-            mels = np.stack([deepinfant_mel(deepinfant_augment(train_wavs[i], rng)) for i in b])
-            x = torch.from_numpy(mels).unsqueeze(1).to(device)
+            wav = np.stack([pad_or_crop(deepinfant_augment(train_wavs[i], rng), N_SAMPLES) for i in b])
+            with torch.no_grad():
+                x = featurizer(torch.from_numpy(wav).to(device)).unsqueeze(1)
             y = ytr[b].to(device)
             optimizer.zero_grad()
             loss = criterion(model(x), y)

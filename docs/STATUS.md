@@ -1,16 +1,18 @@
 # STATUS
 Last updated: 2026-11-16 by Claude Code (Phase 1)
 
-## Current phase: 1 complete → next is Phase 2 (baselines)
+## Current phase: 2 in progress (E00, E01 done; E02 needs a GPU run)
 
 ## Next task:
-Phase 2 — E00 majority, E01 MFCC+SVM, E02 DeepInfant reproduced (port `baselines/DeepInfant/train.py`
-architecture into `src/models/deepinfant_repro.py`), generic `src/train.py`, Kaggle notebook.
+Run E02 on Kaggle: open notebooks/kaggle_train.ipynb on Kaggle (GPU + Internet on), Run all,
+download crystal_results.zip, then `python -m src.import_runs crystal_results.zip && python -m src.report`.
+Then Phase 3 (pretrained encoders: linear probes E05–E09).
 
 ## Blockers / needs Idris:
 - [x] Confirm Donate-a-Cry grouping rule (group = app-install UUID) — see LAB_NOTEBOOK 2026-11-16 Phase 1
 - [x] Burping kept as its own class (Idris, 2026-11-16)
 - [ ] Listening audit: fill `data/listen/listen_sheet.csv` (25 clips)
+- [ ] Run notebooks/kaggle_train.ipynb on Kaggle for E02 (or leave the laptop running ~10 h)
 - [ ] Request Baby Chillanto access (email INAOE) — pipeline will work without it
 - [ ] Accept CryCeleb terms on Hugging Face (needed by Phase 4, DAPT)
 - [x] Confirm model name — CRYSTAL (2026-11-16)
@@ -28,7 +30,7 @@ architecture into `src/models/deepinfant_repro.py`), generic `src/train.py`, Kag
 - Local machine: Windows 11, Python 3.13, no GPU → local runs use `--debug`; real training on Kaggle/Colab.
 
 ## Unfilled paper numbers (from RESULTS.md):
-110 of 146 (Table 1 / dataset numbers now filled; all experiment numbers pending) — see `results/RESULTS.md`.
+102 of 146 (Table 1 + E00/E01 rows filled) — see `results/RESULTS.md`.
 
 ## Deferred data
 - ESC-50 (noise aug, detector negatives) — download in Phase 5/7.

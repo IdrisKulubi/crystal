@@ -39,14 +39,14 @@
   "T3.hubert_base_linear_probe.balanced_acc": null,
   "T3.hubert_base_linear_probe.ece": null,
   "T3.hubert_base_linear_probe.macro_f1": null,
-  "T3.majority_class.accuracy": null,
-  "T3.majority_class.balanced_acc": null,
-  "T3.majority_class.ece": null,
-  "T3.majority_class.macro_f1": null,
-  "T3.mfcc_plus_svm.accuracy": null,
-  "T3.mfcc_plus_svm.balanced_acc": null,
-  "T3.mfcc_plus_svm.ece": null,
-  "T3.mfcc_plus_svm.macro_f1": null,
+  "T3.majority_class.accuracy": "83.6 ± 1.6",
+  "T3.majority_class.balanced_acc": "20.0 ± 0.0",
+  "T3.majority_class.ece": "0.067 ± 0.036",
+  "T3.majority_class.macro_f1": "0.182 ± 0.002",
+  "T3.mfcc_plus_svm.accuracy": "77.8 ± 8.4",
+  "T3.mfcc_plus_svm.balanced_acc": "18.6 ± 2.2",
+  "T3.mfcc_plus_svm.ece": "0.165 ± 0.103",
+  "T3.mfcc_plus_svm.macro_f1": "0.175 ± 0.010",
   "T3.ours_crystal.accuracy": null,
   "T3.ours_crystal.balanced_acc": null,
   "T3.ours_crystal.ece": null,
@@ -147,6 +147,38 @@
   "splits.folds_file_sha256": "14c586904966387a1bae2882d624480c12e0db09df958acffb2e836f376d2053",
   "_raw": {
     "T3.deepinfant_reported.accuracy": 0.89,
+    "T3.majority_class.accuracy": {
+      "mean": 0.8361099420673888,
+      "std": 0.016317299644673898
+    },
+    "T3.majority_class.balanced_acc": {
+      "mean": 0.20000000000000007,
+      "std": 5.745950043620392e-17
+    },
+    "T3.majority_class.ece": {
+      "mean": 0.06690139625907297,
+      "std": 0.036383859614549915
+    },
+    "T3.majority_class.macro_f1": {
+      "mean": 0.1821319713514148,
+      "std": 0.001947177808658662
+    },
+    "T3.mfcc_plus_svm.accuracy": {
+      "mean": 0.7784542644117114,
+      "std": 0.08423726169129574
+    },
+    "T3.mfcc_plus_svm.balanced_acc": {
+      "mean": 0.18645933014354066,
+      "std": 0.021867726242119266
+    },
+    "T3.mfcc_plus_svm.ece": {
+      "mean": 0.16496310507351022,
+      "std": 0.1026142611167369
+    },
+    "T3.mfcc_plus_svm.macro_f1": {
+      "mean": 0.17544673261202348,
+      "std": 0.010051542112935359
+    },
     "datasets.donateacry.class_counts.belly_pain": 16,
     "datasets.donateacry.class_counts.burping": 8,
     "datasets.donateacry.class_counts.discomfort": 27,
@@ -179,6 +211,14 @@
     "T3.deepinfant_reported.balanced_acc": "constant:E04",
     "T3.deepinfant_reported.ece": "constant:E04",
     "T3.deepinfant_reported.macro_f1": "constant:E04",
+    "T3.majority_class.accuracy": "E00__majority__20261116-185927__bbaf546",
+    "T3.majority_class.balanced_acc": "E00__majority__20261116-185927__bbaf546",
+    "T3.majority_class.ece": "E00__majority__20261116-185927__bbaf546",
+    "T3.majority_class.macro_f1": "E00__majority__20261116-185927__bbaf546",
+    "T3.mfcc_plus_svm.accuracy": "E01__mfcc_svm__20261116-190116__6bc3192",
+    "T3.mfcc_plus_svm.balanced_acc": "E01__mfcc_svm__20261116-190116__6bc3192",
+    "T3.mfcc_plus_svm.ece": "E01__mfcc_svm__20261116-190116__6bc3192",
+    "T3.mfcc_plus_svm.macro_f1": "E01__mfcc_svm__20261116-190116__6bc3192",
     "datasets.donateacry.class_counts.belly_pain": "dataset_stats.json",
     "datasets.donateacry.class_counts.burping": "dataset_stats.json",
     "datasets.donateacry.class_counts.discomfort": "dataset_stats.json",
@@ -212,5 +252,5 @@
     "overlap.deepinfant_v2.n_generated_copies": "dataset_stats.json",
     "splits.folds_file_sha256": "splits_report.json"
   },
-  "_generated_utc": "2026-11-16T18:23:08Z"
+  "_generated_utc": "2026-11-16T19:05:53Z"
 }

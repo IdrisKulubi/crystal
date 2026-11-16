@@ -43,3 +43,34 @@ Results (all in results/dataset_stats.json, results/splits_report.json):
 Observations: tiny minority classes (burping 1–2 test clips per fold) → expect very noisy per-class
 scores; macro-F1 std will be large. Consider repeated CV later.
 Next: Idris confirms grouping + burping decision; then Phase 2 baselines.
+
+## 2026-11-16 — Phase 2: E00 majority, E01 MFCC+SVM
+Why: lower bounds under the grouped protocol (label set donateacry_v1, 5 folds × 3 seeds).
+What: `src/train.py` (generic trainer; temperature scaling + coverage thresholds on val for every run),
+`src/models/baselines.py`.
+Result (test, mean ± std over 15): E00 acc 83.6 ± 1.6 %, macro-F1 0.182 ± 0.002, bal-acc 20.0 %.
+E01 acc 77.8 ± 8.4 %, macro-F1 0.175 ± 0.010, bal-acc 18.6 ± 2.2 %.
+Observations:
+- First E01 run (…185937__bbaf546) was a bug: logits came from SVC Platt probabilities
+  (`probability=True`), whose argmax collapsed to "hungry" for every clip although the grid search
+  used `predict()`. Fixed to one-vs-rest decision scores (`break_ties=True` so predict == argmax).
+  Old run kept and marked superseded in the registry.
+- After the fix E01 is still ≈ majority: on validation no (C, γ) beats the majority-equivalent
+  macro-F1 (~0.18). Hand-crafted MFCC statistics do not separate cry reasons on this data.
+  This is a genuine (negative) result, not tuned further.
+- Majority class already gets 83.6 % accuracy → DeepInfant's reported 89 % is only ~5 points above
+  "always hungry" (different data/split, so not directly comparable; discuss neutrally).
+
+## 2026-11-16 — Phase 2: E02 DeepInfant port
+What: `src/models/deepinfant_repro.py` from DeepInfant `train.py` @ 7526568.
+Observations:
+- The published `train.py` cannot run: `conv_layers` ends with the SE gate (AdaptiveAvgPool→1×1
+  convs→Sigmoid), which replaces the feature map with a [B,256,1,1] tensor, so the reshape to
+  256×10 fails; `transform=True` makes the dataset call `True(mel)` (TypeError); the permute is
+  frequency-major despite the "(batch, time, …)" comment; best checkpoint is chosen on the test split.
+  The released 89 % model is a Core ML file, so this script is not what produced it.
+  Minimal fixes D1–D5 documented in the module docstring and DECISIONS.md.
+- Spectrograms computed with a PyTorch re-implementation of their librosa pipeline
+  (max |Δ| = 0.0004 dB on 20 real clips; unit-tested) so training runs on GPU.
+- CPU speed: ~4 s per batch of 32 → ~38 min per fold×seed → ~9.5 h for 15 runs on this laptop.
+  Full E02 to run on Kaggle (`notebooks/kaggle_train.ipynb`, results imported with `src.import_runs`).
