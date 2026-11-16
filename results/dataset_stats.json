@@ -1,0 +1,194 @@
+{
+  "label_set_for_splits": "donateacry_v1",
+  "datasets": {
+    "donateacry": {
+      "n_clips": 457,
+      "n_groups": 221,
+      "total_minutes": 52.69,
+      "duration_s": {
+        "mean": 6.918,
+        "std": 0.114,
+        "min": 6.52,
+        "max": 7.06
+      },
+      "class_counts": {
+        "belly_pain": 16,
+        "burping": 8,
+        "discomfort": 27,
+        "hungry": 382,
+        "tired": 24
+      },
+      "class_percent": {
+        "belly_pain": 3.5,
+        "burping": 1.8,
+        "discomfort": 5.9,
+        "hungry": 83.6,
+        "tired": 5.3
+      },
+      "groups_per_class": {
+        "belly_pain": 7,
+        "burping": 7,
+        "discomfort": 16,
+        "hungry": 205,
+        "tired": 16
+      },
+      "clips_per_group": {
+        "min": 1,
+        "median": 1.0,
+        "max": 13
+      },
+      "display_name": "Donate-a-Cry",
+      "licence": "ODbL 1.0 (database) / DbCL 1.0 (contents)",
+      "n_clips_raw": 457,
+      "n_duplicates_removed": 0,
+      "n_groups_merged_by_dedup": 0,
+      "orig_sample_rates": {
+        "8000": 457
+      },
+      "age_bracket_counts": {
+        "0": 149,
+        "1": 55,
+        "2": 162,
+        "3": 81,
+        "4": 10
+      },
+      "gender_counts": {
+        "m": 276,
+        "f": 181
+      },
+      "platform_counts": {
+        "android": 275,
+        "ios": 182
+      },
+      "label_orig_counts": {
+        "hungry": 382,
+        "discomfort": 27,
+        "tired": 24,
+        "belly_pain": 16,
+        "burping": 8
+      }
+    }
+  },
+  "label_sets": {
+    "donateacry_v1": {
+      "donateacry": {
+        "labels": [
+          "belly_pain",
+          "burping",
+          "discomfort",
+          "hungry",
+          "tired"
+        ],
+        "mapping": {
+          "belly_pain": "belly_pain",
+          "burping": "burping",
+          "discomfort": "discomfort",
+          "hungry": "hungry",
+          "tired": "tired"
+        },
+        "class_counts": {
+          "belly_pain": 16,
+          "burping": 8,
+          "discomfort": 27,
+          "hungry": 382,
+          "tired": 24
+        },
+        "min_class_count": 8
+      }
+    },
+    "unified_v1": {
+      "donateacry": {
+        "labels": [
+          "hungry",
+          "pain_discomfort",
+          "tired",
+          "burping"
+        ],
+        "mapping": {
+          "hungry": "hungry",
+          "belly_pain": "pain_discomfort",
+          "discomfort": "pain_discomfort",
+          "tired": "tired",
+          "burping": "burping"
+        },
+        "class_counts": {
+          "hungry": 382,
+          "pain_discomfort": 43,
+          "tired": 24,
+          "burping": 8
+        },
+        "min_class_count": 8
+      }
+    }
+  },
+  "per_fold_test_counts": {
+    "donateacry": {
+      "0": {
+        "belly_pain": 2,
+        "burping": 2,
+        "discomfort": 5,
+        "hungry": 77,
+        "tired": 5
+      },
+      "1": {
+        "belly_pain": 3,
+        "burping": 1,
+        "discomfort": 6,
+        "hungry": 76,
+        "tired": 5
+      },
+      "2": {
+        "belly_pain": 1,
+        "burping": 2,
+        "discomfort": 5,
+        "hungry": 77,
+        "tired": 5
+      },
+      "3": {
+        "belly_pain": 8,
+        "burping": 1,
+        "discomfort": 5,
+        "hungry": 76,
+        "tired": 4
+      },
+      "4": {
+        "belly_pain": 2,
+        "burping": 2,
+        "discomfort": 6,
+        "hungry": 76,
+        "tired": 5
+      }
+    }
+  },
+  "names_for_abstract": "Donate-a-Cry",
+  "overlap": {
+    "deepinfant_v1": {
+      "n_clips": 457,
+      "n_clips_duplicating_eval_set": 457,
+      "n_generated_copies": 0,
+      "n_within_dataset_duplicate_pairs": {},
+      "n_within_dataset_duplicates_removed": 0,
+      "orig_sample_rates": {
+        "8000": 457
+      }
+    },
+    "deepinfant_v2": {
+      "n_clips": 597,
+      "n_clips_duplicating_eval_set": 469,
+      "n_generated_copies": 24,
+      "n_within_dataset_duplicate_pairs": {
+        "near": 24,
+        "exact": 7
+      },
+      "n_within_dataset_duplicates_removed": 24,
+      "orig_sample_rates": {
+        "8000": 430,
+        "44100": 167
+      }
+    }
+  },
+  "n_duplicate_pairs_all": {
+    "exact": 894,
+    "near": 102
+  }
+}

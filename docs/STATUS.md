@@ -1,23 +1,25 @@
 # STATUS
-Last updated: 2026-11-16 by Claude Code
+Last updated: 2026-11-16 by Claude Code (Phase 1)
 
-## Current phase: 0 complete → next is Phase 1 (data)
+## Current phase: 1 complete (pending Idris's grouping/label confirmation) → next is Phase 2 (baselines)
 
 ## Next task:
-Phase 1 — download Donate-a-Cry + ESC-50, write `src/prepare_data.py`, `src/dedup.py`,
-`src/make_splits.py`, `src/dataset_stats.py`; print 20 Donate-a-Cry filenames and confirm the
-UUID grouping rule with Idris before relying on it (HANDOFF §5.2).
+Phase 2 — E00 majority, E01 MFCC+SVM, E02 DeepInfant reproduced (port `baselines/DeepInfant/train.py`
+architecture into `src/models/deepinfant_repro.py`), generic `src/train.py`, Kaggle notebook.
 
 ## Blockers / needs Idris:
+- [ ] Confirm Donate-a-Cry grouping rule (group = app-install UUID) — see LAB_NOTEBOOK 2026-11-16 Phase 1
+- [ ] Decide burping (8 clips / 7 installs): keep as own class (recommended) or drop/merge
+- [ ] Listening audit: fill `data/listen/listen_sheet.csv` (25 clips)
 - [ ] Request Baby Chillanto access (email INAOE) — pipeline will work without it
 - [ ] Accept CryCeleb terms on Hugging Face (needed by Phase 4, DAPT)
 - [x] Confirm model name — CRYSTAL (2026-11-16)
 - [ ] Record household noise (~30 min) + long household recording (1–2 h) — needed by Phases 5 & 7
-- [ ] Create the GitHub repo and tell Claude its URL (private recommended until the paper is out)
+- [x] GitHub repo: github.com/IdrisKulubi/crystal
 - [ ] Find arXiv endorser — deferred; no co-author for now (feedback sought after completion)
 
 ## Phase checklist
-- [x] P0 bootstrap  - [ ] P1 data  - [ ] P2 baselines  - [ ] P3 encoders
+- [x] P0 bootstrap  - [x] P1 data  - [ ] P2 baselines  - [ ] P3 encoders
 - [ ] P4 DAPT  - [ ] P5 improvements  - [ ] P6 calibration  - [ ] P7 detector
 - [ ] P8 leakage  - [ ] P9 efficiency  - [ ] P10 paper
 
@@ -26,4 +28,9 @@ UUID grouping rule with Idris before relying on it (HANDOFF §5.2).
 - Local machine: Windows 11, Python 3.13, no GPU → local runs use `--debug`; real training on Kaggle/Colab.
 
 ## Unfilled paper numbers (from RESULTS.md):
-All of them except `model_name` and the DeepInfant-reported 89% constant — see `results/RESULTS.md`.
+110 of 146 (Table 1 / dataset numbers now filled; all experiment numbers pending) — see `results/RESULTS.md`.
+
+## Deferred data
+- ESC-50 (noise aug, detector negatives) — download in Phase 5/7.
+- Donate-a-Cry raw upload buckets (712 .3gp + 416 .caf, unchecked) — candidate unlabelled audio for Phase 4 DAPT;
+  must exclude every group that appears in the eval folds. Needs ffmpeg (installed).

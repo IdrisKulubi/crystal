@@ -6,7 +6,7 @@ pain/discomfort, tired, burping) with calibrated confidence, abstaining when uns
 evaluated against a reproduced [DeepInfant](https://github.com/skytells-research/DeepInfant)
 baseline under a strict baby-grouped protocol.
 
-> Status: Phase 0 (infrastructure) done. See `docs/STATUS.md`.
+> Status: Phase 1 (data) done. See `docs/STATUS.md`.
 
 ## Setup
 
@@ -37,8 +37,18 @@ paper. The full contract is in `docs/RESULTS_SPEC.md`.
 
 ## Data and privacy
 
-Infant audio is sensitive. `data/` is git-ignored; no audio is committed or uploaded.
-Download instructions for each dataset are added in Phase 1.
+Infant audio is sensitive. `data/` and `baselines/` are git-ignored; no audio is committed or uploaded.
+
+```bash
+git clone --depth 1 https://github.com/gveres/donateacry-corpus data/raw/donateacry-corpus      # ODbL / DbCL
+git clone --depth 1 https://github.com/skytells-research/DeepInfant baselines/DeepInfant         # Apache-2.0
+python -m src.prepare_data && python -m src.dedup && python -m src.make_splits && python -m src.dataset_stats
+python -m src.listen_check          # optional: 5 clips/class to data/listen/ for a listening audit
+```
+
+Donate-a-Cry is made available under the Open Database License (ODbL 1.0); its contents under
+the Database Contents License (DbCL 1.0). Further datasets (CryCeleb, ESC-50, Baby Chillanto) are
+added in later phases.
 
 ## Licence
 

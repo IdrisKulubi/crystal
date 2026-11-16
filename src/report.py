@@ -261,10 +261,43 @@ def build(results_dir: Path = DEFAULT_RESULTS_DIR, project: dict | None = None) 
                     v = d[field]
                     nums.set(f"datasets.{ds_id}.{field}", f"{v:.1f}" if isinstance(v, float) else str(v),
                              raw=v, source="dataset_stats.json")
+            for lab, c in (d.get("class_counts") or {}).items():
+                nums.set(f"datasets.{ds_id}.class_counts.{lab}", str(c), raw=c, source="dataset_stats.json")
+                pct = (d.get("class_percent") or {}).get(lab)
+                if pct is not None:
+                    nums.set(f"datasets.{ds_id}.class_percent.{lab}", f"{pct:.1f}", raw=pct, source="dataset_stats.json")
+            for field in ("n_duplicates_removed", "n_clips_raw"):
+                if d.get(field) is not None:
+                    nums.set(f"datasets.{ds_id}.{field}", str(d[field]), raw=d[field], source="dataset_stats.json")
+        split_ls = stats.get("label_set_for_splits")
+        for ls, per_ds in (stats.get("label_sets") or {}).items():
+            for ds_id, info in per_ds.items():
+                pre = f"datasets.label_set.{ls}"
+                nums.set(f"{pre}.k", str(len(info["labels"])), raw=len(info["labels"]), source="dataset_stats.json")
+                nums.set(f"{pre}.classes", ", ".join(info["labels"]), source="dataset_stats.json")
+                nums.set(f"{pre}.min_count", str(info["min_class_count"]), raw=info["min_class_count"],
+                         source="dataset_stats.json")
+        if split_ls:
+            nums.set("datasets.label_set.primary", split_ls, source="dataset_stats.json")
         if stats.get("names_for_abstract"):
             nums.set("datasets.names_for_abstract", stats["names_for_abstract"], source="dataset_stats.json")
+        for ds_id, o in (stats.get("overlap") or {}).items():
+            for field in ("n_clips", "n_clips_duplicating_eval_set", "n_generated_copies"):
+                if o.get(field) is not None:
+                    nums.set(f"overlap.{ds_id}.{field}", str(o[field]), raw=o[field], source="dataset_stats.json")
     else:
         warnings.append("results/dataset_stats.json not found (Phase 1: python -m src.dataset_stats)")
+
+    # ---- split leakage (how many test clips a random split puts next to same-group training clips)
+    sp_path = results_dir / "splits_report.json"
+    if sp_path.is_file():
+        sp = read_json(sp_path)
+        for ds_id, d in (sp.get("datasets") or {}).items():
+            v = (d.get("random_split_test_clips_with_group_in_train") or {}).get("mean")
+            if v is not None:
+                nums.set(f"leak.{ds_id}.random_split_test_share_group_with_train", fmt("pct", v), raw=v,
+                         source="splits_report.json")
+        nums.set("splits.folds_file_sha256", sp.get("folds_file_sha256"), source="splits_report.json")
 
     # ---- DAPT corpus size
     dapt_path = results_dir / "dapt_stats.json"

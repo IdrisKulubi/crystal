@@ -15,6 +15,35 @@ label_sets:
   donateacry_v1: [belly_pain, burping, discomfort, hungry, tired]
   unified_v1: [hungry, pain_discomfort, tired, burping]
 
+# original label (folder name) -> label in each label set; unmapped labels are excluded
+label_maps:
+  donateacry_v1: {belly_pain: belly_pain, burping: burping, discomfort: discomfort, hungry: hungry, tired: tired}
+  unified_v1: {hungry: hungry, belly_pain: pain_discomfort, discomfort: pain_discomfort, tired: tired, burping: burping}
+
+# Raw data sources (paths relative to repo root). role:
+#   eval           -> labelled clips used for the benchmark folds
+#   overlap_check  -> processed only to measure duplication/leakage vs the eval sets
+datasets:
+  donateacry:
+    raw: data/raw/donateacry-corpus/donateacry_corpus_cleaned_and_updated_data
+    role: eval
+    display_name: Donate-a-Cry
+    licence: "ODbL 1.0 (database) / DbCL 1.0 (contents)"
+  deepinfant_v1:
+    raw: baselines/DeepInfant/Data
+    glob: "*/*.wav"          # top-level class folders only (not v2/)
+    role: overlap_check
+    display_name: DeepInfant Data/
+    licence: "Apache-2.0 repo; audio derived from Donate-a-Cry"
+  deepinfant_v2:
+    raw: baselines/DeepInfant/Data/v2
+    role: overlap_check
+    display_name: DeepInfant Data/v2
+    licence: "Apache-2.0 repo; audio derived from Donate-a-Cry"
+
+eval_datasets: [donateacry]
+split_label: donateacry_v1      # stratify folds on the finest label set
+
 evaluation:
   n_folds: 5
   seeds: [0, 1, 2]

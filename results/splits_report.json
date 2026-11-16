@@ -1,0 +1,389 @@
+{
+  "label_set": "donateacry_v1",
+  "n_folds": 5,
+  "seed": 42,
+  "val_group_fraction": 0.15,
+  "datasets": {
+    "donateacry": {
+      "n_clips": 457,
+      "n_groups": 221,
+      "grouped": {
+        "fold_0": {
+          "train": {
+            "n_clips": 313,
+            "n_groups": 148,
+            "classes": {
+              "belly_pain": 13,
+              "burping": 5,
+              "discomfort": 17,
+              "hungry": 262,
+              "tired": 16
+            }
+          },
+          "val": {
+            "n_clips": 53,
+            "n_groups": 27,
+            "classes": {
+              "belly_pain": 1,
+              "burping": 1,
+              "discomfort": 5,
+              "hungry": 43,
+              "tired": 3
+            }
+          },
+          "test": {
+            "n_clips": 91,
+            "n_groups": 46,
+            "classes": {
+              "belly_pain": 2,
+              "burping": 2,
+              "discomfort": 5,
+              "hungry": 77,
+              "tired": 5
+            }
+          }
+        },
+        "fold_1": {
+          "train": {
+            "n_clips": 309,
+            "n_groups": 153,
+            "classes": {
+              "belly_pain": 5,
+              "burping": 6,
+              "discomfort": 18,
+              "hungry": 263,
+              "tired": 17
+            }
+          },
+          "val": {
+            "n_clips": 57,
+            "n_groups": 26,
+            "classes": {
+              "belly_pain": 8,
+              "burping": 1,
+              "discomfort": 3,
+              "hungry": 43,
+              "tired": 2
+            }
+          },
+          "test": {
+            "n_clips": 91,
+            "n_groups": 42,
+            "classes": {
+              "belly_pain": 3,
+              "burping": 1,
+              "discomfort": 6,
+              "hungry": 76,
+              "tired": 5
+            }
+          }
+        },
+        "fold_2": {
+          "train": {
+            "n_clips": 314,
+            "n_groups": 154,
+            "classes": {
+              "belly_pain": 12,
+              "burping": 5,
+              "discomfort": 19,
+              "hungry": 262,
+              "tired": 16
+            }
+          },
+          "val": {
+            "n_clips": 53,
+            "n_groups": 22,
+            "classes": {
+              "belly_pain": 3,
+              "burping": 1,
+              "discomfort": 3,
+              "hungry": 43,
+              "tired": 3
+            }
+          },
+          "test": {
+            "n_clips": 90,
+            "n_groups": 45,
+            "classes": {
+              "belly_pain": 1,
+              "burping": 2,
+              "discomfort": 5,
+              "hungry": 77,
+              "tired": 5
+            }
+          }
+        },
+        "fold_3": {
+          "train": {
+            "n_clips": 311,
+            "n_groups": 152,
+            "classes": {
+              "belly_pain": 7,
+              "burping": 6,
+              "discomfort": 19,
+              "hungry": 262,
+              "tired": 17
+            }
+          },
+          "val": {
+            "n_clips": 52,
+            "n_groups": 25,
+            "classes": {
+              "belly_pain": 1,
+              "burping": 1,
+              "discomfort": 3,
+              "hungry": 44,
+              "tired": 3
+            }
+          },
+          "test": {
+            "n_clips": 94,
+            "n_groups": 44,
+            "classes": {
+              "belly_pain": 8,
+              "burping": 1,
+              "discomfort": 5,
+              "hungry": 76,
+              "tired": 4
+            }
+          }
+        },
+        "fold_4": {
+          "train": {
+            "n_clips": 309,
+            "n_groups": 151,
+            "classes": {
+              "belly_pain": 6,
+              "burping": 5,
+              "discomfort": 18,
+              "hungry": 263,
+              "tired": 17
+            }
+          },
+          "val": {
+            "n_clips": 57,
+            "n_groups": 26,
+            "classes": {
+              "belly_pain": 8,
+              "burping": 1,
+              "discomfort": 3,
+              "hungry": 43,
+              "tired": 2
+            }
+          },
+          "test": {
+            "n_clips": 91,
+            "n_groups": 44,
+            "classes": {
+              "belly_pain": 2,
+              "burping": 2,
+              "discomfort": 6,
+              "hungry": 76,
+              "tired": 5
+            }
+          }
+        }
+      },
+      "grouped_warnings": [],
+      "random": {
+        "fold_0": {
+          "train": {
+            "n_clips": 310,
+            "n_groups": 177,
+            "classes": {
+              "belly_pain": 10,
+              "burping": 6,
+              "discomfort": 18,
+              "hungry": 260,
+              "tired": 16
+            }
+          },
+          "val": {
+            "n_clips": 55,
+            "n_groups": 50,
+            "classes": {
+              "belly_pain": 2,
+              "burping": 1,
+              "discomfort": 3,
+              "hungry": 46,
+              "tired": 3
+            }
+          },
+          "test": {
+            "n_clips": 92,
+            "n_groups": 73,
+            "classes": {
+              "belly_pain": 4,
+              "burping": 1,
+              "discomfort": 6,
+              "hungry": 76,
+              "tired": 5
+            }
+          }
+        },
+        "fold_1": {
+          "train": {
+            "n_clips": 310,
+            "n_groups": 182,
+            "classes": {
+              "belly_pain": 11,
+              "burping": 5,
+              "discomfort": 19,
+              "hungry": 259,
+              "tired": 16
+            }
+          },
+          "val": {
+            "n_clips": 55,
+            "n_groups": 49,
+            "classes": {
+              "belly_pain": 2,
+              "burping": 1,
+              "discomfort": 3,
+              "hungry": 46,
+              "tired": 3
+            }
+          },
+          "test": {
+            "n_clips": 92,
+            "n_groups": 75,
+            "classes": {
+              "belly_pain": 3,
+              "burping": 2,
+              "discomfort": 5,
+              "hungry": 77,
+              "tired": 5
+            }
+          }
+        },
+        "fold_2": {
+          "train": {
+            "n_clips": 311,
+            "n_groups": 179,
+            "classes": {
+              "belly_pain": 11,
+              "burping": 5,
+              "discomfort": 19,
+              "hungry": 259,
+              "tired": 17
+            }
+          },
+          "val": {
+            "n_clips": 55,
+            "n_groups": 50,
+            "classes": {
+              "belly_pain": 2,
+              "burping": 1,
+              "discomfort": 3,
+              "hungry": 46,
+              "tired": 3
+            }
+          },
+          "test": {
+            "n_clips": 91,
+            "n_groups": 74,
+            "classes": {
+              "belly_pain": 3,
+              "burping": 2,
+              "discomfort": 5,
+              "hungry": 77,
+              "tired": 4
+            }
+          }
+        },
+        "fold_3": {
+          "train": {
+            "n_clips": 311,
+            "n_groups": 188,
+            "classes": {
+              "belly_pain": 11,
+              "burping": 5,
+              "discomfort": 19,
+              "hungry": 260,
+              "tired": 16
+            }
+          },
+          "val": {
+            "n_clips": 55,
+            "n_groups": 48,
+            "classes": {
+              "belly_pain": 2,
+              "burping": 1,
+              "discomfort": 3,
+              "hungry": 46,
+              "tired": 3
+            }
+          },
+          "test": {
+            "n_clips": 91,
+            "n_groups": 77,
+            "classes": {
+              "belly_pain": 3,
+              "burping": 2,
+              "discomfort": 5,
+              "hungry": 76,
+              "tired": 5
+            }
+          }
+        },
+        "fold_4": {
+          "train": {
+            "n_clips": 311,
+            "n_groups": 174,
+            "classes": {
+              "belly_pain": 11,
+              "burping": 6,
+              "discomfort": 18,
+              "hungry": 260,
+              "tired": 16
+            }
+          },
+          "val": {
+            "n_clips": 55,
+            "n_groups": 50,
+            "classes": {
+              "belly_pain": 2,
+              "burping": 1,
+              "discomfort": 3,
+              "hungry": 46,
+              "tired": 3
+            }
+          },
+          "test": {
+            "n_clips": 91,
+            "n_groups": 77,
+            "classes": {
+              "belly_pain": 3,
+              "burping": 1,
+              "discomfort": 6,
+              "hungry": 76,
+              "tired": 5
+            }
+          }
+        }
+      },
+      "random_split_test_clips_with_group_in_train": {
+        "per_fold": [
+          0.7065217391304348,
+          0.7065217391304348,
+          0.6153846153846154,
+          0.7362637362637363,
+          0.6373626373626373
+        ],
+        "mean": 0.6804108934543718
+      },
+      "grouped_split_test_clips_with_group_in_train": {
+        "per_fold": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "mean": 0.0
+      }
+    }
+  },
+  "folds_file_sha256": "14c586904966387a1bae2882d624480c12e0db09df958acffb2e836f376d2053",
+  "randomsplit_file_sha256": "f910bddcac450d0886af2f77e5597c13d15a9d46460d373442468d9e972b4637"
+}
