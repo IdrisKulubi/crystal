@@ -1,0 +1,112 @@
+{
+  "n_test": 91,
+  "n_classes": 5,
+  "labels": [
+    "belly_pain",
+    "burping",
+    "discomfort",
+    "hungry",
+    "tired"
+  ],
+  "accuracy": 0.42857142857142855,
+  "macro_f1": 0.1482808716707022,
+  "weighted_f1": 0.5275150999121943,
+  "balanced_accuracy": 0.2307017543859649,
+  "per_class": {
+    "belly_pain": {
+      "precision": 0.0625,
+      "recall": 0.6666666666666666,
+      "f1": 0.11428571428571428,
+      "support": 3
+    },
+    "burping": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 1
+    },
+    "discomfort": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 6
+    },
+    "hungry": {
+      "precision": 0.8809523809523809,
+      "recall": 0.4868421052631579,
+      "f1": 0.6271186440677966,
+      "support": 76
+    },
+    "tired": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 5
+    }
+  },
+  "confusion_matrix": [
+    [
+      2,
+      1,
+      0,
+      0,
+      0
+    ],
+    [
+      1,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      3,
+      0,
+      0,
+      3,
+      0
+    ],
+    [
+      24,
+      1,
+      8,
+      37,
+      6
+    ],
+    [
+      2,
+      0,
+      1,
+      2,
+      0
+    ]
+  ],
+  "nll": 1.3219461036248221,
+  "brier": 0.6888590370566062,
+  "ece_15_uncal": 0.20436468800320953,
+  "ece_15_cal": 0.08549365729458214,
+  "aurc": 0.5314819096131912,
+  "precision_at_coverage": {
+    "1.0": 0.42857142857142855,
+    "0.9": 0.43373493975903615,
+    "0.7": 0.49206349206349204,
+    "0.5": 0.5098039215686274
+  },
+  "realised_coverage": {
+    "0.9": 0.9120879120879121,
+    "0.7": 0.6923076923076923,
+    "0.5": 0.5604395604395604
+  },
+  "top2_accuracy": 0.7252747252747253,
+  "train_seconds": 96.63,
+  "params_total": 94670469,
+  "params_trainable": 298757,
+  "inference_ms_per_clip_cpu": null,
+  "model_selection": {
+    "best_epoch": 2,
+    "best_val_macro_f1": 0.22574660633484162,
+    "epochs_run": 7,
+    "backbone": "wav2vec2_base",
+    "revision": null
+  }
+}

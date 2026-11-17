@@ -1,0 +1,112 @@
+{
+  "n_test": 91,
+  "n_classes": 5,
+  "labels": [
+    "belly_pain",
+    "burping",
+    "discomfort",
+    "hungry",
+    "tired"
+  ],
+  "accuracy": 0.8021978021978022,
+  "macro_f1": 0.17804878048780487,
+  "weighted_f1": 0.7435004020369874,
+  "balanced_accuracy": 0.19210526315789472,
+  "per_class": {
+    "belly_pain": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 3
+    },
+    "burping": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 1
+    },
+    "discomfort": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 6
+    },
+    "hungry": {
+      "precision": 0.8295454545454546,
+      "recall": 0.9605263157894737,
+      "f1": 0.8902439024390244,
+      "support": 76
+    },
+    "tired": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 5
+    }
+  },
+  "confusion_matrix": [
+    [
+      0,
+      0,
+      0,
+      3,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      1,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      6,
+      0
+    ],
+    [
+      0,
+      0,
+      2,
+      73,
+      1
+    ],
+    [
+      0,
+      0,
+      0,
+      5,
+      0
+    ]
+  ],
+  "nll": 0.8100112324340233,
+  "brier": 0.3775079249147866,
+  "ece_15_uncal": 0.2711407183645351,
+  "ece_15_cal": 0.19564279443025606,
+  "aurc": 0.129924838789511,
+  "precision_at_coverage": {
+    "1.0": 0.8021978021978022,
+    "0.9": 0.8354430379746836,
+    "0.7": 0.8548387096774194,
+    "0.5": 0.8627450980392157
+  },
+  "realised_coverage": {
+    "0.9": 0.8681318681318682,
+    "0.7": 0.6813186813186813,
+    "0.5": 0.5604395604395604
+  },
+  "top2_accuracy": 0.8791208791208791,
+  "train_seconds": 153.41,
+  "params_total": 86486021,
+  "params_trainable": 298757,
+  "inference_ms_per_clip_cpu": null,
+  "model_selection": {
+    "best_epoch": 2,
+    "best_val_macro_f1": 0.1696969696969697,
+    "epochs_run": 7,
+    "backbone": "ast",
+    "revision": null
+  }
+}

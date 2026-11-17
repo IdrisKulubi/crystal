@@ -1,0 +1,112 @@
+{
+  "n_test": 90,
+  "n_classes": 5,
+  "labels": [
+    "belly_pain",
+    "burping",
+    "discomfort",
+    "hungry",
+    "tired"
+  ],
+  "accuracy": 0.7555555555555555,
+  "macro_f1": 0.2036724565756824,
+  "weighted_f1": 0.7481885856079404,
+  "balanced_accuracy": 0.214025974025974,
+  "per_class": {
+    "belly_pain": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 1
+    },
+    "burping": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 2
+    },
+    "discomfort": {
+      "precision": 0.125,
+      "recall": 0.2,
+      "f1": 0.15384615384615385,
+      "support": 5
+    },
+    "hungry": {
+      "precision": 0.8589743589743589,
+      "recall": 0.8701298701298701,
+      "f1": 0.864516129032258,
+      "support": 77
+    },
+    "tired": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 5
+    }
+  },
+  "confusion_matrix": [
+    [
+      0,
+      0,
+      0,
+      1,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      2,
+      0
+    ],
+    [
+      0,
+      0,
+      1,
+      4,
+      0
+    ],
+    [
+      2,
+      0,
+      6,
+      67,
+      2
+    ],
+    [
+      0,
+      0,
+      1,
+      4,
+      0
+    ]
+  ],
+  "nll": 0.8211229233677858,
+  "brier": 0.38280963639124604,
+  "ece_15_uncal": 0.1630870986049253,
+  "ece_15_cal": 0.11796611203190041,
+  "aurc": 0.14747373410122294,
+  "precision_at_coverage": {
+    "1.0": 0.7555555555555555,
+    "0.9": 0.7674418604651163,
+    "0.7": 0.8333333333333334,
+    "0.5": 0.8627450980392157
+  },
+  "realised_coverage": {
+    "0.9": 0.9555555555555556,
+    "0.7": 0.7333333333333333,
+    "0.5": 0.5666666666666667
+  },
+  "top2_accuracy": 0.9111111111111111,
+  "train_seconds": 325.21,
+  "params_total": 86486021,
+  "params_trainable": 298757,
+  "inference_ms_per_clip_cpu": null,
+  "model_selection": {
+    "best_epoch": 13,
+    "best_val_macro_f1": 0.17471264367816092,
+    "epochs_run": 15,
+    "backbone": "ast",
+    "revision": null
+  }
+}

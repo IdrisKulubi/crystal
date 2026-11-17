@@ -1,0 +1,112 @@
+{
+  "n_test": 94,
+  "n_classes": 5,
+  "labels": [
+    "belly_pain",
+    "burping",
+    "discomfort",
+    "hungry",
+    "tired"
+  ],
+  "accuracy": 0.4787234042553192,
+  "macro_f1": 0.14647235715938006,
+  "weighted_f1": 0.5457006314566815,
+  "balanced_accuracy": 0.16578947368421054,
+  "per_class": {
+    "belly_pain": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 8
+    },
+    "burping": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 1
+    },
+    "discomfort": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 5
+    },
+    "hungry": {
+      "precision": 0.8,
+      "recall": 0.5789473684210527,
+      "f1": 0.6717557251908397,
+      "support": 76
+    },
+    "tired": {
+      "precision": 0.034482758620689655,
+      "recall": 0.25,
+      "f1": 0.06060606060606061,
+      "support": 4
+    }
+  },
+  "confusion_matrix": [
+    [
+      0,
+      0,
+      3,
+      3,
+      2
+    ],
+    [
+      0,
+      0,
+      0,
+      1,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      4,
+      1
+    ],
+    [
+      0,
+      0,
+      7,
+      44,
+      25
+    ],
+    [
+      0,
+      0,
+      0,
+      3,
+      1
+    ]
+  ],
+  "nll": 1.32097036820847,
+  "brier": 0.6478959786099562,
+  "ece_15_uncal": 0.24052771100702433,
+  "ece_15_cal": 0.13304145246837323,
+  "aurc": 0.40227969719027984,
+  "precision_at_coverage": {
+    "1.0": 0.4787234042553192,
+    "0.9": 0.4782608695652174,
+    "0.7": 0.5263157894736842,
+    "0.5": 0.5538461538461539
+  },
+  "realised_coverage": {
+    "0.9": 0.9787234042553191,
+    "0.7": 0.8085106382978723,
+    "0.5": 0.6914893617021277
+  },
+  "top2_accuracy": 0.776595744680851,
+  "train_seconds": 97.04,
+  "params_total": 94670469,
+  "params_trainable": 298757,
+  "inference_ms_per_clip_cpu": null,
+  "model_selection": {
+    "best_epoch": 2,
+    "best_val_macro_f1": 0.2357243319268636,
+    "epochs_run": 7,
+    "backbone": "wav2vec2_base",
+    "revision": null
+  }
+}

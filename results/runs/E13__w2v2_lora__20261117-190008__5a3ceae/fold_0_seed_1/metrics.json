@@ -1,0 +1,112 @@
+{
+  "n_test": 91,
+  "n_classes": 5,
+  "labels": [
+    "belly_pain",
+    "burping",
+    "discomfort",
+    "hungry",
+    "tired"
+  ],
+  "accuracy": 0.8461538461538461,
+  "macro_f1": 0.18333333333333332,
+  "weighted_f1": 0.7756410256410255,
+  "balanced_accuracy": 0.2,
+  "per_class": {
+    "belly_pain": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 2
+    },
+    "burping": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 2
+    },
+    "discomfort": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 5
+    },
+    "hungry": {
+      "precision": 0.8461538461538461,
+      "recall": 1.0,
+      "f1": 0.9166666666666666,
+      "support": 77
+    },
+    "tired": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 5
+    }
+  },
+  "confusion_matrix": [
+    [
+      0,
+      0,
+      0,
+      2,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      2,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      5,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      77,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      5,
+      0
+    ]
+  ],
+  "nll": 0.7538849782727968,
+  "brier": 0.3255986464352803,
+  "ece_15_uncal": 0.5403107196033394,
+  "ece_15_cal": 0.17201731247027746,
+  "aurc": 0.2528700830645561,
+  "precision_at_coverage": {
+    "1.0": 0.8461538461538461,
+    "0.9": 0.8433734939759037,
+    "0.7": 0.8301886792452831,
+    "0.5": 0.7777777777777778
+  },
+  "realised_coverage": {
+    "0.9": 0.9120879120879121,
+    "0.7": 0.5824175824175825,
+    "0.5": 0.3956043956043956
+  },
+  "top2_accuracy": 0.8791208791208791,
+  "train_seconds": 112.22,
+  "params_total": 94670469,
+  "params_trainable": 298757,
+  "inference_ms_per_clip_cpu": null,
+  "model_selection": {
+    "best_epoch": 3,
+    "best_val_macro_f1": 0.17916666666666667,
+    "epochs_run": 8,
+    "backbone": "wav2vec2_base",
+    "revision": null
+  }
+}

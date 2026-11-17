@@ -1,0 +1,112 @@
+{
+  "n_test": 91,
+  "n_classes": 5,
+  "labels": [
+    "belly_pain",
+    "burping",
+    "discomfort",
+    "hungry",
+    "tired"
+  ],
+  "accuracy": 0.8021978021978022,
+  "macro_f1": 0.17914110429447855,
+  "weighted_f1": 0.7579046720151016,
+  "balanced_accuracy": 0.18961038961038962,
+  "per_class": {
+    "belly_pain": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 2
+    },
+    "burping": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 2
+    },
+    "discomfort": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 5
+    },
+    "hungry": {
+      "precision": 0.8488372093023255,
+      "recall": 0.948051948051948,
+      "f1": 0.8957055214723927,
+      "support": 77
+    },
+    "tired": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 5
+    }
+  },
+  "confusion_matrix": [
+    [
+      0,
+      0,
+      0,
+      2,
+      0
+    ],
+    [
+      1,
+      0,
+      0,
+      1,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      5,
+      0
+    ],
+    [
+      4,
+      0,
+      0,
+      73,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      5,
+      0
+    ]
+  ],
+  "nll": 0.8370558872093005,
+  "brier": 0.3761028941793047,
+  "ece_15_uncal": 0.44876071906829473,
+  "ece_15_cal": 0.20629618671494548,
+  "aurc": 0.26615083685096,
+  "precision_at_coverage": {
+    "1.0": 0.8021978021978022,
+    "0.9": 0.8235294117647058,
+    "0.7": 0.78,
+    "0.5": 0.7352941176470589
+  },
+  "realised_coverage": {
+    "0.9": 0.9340659340659341,
+    "0.7": 0.5494505494505495,
+    "0.5": 0.37362637362637363
+  },
+  "top2_accuracy": 0.8681318681318682,
+  "train_seconds": 91.72,
+  "params_total": 94375557,
+  "params_trainable": 90175109,
+  "inference_ms_per_clip_cpu": null,
+  "model_selection": {
+    "best_epoch": 3,
+    "best_val_macro_f1": 0.18105263157894738,
+    "epochs_run": 8,
+    "backbone": "wav2vec2_base",
+    "revision": null
+  }
+}

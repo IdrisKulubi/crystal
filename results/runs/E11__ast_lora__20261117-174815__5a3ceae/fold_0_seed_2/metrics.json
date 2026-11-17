@@ -1,0 +1,112 @@
+{
+  "n_test": 91,
+  "n_classes": 5,
+  "labels": [
+    "belly_pain",
+    "burping",
+    "discomfort",
+    "hungry",
+    "tired"
+  ],
+  "accuracy": 0.7362637362637363,
+  "macro_f1": 0.19809523809523807,
+  "weighted_f1": 0.7326007326007327,
+  "balanced_accuracy": 0.21142857142857144,
+  "per_class": {
+    "belly_pain": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 2
+    },
+    "burping": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 2
+    },
+    "discomfort": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 5
+    },
+    "hungry": {
+      "precision": 0.8571428571428571,
+      "recall": 0.8571428571428571,
+      "f1": 0.8571428571428571,
+      "support": 77
+    },
+    "tired": {
+      "precision": 0.1,
+      "recall": 0.2,
+      "f1": 0.13333333333333333,
+      "support": 5
+    }
+  },
+  "confusion_matrix": [
+    [
+      0,
+      0,
+      0,
+      1,
+      1
+    ],
+    [
+      0,
+      0,
+      0,
+      2,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      4,
+      1
+    ],
+    [
+      3,
+      0,
+      1,
+      66,
+      7
+    ],
+    [
+      0,
+      0,
+      0,
+      4,
+      1
+    ]
+  ],
+  "nll": 0.9327790832427316,
+  "brier": 0.45196072227717876,
+  "ece_15_uncal": 0.27690493035048114,
+  "ece_15_cal": 0.13979933083535523,
+  "aurc": 0.2008044868126476,
+  "precision_at_coverage": {
+    "1.0": 0.7362637362637363,
+    "0.9": 0.7866666666666666,
+    "0.7": 0.7678571428571429,
+    "0.5": 0.8095238095238095
+  },
+  "realised_coverage": {
+    "0.9": 0.8241758241758241,
+    "0.7": 0.6153846153846154,
+    "0.5": 0.23076923076923078
+  },
+  "top2_accuracy": 0.8791208791208791,
+  "train_seconds": 259.94,
+  "params_total": 86486021,
+  "params_trainable": 298757,
+  "inference_ms_per_clip_cpu": null,
+  "model_selection": {
+    "best_epoch": 7,
+    "best_val_macro_f1": 0.22857142857142856,
+    "epochs_run": 12,
+    "backbone": "ast",
+    "revision": null
+  }
+}

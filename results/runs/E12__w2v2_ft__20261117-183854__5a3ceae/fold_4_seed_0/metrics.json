@@ -1,0 +1,112 @@
+{
+  "n_test": 91,
+  "n_classes": 5,
+  "labels": [
+    "belly_pain",
+    "burping",
+    "discomfort",
+    "hungry",
+    "tired"
+  ],
+  "accuracy": 0.8021978021978022,
+  "macro_f1": 0.17804878048780487,
+  "weighted_f1": 0.7435004020369874,
+  "balanced_accuracy": 0.19210526315789472,
+  "per_class": {
+    "belly_pain": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 2
+    },
+    "burping": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 2
+    },
+    "discomfort": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 6
+    },
+    "hungry": {
+      "precision": 0.8295454545454546,
+      "recall": 0.9605263157894737,
+      "f1": 0.8902439024390244,
+      "support": 76
+    },
+    "tired": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 5
+    }
+  },
+  "confusion_matrix": [
+    [
+      0,
+      0,
+      0,
+      2,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      2,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      6,
+      0
+    ],
+    [
+      0,
+      0,
+      2,
+      73,
+      1
+    ],
+    [
+      0,
+      0,
+      0,
+      5,
+      0
+    ]
+  ],
+  "nll": 0.9260164099513972,
+  "brier": 0.4524937851102884,
+  "ece_15_uncal": 0.34662470565372033,
+  "ece_15_cal": 0.3006013548695119,
+  "aurc": 0.1634850511469236,
+  "precision_at_coverage": {
+    "1.0": 0.8021978021978022,
+    "0.9": 0.8192771084337349,
+    "0.7": 0.8421052631578947,
+    "0.5": 0.8775510204081632
+  },
+  "realised_coverage": {
+    "0.9": 0.9120879120879121,
+    "0.7": 0.6263736263736264,
+    "0.5": 0.5384615384615384
+  },
+  "top2_accuracy": 0.8571428571428571,
+  "train_seconds": 112.82,
+  "params_total": 94375557,
+  "params_trainable": 90175109,
+  "inference_ms_per_clip_cpu": null,
+  "model_selection": {
+    "best_epoch": 5,
+    "best_val_macro_f1": 0.2213533834586466,
+    "epochs_run": 10,
+    "backbone": "wav2vec2_base",
+    "revision": null
+  }
+}

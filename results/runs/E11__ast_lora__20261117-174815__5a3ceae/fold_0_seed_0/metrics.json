@@ -1,0 +1,112 @@
+{
+  "n_test": 91,
+  "n_classes": 5,
+  "labels": [
+    "belly_pain",
+    "burping",
+    "discomfort",
+    "hungry",
+    "tired"
+  ],
+  "accuracy": 0.6153846153846154,
+  "macro_f1": 0.17123745819397995,
+  "weighted_f1": 0.6556654048292844,
+  "balanced_accuracy": 0.18285714285714288,
+  "per_class": {
+    "belly_pain": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 2
+    },
+    "burping": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 2
+    },
+    "discomfort": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 5
+    },
+    "hungry": {
+      "precision": 0.8333333333333334,
+      "recall": 0.7142857142857143,
+      "f1": 0.7692307692307693,
+      "support": 77
+    },
+    "tired": {
+      "precision": 0.05555555555555555,
+      "recall": 0.2,
+      "f1": 0.08695652173913043,
+      "support": 5
+    }
+  },
+  "confusion_matrix": [
+    [
+      0,
+      0,
+      0,
+      2,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      2,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      3,
+      2
+    ],
+    [
+      6,
+      1,
+      0,
+      55,
+      15
+    ],
+    [
+      0,
+      0,
+      0,
+      4,
+      1
+    ]
+  ],
+  "nll": 1.0450368337280636,
+  "brier": 0.5136041916005223,
+  "ece_15_uncal": 0.18568787639208942,
+  "ece_15_cal": 0.12298570772030289,
+  "aurc": 0.21504184051312172,
+  "precision_at_coverage": {
+    "1.0": 0.6153846153846154,
+    "0.9": 0.654320987654321,
+    "0.7": 0.7301587301587301,
+    "0.5": 0.7916666666666666
+  },
+  "realised_coverage": {
+    "0.9": 0.8901098901098901,
+    "0.7": 0.6923076923076923,
+    "0.5": 0.5274725274725275
+  },
+  "top2_accuracy": 0.8131868131868132,
+  "train_seconds": 177.58,
+  "params_total": 86486021,
+  "params_trainable": 298757,
+  "inference_ms_per_clip_cpu": 1232.4271955001223,
+  "model_selection": {
+    "best_epoch": 3,
+    "best_val_macro_f1": 0.24301075268817204,
+    "epochs_run": 8,
+    "backbone": "ast",
+    "revision": null
+  }
+}

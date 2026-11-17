@@ -1,0 +1,112 @@
+{
+  "n_test": 91,
+  "n_classes": 5,
+  "labels": [
+    "belly_pain",
+    "burping",
+    "discomfort",
+    "hungry",
+    "tired"
+  ],
+  "accuracy": 0.7802197802197802,
+  "macro_f1": 0.17530864197530865,
+  "weighted_f1": 0.741690408357075,
+  "balanced_accuracy": 0.18441558441558442,
+  "per_class": {
+    "belly_pain": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 2
+    },
+    "burping": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 2
+    },
+    "discomfort": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 5
+    },
+    "hungry": {
+      "precision": 0.8352941176470589,
+      "recall": 0.922077922077922,
+      "f1": 0.8765432098765432,
+      "support": 77
+    },
+    "tired": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 5
+    }
+  },
+  "confusion_matrix": [
+    [
+      0,
+      0,
+      0,
+      2,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      2,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      5,
+      0
+    ],
+    [
+      0,
+      0,
+      4,
+      71,
+      2
+    ],
+    [
+      0,
+      0,
+      0,
+      5,
+      0
+    ]
+  ],
+  "nll": 0.8523516526904856,
+  "brier": 0.38822260900508526,
+  "ece_15_uncal": 0.3266196662384064,
+  "ece_15_cal": 0.1354976394147435,
+  "aurc": 0.16278485996721595,
+  "precision_at_coverage": {
+    "1.0": 0.7802197802197802,
+    "0.9": 0.825,
+    "0.7": 0.819672131147541,
+    "0.5": 0.8444444444444444
+  },
+  "realised_coverage": {
+    "0.9": 0.8791208791208791,
+    "0.7": 0.6703296703296703,
+    "0.5": 0.4945054945054945
+  },
+  "top2_accuracy": 0.8681318681318682,
+  "train_seconds": 175.84,
+  "params_total": 86486021,
+  "params_trainable": 298757,
+  "inference_ms_per_clip_cpu": null,
+  "model_selection": {
+    "best_epoch": 3,
+    "best_val_macro_f1": 0.22270531400966184,
+    "epochs_run": 8,
+    "backbone": "ast",
+    "revision": null
+  }
+}
