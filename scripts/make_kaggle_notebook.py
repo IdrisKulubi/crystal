@@ -29,7 +29,10 @@ if not pathlib.Path("crystal").exists():
 os.chdir("/tmp/crystal")
 subprocess.run(["git", "log", "--oneline", "-1"], check=True)
 subprocess.run([sys.executable, "-m", "pip", "install", "-q", "librosa", "soundfile", "pyyaml", "scikit-learn", "pandas", "transformers>=4.44", "peft>=0.12"], check=True)
-import torch; print("torch", torch.__version__, "cuda", torch.cuda.is_available(), torch.cuda.get_device_name(0) if torch.cuda.is_available() else "")"""),
+import torch; print("torch", torch.__version__, "cuda", torch.cuda.is_available(), torch.cuda.get_device_name(0) if torch.cuda.is_available() else "")
+assert torch.cuda.is_available() or "--debug" in EXTRA_ARGS, (
+    "No GPU. Stop the session, set Settings -> Accelerator -> GPU T4 x2 / P100 (needs a phone-verified "
+    "account), then run again. Training on CPU here would take days.")"""),
     ("code", """# data: same public sources and the same pipeline as locally
 os.makedirs("data/raw", exist_ok=True); os.makedirs("baselines", exist_ok=True)
 if not pathlib.Path("data/raw/donateacry-corpus").exists():
