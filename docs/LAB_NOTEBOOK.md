@@ -109,3 +109,14 @@ Observations:
   AST 6 0.242, Whisper 2 0.208) — middle layers are a bit better than the last, but all are close to chance.
 - Reading: frozen general-purpose/speech representations + a linear classifier do not separate Donate-a-Cry reasons
   for unseen babies. Next: fine-tuning E10–E13 on Kaggle (E10 parent = E07, E12 parent = E05).
+
+## 2026-11-17 — Kaggle E10–E13, first attempt (results not recoverable)
+- Interactive Kaggle session at commit 985b049: E10__ast_ft__20261117-133442__985b049 completed (test macro-F1 0.188 ± 0.029
+  as printed by the trainer), E12__w2v2_ft__20261117-142706__985b049 completed (0.182); E11 and E13 FAILED at model
+  construction: Kaggle's torchao 0.10 is rejected by peft ("only versions above 0.16.0 are supported").
+- The output zip was not downloaded before the interactive session ended, so these run folders are lost; the numbers above
+  are from the screen and are NOT used anywhere (CLAUDE.md rule: never re-type numbers). Observed behaviour: AST full FT
+  memorises the training set by epoch ~5 (train loss → 0) while val macro-F1 stays ≈0.18; wav2vec2 full FT predicts
+  mostly "hungry".
+- Fix (68a9f07): notebook uninstalls torchao before installing peft. Re-run of all four as a saved version
+  (Save Version → Save & Run All) so the output is kept.
