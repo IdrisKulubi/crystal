@@ -37,6 +37,9 @@ def _model_fn(model_type: str) -> Callable[[FoldData, dict, int], dict]:
     if model_type == "linear_probe":
         from src.models.probe import probe_fit_predict
         return probe_fit_predict
+    if model_type == "finetune":
+        from src.models.finetune import finetune_fit_predict
+        return finetune_fit_predict
     raise ValueError(f"unknown model.type {model_type!r}")
 
 
@@ -88,6 +91,23 @@ def run_fold_seed(run: Run, fd: FoldData, fold: int, seed: int, fit: Callable, t
     return m
 
 
+def resolve_parent(parent: str | None, results_dir: Path = DEFAULT_RESULTS_DIR) -> str | None:
+    """``parent_run: E07`` (an experiment id) -> run_id of that experiment's latest completed,
+    non-superseded run in the registry at launch time. Full run_ids are kept as they are."""
+    import re
+
+    from src.results.run import read_registry, resolve_registry
+
+    if not parent or not re.fullmatch(r"E\d{2}[\w-]*", parent) or "__" in parent:
+        return parent
+    runs = [r for r in resolve_registry(read_registry(results_dir)).values()
+            if r.get("experiment_id") == parent and r.get("status") == "completed" and not r.get("superseded_by")]
+    if not runs:
+        print(f"WARNING: parent experiment {parent} has no completed run yet; recording {parent!r}")
+        return parent
+    return max(runs, key=lambda r: r.get("created_utc", ""))["run_id"]
+
+
 def main(argv: list[str] | None = None) -> str:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--config", required=True)
@@ -114,6 +134,7 @@ def main(argv: list[str] | None = None) -> str:
         cfg["notes"] = (cfg.get("notes") or "") + " [debug]"
     results_dir = Path(args.results_dir) if args.results_dir else (
         REPO_ROOT / "results" / "debug" if args.debug else DEFAULT_RESULTS_DIR)
+    cfg["parent_run"] = resolve_parent(cfg.get("parent_run"))
 
     df, labels = load_table(cfg)
     fit = _model_fn(get_path(cfg, "model.type"))

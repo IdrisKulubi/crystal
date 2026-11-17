@@ -1,0 +1,14 @@
+experiment_id: E12
+name: w2v2_ft
+parent_run: E05
+change_vs_parent: "full fine-tuning (CNN feature encoder frozen) + mean-pool head, instead of a frozen backbone + logistic regression"
+paper: {table: T3, row: "wav2vec2-base, fine-tuned"}
+data: {label_set: donateacry_v1}
+model:
+  type: finetune
+  backbone: wav2vec2_base
+  head: mean_pool
+  peft: null
+train:
+  lr: 3.0e-5
+notes: "Defaults (configs/defaults.yaml): 15 epochs, batch 8 x accum 4, AdamW wd 0.01, warmup 10%, weighted CE, early stop patience 5 on val macro-F1."

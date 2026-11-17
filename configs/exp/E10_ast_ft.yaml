@@ -1,0 +1,14 @@
+experiment_id: E10
+name: ast_ft
+parent_run: E07
+change_vs_parent: "full fine-tuning of the AST backbone + mean-pool head, instead of a frozen backbone + logistic regression"
+paper: {table: T3, row: "AST, fine-tuned"}
+data: {label_set: donateacry_v1}
+model:
+  type: finetune
+  backbone: ast
+  head: mean_pool
+  peft: null
+train:
+  lr: 3.0e-5
+notes: "Defaults (configs/defaults.yaml): 15 epochs, batch 8 x accum 4, AdamW wd 0.01, warmup 10%, weighted CE, early stop patience 5 on val macro-F1."

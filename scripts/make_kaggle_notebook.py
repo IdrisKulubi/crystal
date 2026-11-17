@@ -11,7 +11,12 @@ locally: `python -m src.import_runs crystal_results.zip` (then `python -m src.re
 
 Edit `CONFIGS` below to choose experiments. No audio leaves Kaggle; the zip holds only logits,
 predictions, metrics and logs."""),
-    ("code", """CONFIGS = ["configs/exp/E02_deepinfant_repro.yaml"]   # each runs 5 folds x 3 seeds
+    ("code", """CONFIGS = [                                             # each runs 5 folds x 3 seeds
+    "configs/exp/E10_ast_ft.yaml",
+    "configs/exp/E11_ast_lora.yaml",
+    "configs/exp/E12_w2v2_ft.yaml",
+    "configs/exp/E13_w2v2_lora.yaml",
+]
 EXTRA_ARGS = ""                                         # e.g. "--fold 0 --seeds 0" for a quick check
 REPO = "https://github.com/IdrisKulubi/crystal.git"
 BRANCH = "main\""""),
@@ -23,7 +28,7 @@ if not pathlib.Path("crystal").exists():
     subprocess.run(["git", "clone", "--depth", "1", "-b", BRANCH, REPO, "crystal"], check=True)
 os.chdir("/tmp/crystal")
 subprocess.run(["git", "log", "--oneline", "-1"], check=True)
-subprocess.run([sys.executable, "-m", "pip", "install", "-q", "librosa", "soundfile", "pyyaml", "scikit-learn", "pandas"], check=True)
+subprocess.run([sys.executable, "-m", "pip", "install", "-q", "librosa", "soundfile", "pyyaml", "scikit-learn", "pandas", "transformers>=4.44", "peft>=0.12"], check=True)
 import torch; print("torch", torch.__version__, "cuda", torch.cuda.is_available(), torch.cuda.get_device_name(0) if torch.cuda.is_available() else "")"""),
     ("code", """# data: same public sources and the same pipeline as locally
 os.makedirs("data/raw", exist_ok=True); os.makedirs("baselines", exist_ok=True)
