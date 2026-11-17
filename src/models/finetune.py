@@ -165,7 +165,7 @@ def finetune_fit_predict(fd: FoldData, cfg: dict, seed: int) -> dict:
             with torch.autocast("cuda", dtype=torch.float16, enabled=device.type == "cuda"):
                 loss = criterion(model(xb).float(), yb)
             scaler.scale(loss / accum).backward()
-            tot += float(loss) * len(b)
+            tot += float(loss.detach()) * len(b)
             n += len(b)
             if (bi + 1) % accum == 0 or bi == len(batches) - 1:
                 scaler.unscale_(opt)

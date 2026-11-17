@@ -12,9 +12,7 @@ locally: `python -m src.import_runs crystal_results.zip` (then `python -m src.re
 Edit `CONFIGS` below to choose experiments. No audio leaves Kaggle; the zip holds only logits,
 predictions, metrics and logs."""),
     ("code", """CONFIGS = [                                             # each runs 5 folds x 3 seeds
-    "configs/exp/E10_ast_ft.yaml",
     "configs/exp/E11_ast_lora.yaml",
-    "configs/exp/E12_w2v2_ft.yaml",
     "configs/exp/E13_w2v2_lora.yaml",
 ]
 EXTRA_ARGS = ""                                         # e.g. "--fold 0 --seeds 0" for a quick check
@@ -28,6 +26,8 @@ if not pathlib.Path("crystal").exists():
     subprocess.run(["git", "clone", "--depth", "1", "-b", BRANCH, REPO, "crystal"], check=True)
 os.chdir("/tmp/crystal")
 subprocess.run(["git", "log", "--oneline", "-1"], check=True)
+# Kaggle ships torchao 0.10, which recent peft refuses to import alongside (breaks LoRA); we don't use it
+subprocess.run([sys.executable, "-m", "pip", "uninstall", "-y", "-q", "torchao"], check=False)
 subprocess.run([sys.executable, "-m", "pip", "install", "-q", "librosa", "soundfile", "pyyaml", "scikit-learn", "pandas", "transformers>=4.44", "peft>=0.12"], check=True)
 import torch; print("torch", torch.__version__, "cuda", torch.cuda.is_available(), torch.cuda.get_device_name(0) if torch.cuda.is_available() else "")
 assert torch.cuda.is_available() or "--debug" in EXTRA_ARGS, (
