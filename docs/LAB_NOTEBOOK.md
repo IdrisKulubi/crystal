@@ -96,3 +96,16 @@ Observations:
   split (68 % of test clips share an app install with training — see splits_report.json).
 - Possible later ablation (one change vs E02): early-stop on val macro-F1 and/or class-weighted CE, to show
   the failure is not only the selection criterion. Not run yet.
+
+## 2026-11-17 — Phase 3 linear probes E05–E08 (local CPU)
+- Runs: E05__wav2vec2_base_probe__20261116-234352__2df0f80, E06__hubert_base_probe__20261116-235847__2df0f80,
+  E07__ast_probe__20261117-001010__9b88bc7, E08__whisper_base_probe__20261117-002638__9b88bc7 (E07/E08 started after
+  commit 9b88bc7, which changed only fine-tuning code; probe code identical to 2df0f80). Embedding extraction ≈5–15 min
+  per encoder on CPU; cached in data/embeddings/ (git-ignored).
+- Test macro-F1 (5 folds × 3 seeds; seeds identical because the probe is deterministic):
+  wav2vec2 0.193 ± 0.025, HuBERT 0.184 ± 0.037, AST 0.209 ± 0.015, Whisper-enc 0.184 ± 0.018 (majority 0.182).
+  Only AST recognises any minority class (discomfort recall 0.35); belly_pain and burping recall 0 for all.
+- Diagnostic (validation only): mean val macro-F1 by layer peaks in the middle (w2v2 layer 6 0.204, HuBERT 7 0.223,
+  AST 6 0.242, Whisper 2 0.208) — middle layers are a bit better than the last, but all are close to chance.
+- Reading: frozen general-purpose/speech representations + a linear classifier do not separate Donate-a-Cry reasons
+  for unseen babies. Next: fine-tuning E10–E13 on Kaggle (E10 parent = E07, E12 parent = E05).

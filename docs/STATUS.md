@@ -1,11 +1,12 @@
 # STATUS
-Last updated: 2026-11-17 by Claude Code (Phase 2 done)
+Last updated: 2026-11-17 by Claude Code (Phase 3 probes done)
 
 ## Current phase: 3 (pretrained encoders) — Phase 2 baselines complete
 
 ## Next task:
-Phase 3: implement pretrained-encoder linear probes E05–E09 (frozen embeddings + logistic regression),
-debug locally, then run on Kaggle with notebooks/kaggle_train.ipynb (CONFIGS list) and import.
+Phase 3: probes E05–E08 done (local). Run E10–E13 fine-tuning on Kaggle (notebooks/kaggle_train.ipynb,
+CONFIGS already set), import the zip, then choose the best backbone and run E14 (attention pooling).
+E09 BEATs optional (needs unilm code + checkpoint).
 
 ## Blockers / needs Idris:
 - [x] Confirm Donate-a-Cry grouping rule (group = app-install UUID) — see LAB_NOTEBOOK 2026-11-16 Phase 1

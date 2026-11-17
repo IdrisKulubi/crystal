@@ -34,3 +34,6 @@ baselines/
 
 # smoke-test runs
 results/debug/
+
+# docs
+docs/
