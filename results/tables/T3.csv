@@ -3,10 +3,10 @@ Majority class,83.6 ± 1.6,0.182 ± 0.002,20.0 ± 0.0,0.067 ± 0.036,E00__majori
 MFCC + SVM,77.8 ± 8.4,0.175 ± 0.010,18.6 ± 2.2,0.165 ± 0.103,E01__mfcc_svm__20261116-190116__6bc3192
 DeepInfant (reported),89.0 (reported),n/a,n/a,n/a,
 DeepInfant (reproduced),83.3 ± 2.0,0.182 ± 0.002,19.9 ± 0.3,0.085 ± 0.068,E02__deepinfant_repro__20261116-220106__428232e
-"wav2vec2-base, linear probe",,,,,
-"HuBERT-base, linear probe",,,,,
-"AST, linear probe",,,,,
-"Whisper-base encoder, linear probe",,,,,
+"wav2vec2-base, linear probe",74.2 ± 2.9,0.193 ± 0.025,19.7 ± 2.5,0.155 ± 0.039,E05__wav2vec2_base_probe__20261116-234352__2df0f80
+"HuBERT-base, linear probe",66.5 ± 11.3,0.184 ± 0.037,18.4 ± 5.2,0.143 ± 0.036,E06__hubert_base_probe__20261116-235847__2df0f80
+"AST, linear probe",65.7 ± 15.8,0.209 ± 0.015,22.9 ± 2.8,0.181 ± 0.048,E07__ast_probe__20261117-001010__9b88bc7
+"Whisper-base encoder, linear probe",73.3 ± 2.9,0.184 ± 0.018,19.2 ± 2.6,0.167 ± 0.022,E08__whisper_base_probe__20261117-002638__9b88bc7
 "BEATs, linear probe",,,,,
 "AST, fine-tuned",,,,,
 "AST, LoRA",,,,,

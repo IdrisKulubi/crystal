@@ -3,10 +3,10 @@
   "T3.ast_fine_tuned.balanced_acc": null,
   "T3.ast_fine_tuned.ece": null,
   "T3.ast_fine_tuned.macro_f1": null,
-  "T3.ast_linear_probe.accuracy": null,
-  "T3.ast_linear_probe.balanced_acc": null,
-  "T3.ast_linear_probe.ece": null,
-  "T3.ast_linear_probe.macro_f1": null,
+  "T3.ast_linear_probe.accuracy": "65.7 ± 15.8",
+  "T3.ast_linear_probe.balanced_acc": "22.9 ± 2.8",
+  "T3.ast_linear_probe.ece": "0.181 ± 0.048",
+  "T3.ast_linear_probe.macro_f1": "0.209 ± 0.015",
   "T3.ast_lora.accuracy": null,
   "T3.ast_lora.balanced_acc": null,
   "T3.ast_lora.ece": null,
@@ -35,10 +35,10 @@
   "T3.deepinfant_reproduced.balanced_acc": "19.9 ± 0.3",
   "T3.deepinfant_reproduced.ece": "0.085 ± 0.068",
   "T3.deepinfant_reproduced.macro_f1": "0.182 ± 0.002",
-  "T3.hubert_base_linear_probe.accuracy": null,
-  "T3.hubert_base_linear_probe.balanced_acc": null,
-  "T3.hubert_base_linear_probe.ece": null,
-  "T3.hubert_base_linear_probe.macro_f1": null,
+  "T3.hubert_base_linear_probe.accuracy": "66.5 ± 11.3",
+  "T3.hubert_base_linear_probe.balanced_acc": "18.4 ± 5.2",
+  "T3.hubert_base_linear_probe.ece": "0.143 ± 0.036",
+  "T3.hubert_base_linear_probe.macro_f1": "0.184 ± 0.037",
   "T3.majority_class.accuracy": "83.6 ± 1.6",
   "T3.majority_class.balanced_acc": "20.0 ± 0.0",
   "T3.majority_class.ece": "0.067 ± 0.036",
@@ -55,18 +55,18 @@
   "T3.wav2vec2_base_fine_tuned.balanced_acc": null,
   "T3.wav2vec2_base_fine_tuned.ece": null,
   "T3.wav2vec2_base_fine_tuned.macro_f1": null,
-  "T3.wav2vec2_base_linear_probe.accuracy": null,
-  "T3.wav2vec2_base_linear_probe.balanced_acc": null,
-  "T3.wav2vec2_base_linear_probe.ece": null,
-  "T3.wav2vec2_base_linear_probe.macro_f1": null,
+  "T3.wav2vec2_base_linear_probe.accuracy": "74.2 ± 2.9",
+  "T3.wav2vec2_base_linear_probe.balanced_acc": "19.7 ± 2.5",
+  "T3.wav2vec2_base_linear_probe.ece": "0.155 ± 0.039",
+  "T3.wav2vec2_base_linear_probe.macro_f1": "0.193 ± 0.025",
   "T3.wav2vec2_base_lora.accuracy": null,
   "T3.wav2vec2_base_lora.balanced_acc": null,
   "T3.wav2vec2_base_lora.ece": null,
   "T3.wav2vec2_base_lora.macro_f1": null,
-  "T3.whisper_base_encoder_linear_probe.accuracy": null,
-  "T3.whisper_base_encoder_linear_probe.balanced_acc": null,
-  "T3.whisper_base_encoder_linear_probe.ece": null,
-  "T3.whisper_base_encoder_linear_probe.macro_f1": null,
+  "T3.whisper_base_encoder_linear_probe.accuracy": "73.3 ± 2.9",
+  "T3.whisper_base_encoder_linear_probe.balanced_acc": "19.2 ± 2.6",
+  "T3.whisper_base_encoder_linear_probe.ece": "0.167 ± 0.022",
+  "T3.whisper_base_encoder_linear_probe.macro_f1": "0.184 ± 0.018",
   "T4.deepinfant_random_clip_level_split.delta": null,
   "T4.deepinfant_random_clip_level_split.macro_f1": null,
   "T4.minus_context_features.delta": null,
@@ -146,6 +146,22 @@
   "sig.ours_vs_deepinfant.p": null,
   "splits.folds_file_sha256": "14c586904966387a1bae2882d624480c12e0db09df958acffb2e836f376d2053",
   "_raw": {
+    "T3.ast_linear_probe.accuracy": {
+      "mean": 0.6574270646611073,
+      "std": 0.15770559854038982
+    },
+    "T3.ast_linear_probe.balanced_acc": {
+      "mean": 0.2292677147413989,
+      "std": 0.028082574437898456
+    },
+    "T3.ast_linear_probe.ece": {
+      "mean": 0.18088359838108642,
+      "std": 0.04824033828355236
+    },
+    "T3.ast_linear_probe.macro_f1": {
+      "mean": 0.2086217754216949,
+      "std": 0.01468408848093016
+    },
     "T3.deepinfant_reported.accuracy": 0.89,
     "T3.deepinfant_reproduced.accuracy": {
       "mean": 0.8331795391369858,
@@ -162,6 +178,22 @@
     "T3.deepinfant_reproduced.macro_f1": {
       "mean": 0.18177538391279507,
       "std": 0.002402542108929079
+    },
+    "T3.hubert_base_linear_probe.accuracy": {
+      "mean": 0.665092874029044,
+      "std": 0.11282492632199163
+    },
+    "T3.hubert_base_linear_probe.balanced_acc": {
+      "mean": 0.1835256322624744,
+      "std": 0.051569714825583715
+    },
+    "T3.hubert_base_linear_probe.ece": {
+      "mean": 0.14282872952109765,
+      "std": 0.036426158175785435
+    },
+    "T3.hubert_base_linear_probe.macro_f1": {
+      "mean": 0.1835751160318336,
+      "std": 0.036578482451129095
     },
     "T3.majority_class.accuracy": {
       "mean": 0.8361099420673888,
@@ -195,6 +227,38 @@
       "mean": 0.17544673261202348,
       "std": 0.010051542112935359
     },
+    "T3.wav2vec2_base_linear_probe.accuracy": {
+      "mean": 0.7415675577377707,
+      "std": 0.029388052828397338
+    },
+    "T3.wav2vec2_base_linear_probe.balanced_acc": {
+      "mean": 0.19725951241740713,
+      "std": 0.025466004145374324
+    },
+    "T3.wav2vec2_base_linear_probe.ece": {
+      "mean": 0.1553713152822524,
+      "std": 0.03918077689648591
+    },
+    "T3.wav2vec2_base_linear_probe.macro_f1": {
+      "mean": 0.19295082244095613,
+      "std": 0.024978182516808195
+    },
+    "T3.whisper_base_encoder_linear_probe.accuracy": {
+      "mean": 0.7330844569142443,
+      "std": 0.028642730464787967
+    },
+    "T3.whisper_base_encoder_linear_probe.balanced_acc": {
+      "mean": 0.19233356117566647,
+      "std": 0.02573573903007782
+    },
+    "T3.whisper_base_encoder_linear_probe.ece": {
+      "mean": 0.16662794318793062,
+      "std": 0.021929066361158208
+    },
+    "T3.whisper_base_encoder_linear_probe.macro_f1": {
+      "mean": 0.1839267558877006,
+      "std": 0.018138928931463134
+    },
     "abstract.reason_macro_f1_deepinfant": {
       "mean": 0.18177538391279507,
       "std": 0.002402542108929079
@@ -227,6 +291,10 @@
     "overlap.deepinfant_v2.n_generated_copies": 24
   },
   "_sources": {
+    "T3.ast_linear_probe.accuracy": "E07__ast_probe__20261117-001010__9b88bc7",
+    "T3.ast_linear_probe.balanced_acc": "E07__ast_probe__20261117-001010__9b88bc7",
+    "T3.ast_linear_probe.ece": "E07__ast_probe__20261117-001010__9b88bc7",
+    "T3.ast_linear_probe.macro_f1": "E07__ast_probe__20261117-001010__9b88bc7",
     "T3.deepinfant_reported.accuracy": "constant:E04",
     "T3.deepinfant_reported.balanced_acc": "constant:E04",
     "T3.deepinfant_reported.ece": "constant:E04",
@@ -235,6 +303,10 @@
     "T3.deepinfant_reproduced.balanced_acc": "E02__deepinfant_repro__20261116-220106__428232e",
     "T3.deepinfant_reproduced.ece": "E02__deepinfant_repro__20261116-220106__428232e",
     "T3.deepinfant_reproduced.macro_f1": "E02__deepinfant_repro__20261116-220106__428232e",
+    "T3.hubert_base_linear_probe.accuracy": "E06__hubert_base_probe__20261116-235847__2df0f80",
+    "T3.hubert_base_linear_probe.balanced_acc": "E06__hubert_base_probe__20261116-235847__2df0f80",
+    "T3.hubert_base_linear_probe.ece": "E06__hubert_base_probe__20261116-235847__2df0f80",
+    "T3.hubert_base_linear_probe.macro_f1": "E06__hubert_base_probe__20261116-235847__2df0f80",
     "T3.majority_class.accuracy": "E00__majority__20261116-185927__bbaf546",
     "T3.majority_class.balanced_acc": "E00__majority__20261116-185927__bbaf546",
     "T3.majority_class.ece": "E00__majority__20261116-185927__bbaf546",
@@ -243,6 +315,14 @@
     "T3.mfcc_plus_svm.balanced_acc": "E01__mfcc_svm__20261116-190116__6bc3192",
     "T3.mfcc_plus_svm.ece": "E01__mfcc_svm__20261116-190116__6bc3192",
     "T3.mfcc_plus_svm.macro_f1": "E01__mfcc_svm__20261116-190116__6bc3192",
+    "T3.wav2vec2_base_linear_probe.accuracy": "E05__wav2vec2_base_probe__20261116-234352__2df0f80",
+    "T3.wav2vec2_base_linear_probe.balanced_acc": "E05__wav2vec2_base_probe__20261116-234352__2df0f80",
+    "T3.wav2vec2_base_linear_probe.ece": "E05__wav2vec2_base_probe__20261116-234352__2df0f80",
+    "T3.wav2vec2_base_linear_probe.macro_f1": "E05__wav2vec2_base_probe__20261116-234352__2df0f80",
+    "T3.whisper_base_encoder_linear_probe.accuracy": "E08__whisper_base_probe__20261117-002638__9b88bc7",
+    "T3.whisper_base_encoder_linear_probe.balanced_acc": "E08__whisper_base_probe__20261117-002638__9b88bc7",
+    "T3.whisper_base_encoder_linear_probe.ece": "E08__whisper_base_probe__20261117-002638__9b88bc7",
+    "T3.whisper_base_encoder_linear_probe.macro_f1": "E08__whisper_base_probe__20261117-002638__9b88bc7",
     "abstract.reason_macro_f1_deepinfant": "E02__deepinfant_repro__20261116-220106__428232e",
     "datasets.donateacry.class_counts.belly_pain": "dataset_stats.json",
     "datasets.donateacry.class_counts.burping": "dataset_stats.json",
@@ -277,5 +357,5 @@
     "overlap.deepinfant_v2.n_generated_copies": "dataset_stats.json",
     "splits.folds_file_sha256": "splits_report.json"
   },
-  "_generated_utc": "2026-11-16T22:35:55Z"
+  "_generated_utc": "2026-11-17T00:35:07Z"
 }
