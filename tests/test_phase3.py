@@ -117,6 +117,10 @@ def test_balanced_sampler_equalises_classes():
     {"loss": "focal", "sampler": "shuffle", "early_stopping_metric": "val_macro_f1"},
     {"loss": "ce", "sampler": "balanced", "early_stopping_metric": "val_macro_f1"},
     {"loss": "weighted_ce", "sampler": "shuffle", "early_stopping_metric": "val_loss_weighted"},
+    {"loss": "weighted_ce", "sampler": "shuffle", "early_stopping_metric": "val_macro_f1",
+     "augment": {"mixup_alpha": 0.4, "specaugment": {"freq_mask": 1, "time_mask": 1}}},
+    {"loss": "focal", "sampler": "shuffle", "early_stopping_metric": "val_macro_f1",
+     "augment": {"noise_snr_db": [0, 20], "noise_prob": 1.0}, "_context": ["age_bracket", "gender"]},
 ])
 def test_finetune_loop_options(monkeypatch, train):
     import transformers
@@ -125,17 +129,23 @@ def test_finetune_loop_options(monkeypatch, train):
     class Tiny(torch.nn.Module):
         def __init__(self, *a, **k):
             super().__init__()
-            self.lin, self.revision = torch.nn.Linear(4, 3), "r"
+            self.lin, self.revision = torch.nn.Linear(16 + k.get("context_dim", 0), 3), "r"
 
-        def forward(self, x):
-            return self.lin(x)
+        def forward(self, x, ctx=None):
+            z = x.reshape(len(x), -1)
+            return self.lin(z if ctx is None else torch.cat([z, ctx], 1))
 
     fd = _fold(30)
     monkeypatch.setattr(finetune, "FineTuneModel", Tiny)
     monkeypatch.setattr(finetune, "load_waveforms", lambda paths: [np.zeros(4, np.float32)] * len(paths))
-    monkeypatch.setattr(finetune, "model_inputs", lambda fe, kind, w, n: np.random.default_rng(0).normal(size=(len(w), 4)).astype(np.float32))
+    monkeypatch.setattr(finetune, "model_inputs", lambda fe, kind, w, n: np.random.default_rng(0).normal(size=(len(w), 4, 4)).astype(np.float32))
+    import src.augment
+    monkeypatch.setattr(src.augment, "noise_bank", lambda: [np.ones(4, np.float16)])
+    train = dict(train)
+    context = train.pop("_context", [])
     monkeypatch.setattr(transformers.AutoFeatureExtractor, "from_pretrained", staticmethod(lambda *a, **k: None))
-    cfg = {"model": {"backbone": "ast", "head": "mean_pool", "peft": None}, "data": {"clip_seconds": 1.0},
+    cfg = {"model": {"backbone": "ast", "head": "mean_pool", "peft": None, "context_features": context},
+           "data": {"clip_seconds": 1.0},
            "train": {"lr": 1e-2, "weight_decay": 0.0, "batch_size": 8, "grad_accum": 1, "epochs": 3,
                      "warmup_ratio": 0.0, "patience": 5, "focal_gamma": 2.0, **train}}
     out = finetune.finetune_fit_predict(fd, cfg, 0)

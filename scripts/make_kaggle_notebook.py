@@ -12,9 +12,10 @@ locally: `python -m src.import_runs crystal_results.zip` (then `python -m src.re
 Edit `CONFIGS` below to choose experiments. No audio leaves Kaggle; the zip holds only logits,
 predictions, metrics and logs."""),
     ("code", """CONFIGS = [                                             # each runs 5 folds x 3 seeds
-    "configs/exp/E15_ast_attn_balsampler.yaml",
-    "configs/exp/E16_ast_attn_focal.yaml",
-    "configs/exp/E17_ast_attn_selloss.yaml",
+    "configs/exp/E34_ast_attn_context.yaml",            # Phase 5: one change each vs E14 (~1 h each on a T4)
+    "configs/exp/E31_ast_attn_specaug.yaml",
+    "configs/exp/E32_ast_attn_mixup.yaml",
+    "configs/exp/E30_ast_attn_noise.yaml",
 ]
 EXTRA_ARGS = ""                                         # e.g. "--fold 0 --seeds 0" for a quick check
 REPO = "https://github.com/IdrisKulubi/crystal.git"
@@ -40,6 +41,8 @@ if not pathlib.Path("data/raw/donateacry-corpus").exists():
     subprocess.run(["git", "clone", "-q", "--depth", "1", "https://github.com/gveres/donateacry-corpus", "data/raw/donateacry-corpus"], check=True)
 if not pathlib.Path("baselines/DeepInfant").exists():
     subprocess.run(["git", "clone", "-q", "--depth", "1", "https://github.com/skytells-research/DeepInfant", "baselines/DeepInfant"], check=True)
+if not pathlib.Path("data/raw/ESC-50").exists():   # noise augmentation pool (public, CC BY-NC), training only
+    subprocess.run(["git", "clone", "-q", "--depth", "1", "https://github.com/karolpiczak/ESC-50", "data/raw/ESC-50"], check=True)
 expected = json.load(open("results/splits_report.json"))["folds_file_sha256"]
 for step in ["prepare_data", "dedup", "make_splits"]:
     subprocess.run([sys.executable, "-m", f"src.{step}"], check=True)

@@ -1,0 +1,15 @@
+experiment_id: E30
+name: ast_attn_noise
+parent_run: E14
+change_vs_parent: "training-only background-noise augmentation: ESC-50 (49 non-baby classes, band-limited to 4 kHz), SNR U[0, 20] dB, p 0.5 per clip"
+paper: {table: tuning, row: "Phase 5: + noise augmentation"}
+data: {label_set: donateacry_v1}
+model:
+  type: finetune
+  backbone: ast
+  head: attention
+  peft: null
+train:
+  lr: 3.0e-5
+  augment: {noise_snr_db: [0, 20], noise_prob: 0.5}
+notes: "Phase 5, single change vs E14. Household noise not recorded yet, so ESC-50 only."

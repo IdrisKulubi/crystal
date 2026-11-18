@@ -1,0 +1,15 @@
+experiment_id: E34
+name: ast_attn_context
+parent_run: E14
+change_vs_parent: "context fusion: one-hot age bracket (5) + gender (2) from the Donate-a-Cry filename, concatenated to the pooled embedding"
+paper: {table: tuning, row: "Phase 5: + context (age, gender)"}
+data: {label_set: donateacry_v1}
+model:
+  type: finetune
+  backbone: ast
+  head: attention
+  peft: null
+  context_features: [age_bracket, gender]
+train:
+  lr: 3.0e-5
+notes: "Phase 5, single change vs E14. E33 (focal vs weighted CE on E14) was already run as E16, so it is not repeated."

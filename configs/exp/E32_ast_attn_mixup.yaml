@@ -1,0 +1,15 @@
+experiment_id: E32
+name: ast_attn_mixup
+parent_run: E14
+change_vs_parent: "training-only mixup on the AST fbank input, alpha 0.4 (loss mixed with the same lambda)"
+paper: {table: tuning, row: "Phase 5: + mixup"}
+data: {label_set: donateacry_v1}
+model:
+  type: finetune
+  backbone: ast
+  head: attention
+  peft: null
+train:
+  lr: 3.0e-5
+  augment: {mixup_alpha: 0.4}
+notes: "Phase 5, single change vs E14."

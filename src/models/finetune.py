@@ -17,7 +17,10 @@ see ``src.models.encoders.ENCODERS``. Fixed choices (docs/DECISIONS.md):
   weighted CE with train weights; strictly better), early stop after ``patience`` epochs
   without improvement; test is predicted once with the best weights.
 * fp16 autocast on CUDA.
-No augmentation here (that is Phase 5), so model inputs are computed once per clip.
+Phase 5 (src/augment.py), training batches only: ``train.augment`` noise (ESC-50, SNR range; the
+fbank/normalisation is then recomputed per batch), SpecAugment (AST), mixup; ``model.context_features``
+(age bracket / gender one-hot concatenated to the pooled embedding). With no augmentation, model inputs
+are computed once per clip, exactly as before.
 """
 from __future__ import annotations
 
@@ -50,7 +53,7 @@ class AttentionPool(nn.Module):
 
 class FineTuneModel(nn.Module):
     def __init__(self, backbone: str, n_classes: int, head: str = "mean_pool", peft: dict | None = None,
-                 init_checkpoint: str | None = None):
+                 init_checkpoint: str | None = None, context_dim: int = 0):
         super().__init__()
         from src.models.encoders import load_backbone
 
@@ -80,9 +83,10 @@ class FineTuneModel(nn.Module):
             self.pool = AttentionPool(dim)
         elif head != "mean_pool":
             raise ValueError(f"model.head must be mean_pool or attention, got {head!r}")
-        self.classifier = nn.Sequential(nn.Dropout(0.1), nn.Linear(dim, n_classes))
+        self.context_dim = int(context_dim)
+        self.classifier = nn.Sequential(nn.Dropout(0.1), nn.Linear(dim + self.context_dim, n_classes))
 
-    def forward(self, x: torch.Tensor) -> torch.Tensor:
+    def forward(self, x: torch.Tensor, ctx: torch.Tensor | None = None) -> torch.Tensor:
         h = self.backbone(x).last_hidden_state
         if self.head_type == "attention":
             z = self.pool(h)
@@ -90,6 +94,10 @@ class FineTuneModel(nn.Module):
             z = h[:, :2].mean(1)
         else:
             z = h.mean(1)
+        if self.context_dim:
+            if ctx is None:
+                ctx = torch.zeros(len(z), self.context_dim, device=z.device)
+            z = torch.cat([z, ctx.to(z.dtype)], dim=1)
         return self.classifier(z)
 
 
@@ -137,13 +145,14 @@ def epoch_order(y: np.ndarray, k: int, sampler: str, rng: np.random.Generator) -
 
 
 @torch.no_grad()
-def _predict(model, x: np.ndarray, device, bs: int = 16) -> np.ndarray:
+def _predict(model, x: np.ndarray, device, bs: int = 16, ctx: np.ndarray | None = None) -> np.ndarray:
     model.eval()
     out = []
     for i in range(0, len(x), bs):
         xb = torch.from_numpy(x[i:i + bs]).to(device)
+        cb = torch.from_numpy(ctx[i:i + bs]).to(device) if ctx is not None and ctx.shape[1] else None
         with torch.autocast("cuda", dtype=torch.float16, enabled=device.type == "cuda"):
-            out.append(model(xb).float().cpu().numpy())
+            out.append(model(xb, cb).float().cpu().numpy())
     return np.concatenate(out)
 
 
@@ -161,12 +170,33 @@ def finetune_fit_predict(fd: FoldData, cfg: dict, seed: int) -> dict:
     fe = AutoFeatureExtractor.from_pretrained(ENCODERS[backbone]["hf_id"])
     kind = ENCODERS[backbone]["kind"]
     n_samples = int(round(float(cfg["data"]["clip_seconds"]) * TARGET_SR))
+    from src.augment import context_matrix, mixup_params, noise_bank, noisy_batch, spec_cfg, specaugment
+
+    aug = dict(tcfg.get("augment") or {})
+    snr = aug.get("noise_snr_db")
+    noise_prob = float(aug.get("noise_prob", 0.5))
+    spec = spec_cfg(aug.get("specaugment"))
+    mix_alpha = aug.get("mixup_alpha")
+    if aug.get("pitch_shift"):
+        raise NotImplementedError("train.augment.pitch_shift is not implemented")
+    if spec and kind != "ast":
+        raise ValueError("SpecAugment is implemented for the AST fbank input only")
+    bank = noise_bank() if snr else []
+    if snr:
+        print(f"    noise bank: {len(bank)} ESC-50 clips, SNR {snr} dB, p {noise_prob}", flush=True)
+    ctx_feats = list(mcfg.get("context_features") or [])
+    ctx = {role: context_matrix(part, ctx_feats)
+           for role, part in (("train", fd.train), ("val", fd.val), ("test", fd.test))}
+
+    train_wavs = load_waveforms(fd.train["path"])
     x = {role: model_inputs(fe, kind, load_waveforms(part["path"]), n_samples)
-         for role, part in (("train", fd.train), ("val", fd.val), ("test", fd.test))}
+         for role, part in (("val", fd.val), ("test", fd.test))}
+    x["train"] = model_inputs(fe, kind, train_wavs, n_samples)
     ytr, yva = fd.train["label_idx"].to_numpy(), fd.val["label_idx"].to_numpy()
 
     ckpt = resolve_checkpoint(mcfg.get("init_checkpoint"))
-    model = FineTuneModel(backbone, k, mcfg.get("head") or "mean_pool", mcfg.get("peft"), ckpt).to(device)
+    model = FineTuneModel(backbone, k, mcfg.get("head") or "mean_pool", mcfg.get("peft"), ckpt,
+                          context_dim=ctx["train"].shape[1]).to(device)
     trainable = [p for p in model.parameters() if p.requires_grad]
     opt = torch.optim.AdamW(trainable, lr=float(tcfg["lr"]), weight_decay=float(tcfg["weight_decay"]))
     bs, accum, epochs = int(tcfg["batch_size"]), int(tcfg["grad_accum"]), int(tcfg["epochs"])
@@ -200,10 +230,28 @@ def finetune_fit_predict(fd: FoldData, cfg: dict, seed: int) -> dict:
         opt.zero_grad(set_to_none=True)
         batches = [order[i:i + bs] for i in range(0, len(order), bs)]
         for bi, b in enumerate(batches):
-            xb = torch.from_numpy(x["train"][b]).to(device)
+            if snr:   # noise is mixed into the waveform, so the model input is recomputed for this batch
+                xnp = model_inputs(fe, kind, noisy_batch([train_wavs[i] for i in b], bank, tuple(snr),
+                                                         noise_prob, rng), n_samples)
+            else:
+                xnp = x["train"][b]
+            if spec:
+                xnp = specaugment(xnp, spec, rng)
+            cnp = ctx["train"][b]
+            if mix_alpha:
+                lam, perm = mixup_params(len(b), float(mix_alpha), rng)
+                xnp = lam * xnp + (1 - lam) * xnp[perm]
+                cnp = lam * cnp + (1 - lam) * cnp[perm]
+            xb = torch.from_numpy(np.ascontiguousarray(xnp, dtype=np.float32)).to(device)
+            cb = torch.from_numpy(np.ascontiguousarray(cnp, dtype=np.float32)).to(device) if cnp.shape[1] else None
             yb = torch.from_numpy(ytr[b]).to(device)
             with torch.autocast("cuda", dtype=torch.float16, enabled=device.type == "cuda"):
-                loss = criterion(model(xb).float(), yb)
+                logits = model(xb, cb).float()
+                if mix_alpha:
+                    yp = torch.from_numpy(ytr[b][perm]).to(device)
+                    loss = lam * criterion(logits, yb) + (1 - lam) * criterion(logits, yp)
+                else:
+                    loss = criterion(logits, yb)
             scaler.scale(loss / accum).backward()
             tot += float(loss.detach()) * len(b)
             n += len(b)
@@ -215,7 +263,7 @@ def finetune_fit_predict(fd: FoldData, cfg: dict, seed: int) -> dict:
                 opt.zero_grad(set_to_none=True)
                 sched.step()
                 step += 1
-        val_logits = _predict(model, x["val"], device)
+        val_logits = _predict(model, x["val"], device, ctx=ctx["val"])
         val_pred = val_logits.argmax(1)
         val_f1 = float(f1_score(yva, val_pred, labels=range(k), average="macro", zero_division=0))
         val_loss = float(nn.functional.cross_entropy(torch.from_numpy(val_logits), torch.from_numpy(yva)))
@@ -245,15 +293,19 @@ def finetune_fit_predict(fd: FoldData, cfg: dict, seed: int) -> dict:
         nonlocal cpu_model
         if cpu_model is None:
             cpu_model = copy.deepcopy(model).float().cpu().eval()
-        return _predict(cpu_model, model_inputs(fe, kind, [wav], n_samples), torch.device("cpu"), bs=1)
+        c1 = np.zeros((1, ctx["train"].shape[1]), np.float32)   # timing only: context values do not change cost
+        return _predict(cpu_model, model_inputs(fe, kind, [wav], n_samples), torch.device("cpu"), bs=1, ctx=c1)
 
     return {
-        "val_logits": _predict(model, x["val"], device),
-        "test_logits": _predict(model, x["test"], device),
+        "val_logits": _predict(model, x["val"], device, ctx=ctx["val"]),
+        "test_logits": _predict(model, x["test"], device, ctx=ctx["test"]),
         "params_total": sum(p.numel() for p in model.parameters()),
         "params_trainable": sum(p.numel() for p in trainable),
         "train_log": log, "predict_one": predict_one,
         "chosen": {"best_epoch": best_epoch, "best_val_macro_f1": best_f1, "epochs_run": len(log),
                    "backbone": backbone, "revision": model.revision, "init_checkpoint": ckpt, "sampler": sampler, "loss": loss_name,
-                   "selection_metric": sel_metric, "selection_trace": sel_trace},
+                   "selection_metric": sel_metric, "selection_trace": sel_trace,
+                   "augment": {"noise_snr_db": snr, "noise_prob": noise_prob if snr else None,
+                               "noise_bank_clips": len(bank), "specaugment": spec, "mixup_alpha": mix_alpha},
+                   "context_features": ctx_feats},
     }
