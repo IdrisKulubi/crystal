@@ -1,0 +1,30 @@
+{
+  "run_a": "E14__ast_ft_attnpool__20261117-201115__871fcbb",
+  "run_b": "E02__deepinfant_repro__20261116-220106__428232e",
+  "delta_macro_f1": 0.021794498418599262,
+  "macro_f1_a_pooled": 0.20356816205675798,
+  "macro_f1_b_pooled": 0.18177366363815872,
+  "ci95": [
+    0.0019894782893684396,
+    0.04051106015378818
+  ],
+  "p_value": 0.0302,
+  "n_clips": 457,
+  "n_groups": 221,
+  "seeds": [
+    0,
+    1,
+    2
+  ],
+  "labels": [
+    "belly_pain",
+    "burping",
+    "discomfort",
+    "hungry",
+    "tired"
+  ],
+  "resamples": 10000,
+  "rng_seed": 0,
+  "method": "paired cluster bootstrap over groups; pooled OOF macro-F1 averaged over seeds",
+  "created_utc": "2026-11-18T17:25:32Z"
+}

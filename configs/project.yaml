@@ -60,6 +60,12 @@ roles:
   detector:           {table: T6, row: "AST detector"}
   leak_random_ours:   {table: T4, row: "Ours, random clip-level split"}
 
+# Phase 6 figures: T3 rows to plot. fig3 uses the FIRST row that has a run (so it becomes "Ours" once E36 exists).
+figures:
+  fig2_rows: ["Ours (CRYSTAL)", "Best backbone + attention pooling", "AST, linear probe",
+              "DAPT wav2vec2, fine-tuned", "DeepInfant (reproduced)", "MFCC + SVM"]
+  fig3_rows: ["Ours (CRYSTAL)", "Best backbone + attention pooling"]
+
 # Expected rows of each results table. report.py lists every missing cell as unfilled.
 paper_rows:
   T3:

@@ -38,6 +38,15 @@ T6_COLS = [
     ("roc_auc", "roc_auc", "f3"),
     ("false_alarms_per_hour", "false_alarms_per_hour", "f1"),
 ]
+# T5b (every T3 model): calibration + selective prediction, mean ± std over folds × seeds
+T5B_COLS = [
+    ("ece_before", "ece_15_uncal", "f3"),
+    ("ece_after", "ece_15_cal", "f3"),
+    ("aurc", "aurc", "f3"),
+    ("prec90", "precision_at_coverage.0.9", "pct"),
+    ("prec70", "precision_at_coverage.0.7", "pct"),
+    ("prec50", "precision_at_coverage.0.5", "pct"),
+]
 COVERAGES = [("cov100", "1.0"), ("cov90", "0.9"), ("cov70", "0.7"), ("cov50", "0.5")]
 ABSTRACT_KEYS = [
     "abstract.detection_acc", "abstract.reason_macro_f1_ours", "abstract.reason_macro_f1_deepinfant",
@@ -204,6 +213,23 @@ def build(results_dir: Path = DEFAULT_RESULTS_DIR, project: dict | None = None) 
             nums.set(tk, "—", source=ours_rec["run_id"])
         t5_table.append({"coverage": cov, "precision": nums.values[pk], "threshold": nums.values[tk]})
 
+    # ---- T5b calibration + selective prediction for every T3 model (HANDOFF Phase 6)
+    t5b_table = []
+    for row in rows.get("T3", []):
+        if ("T3", row) in constants:
+            continue
+        slug = slugify(row)
+        rec, summ = chosen.get(("T3", row)), summaries.get(("T3", row))
+        cells = {}
+        for suffix, metric, kind in T5B_COLS:
+            key = f"T5b.{slug}.{suffix}"
+            nums.declare(key)
+            mean, std = _metric(summ, metric)
+            if mean is not None:
+                nums.set(key, fmt(kind, mean, std), raw={"mean": mean, "std": std}, source=rec["run_id"])
+            cells[suffix] = nums.values[key]
+        t5b_table.append({"row": row, **cells, "run_id": (rec or {}).get("run_id")})
+
     # ---- T6 detection
     t6_table = []
     for row in rows.get("T6", []):
@@ -238,11 +264,18 @@ def build(results_dir: Path = DEFAULT_RESULTS_DIR, project: dict | None = None) 
     _copy("leak.random_split_macro_f1", f"T4.{slugify(leak.get('row', ''))}.macro_f1")
     _copy("leak.grouped_split_macro_f1", f"T3.{ours_slug}.macro_f1")
 
-    # ---- significance
+    # ---- significance (computed here if missing: deterministic, rng seed 0)
     di_rec = chosen.get((di.get("table"), di.get("row")))
     sig_dir = results_dir / "significance"
     if ours_rec and di_rec:
         p = sig_dir / f"{ours_rec['run_id']}__vs__{di_rec['run_id']}.json"
+        if not p.is_file():
+            from src.significance import compare
+
+            try:
+                compare(ours_rec["run_id"], di_rec["run_id"], results_dir)
+            except (ValueError, FileNotFoundError) as e:
+                warnings.append(f"significance ours vs DeepInfant not computed: {e}")
         if p.is_file():
             s = read_json(p)
             src = p.name
@@ -317,6 +350,15 @@ def build(results_dir: Path = DEFAULT_RESULTS_DIR, project: dict | None = None) 
         s = read_json(run_dir / "summary.json")
         nums.set("dapt.steps", str(s.get("steps_run")), raw=s.get("steps_run"), source=run_dir.name)
 
+    # ---- Phase 6 figures (fig2 risk-coverage, fig3 reliability)
+    fig_sources: dict[str, list[str]] = {}
+    if project.get("figures"):
+        from src.selective import make_figures
+
+        fig_sources = make_figures(results_dir, chosen, project["figures"],
+                                   project.get("evaluation", {}).get("ece_bins", 15))
+        write_json(results_dir / "figures" / "figure_sources.json", fig_sources)
+
     # ---- protocol warnings: all reason-task paper runs must share one folds file (E90 excluded)
     hashes: dict[str, list[str]] = {}
     for rec in chosen.values():
@@ -335,7 +377,8 @@ def build(results_dir: Path = DEFAULT_RESULTS_DIR, project: dict | None = None) 
     return {
         "numbers": nums, "warnings": warnings, "records": list(resolved.values()),
         "superseded": superseded, "failed": failed, "sig_files": sig_files,
-        "tables": {"T3": t3_table, "T4": t4_table, "T5": t5_table, "T6": t6_table},
+        "fig_sources": fig_sources,
+        "tables": {"T3": t3_table, "T4": t4_table, "T5": t5_table, "T5b": t5b_table, "T6": t6_table},
     }
 
 
@@ -357,12 +400,16 @@ TABLE_SPECS = {
            lambda r: [r["row"], r["macro_f1"], r["delta"], r["run_id"] or ""]),
     "T5": (["Coverage", "Precision (%)", "Threshold τ (val)"],
            lambda r: [f"{float(r['coverage']) * 100:.0f}%", r["precision"], r["threshold"]]),
+    "T5b": (["Model", "ECE before", "ECE after", "AURC", "Prec. @90% (%)", "Prec. @70% (%)", "Prec. @50% (%)", "Run"],
+            lambda r: [r["row"], r["ece_before"], r["ece_after"], r["aurc"], r["prec90"], r["prec70"], r["prec50"],
+                       r["run_id"] or ""]),
     "T6": (["Detector", "Accuracy (%)", "F1", "Precision (%)", "Recall (%)", "ROC-AUC", "False alarms / h", "Run"],
            lambda r: [r["row"], r["accuracy"], r["f1"], r["precision"], r["recall"], r["roc_auc"],
                       r["false_alarms_per_hour"], r["run_id"] or ""]),
 }
 TABLE_TITLES = {"T3": "Table 3 — Cry-reason classification (mean ± std over folds × seeds)",
                 "T4": "Table 4 — Ablations", "T5": "Table 5 — Selective prediction (ours)",
+                "T5b": "Table 5b — Calibration and selective prediction, every model (test folds; τ from val)",
                 "T6": "Table 6 — Stage-1 cry detection"}
 
 
@@ -392,7 +439,9 @@ def write_outputs(result: dict, results_dir: Path = DEFAULT_RESULTS_DIR) -> dict
                  fmt("f3", r.get("macro_f1_mean"), r.get("macro_f1_std")), r.get("superseded_by") or ""]
                 for r in recs]
     fig_dir = results_dir / "figures"
-    fig_rows = [[name, desc, "yes" if (fig_dir / f"{name}.png").is_file() else "missing"] for name, desc in FIGURES]
+    fsrc = result.get("fig_sources", {})
+    fig_rows = [[name, desc, "yes" if (fig_dir / f"{name}.png").is_file() else "missing", ", ".join(fsrc.get(name, []))]
+                for name, desc in FIGURES]
     unfilled = nums.unfilled()
     warnings = list(result["warnings"])
     if result["superseded"]:
@@ -411,15 +460,18 @@ def write_outputs(result: dict, results_dir: Path = DEFAULT_RESULTS_DIR) -> dict
         else "_No runs registered yet._",
         "",
     ]
-    for t in ("T3", "T4", "T5", "T6"):
+    for t in ("T3", "T4", "T5", "T5b", "T6"):
         parts += [f"## {TABLE_TITLES[t]}", "", table_md[t], ""]
-    parts += ["## Figures", "", md_table(["file", "paper figure", "exists"], fig_rows), "",
+    parts += ["## Figures", "", md_table(["file", "paper figure", "exists", "source runs (Phase 6 figures)"], fig_rows), "",
               "## Significance", ""]
     if result["sig_files"]:
         for p in result["sig_files"]:
             s = read_json(p)
-            parts.append(f"- `{p.name}`: Δ macro-F1 {fmt_delta(s.get('delta_macro_f1'))}, "
-                         f"95% CI {s.get('ci95')}, p {fmt_p(s.get('p_value'))}")
+            ci = s.get("ci95") or [None, None]
+            ci_s = f"[{ci[0]:.3f}, {ci[1]:.3f}]" if None not in ci else "n/a"
+            parts.append(f"- `{s.get('run_a', p.name)}` vs `{s.get('run_b', '')}`: Δ macro-F1 "
+                         f"{fmt_delta(s.get('delta_macro_f1'))}, 95% CI {ci_s}, p {fmt_p(s.get('p_value'))} "
+                         f"({s.get('method', '')}, {s.get('resamples', '?')} resamples)")
     else:
         parts.append("_No significance tests yet._")
     parts += ["", "## Failed runs", ""]

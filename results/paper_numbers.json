@@ -89,6 +89,102 @@
   "T5.cov70.threshold": null,
   "T5.cov90.precision": null,
   "T5.cov90.threshold": null,
+  "T5b.ast_fine_tuned.aurc": "0.212 ± 0.114",
+  "T5b.ast_fine_tuned.ece_after": "0.158 ± 0.053",
+  "T5b.ast_fine_tuned.ece_before": "0.136 ± 0.052",
+  "T5b.ast_fine_tuned.prec50": "79.0 ± 12.4",
+  "T5b.ast_fine_tuned.prec70": "75.9 ± 11.0",
+  "T5b.ast_fine_tuned.prec90": "74.2 ± 11.5",
+  "T5b.ast_linear_probe.aurc": "0.239 ± 0.158",
+  "T5b.ast_linear_probe.ece_after": "0.181 ± 0.048",
+  "T5b.ast_linear_probe.ece_before": "0.125 ± 0.041",
+  "T5b.ast_linear_probe.prec50": "76.0 ± 16.9",
+  "T5b.ast_linear_probe.prec70": "71.2 ± 17.1",
+  "T5b.ast_linear_probe.prec90": "69.8 ± 15.6",
+  "T5b.ast_lora.aurc": "0.185 ± 0.050",
+  "T5b.ast_lora.ece_after": "0.154 ± 0.046",
+  "T5b.ast_lora.ece_before": "0.249 ± 0.054",
+  "T5b.ast_lora.prec50": "81.2 ± 6.3",
+  "T5b.ast_lora.prec70": "77.3 ± 7.0",
+  "T5b.ast_lora.prec90": "75.7 ± 7.6",
+  "T5b.beats_linear_probe.aurc": null,
+  "T5b.beats_linear_probe.ece_after": null,
+  "T5b.beats_linear_probe.ece_before": null,
+  "T5b.beats_linear_probe.prec50": null,
+  "T5b.beats_linear_probe.prec70": null,
+  "T5b.beats_linear_probe.prec90": null,
+  "T5b.best_backbone_plus_attention_pooling.aurc": "0.173 ± 0.061",
+  "T5b.best_backbone_plus_attention_pooling.ece_after": "0.128 ± 0.041",
+  "T5b.best_backbone_plus_attention_pooling.ece_before": "0.225 ± 0.090",
+  "T5b.best_backbone_plus_attention_pooling.prec50": "82.0 ± 6.1",
+  "T5b.best_backbone_plus_attention_pooling.prec70": "80.6 ± 6.5",
+  "T5b.best_backbone_plus_attention_pooling.prec90": "77.7 ± 7.6",
+  "T5b.dapt_wav2vec2_fine_tuned.aurc": "0.144 ± 0.033",
+  "T5b.dapt_wav2vec2_fine_tuned.ece_after": "0.119 ± 0.064",
+  "T5b.dapt_wav2vec2_fine_tuned.ece_before": "0.446 ± 0.112",
+  "T5b.dapt_wav2vec2_fine_tuned.prec50": "86.1 ± 4.0",
+  "T5b.dapt_wav2vec2_fine_tuned.prec70": "84.6 ± 3.7",
+  "T5b.dapt_wav2vec2_fine_tuned.prec90": "83.2 ± 2.5",
+  "T5b.dapt_wav2vec2_linear_probe.aurc": "0.295 ± 0.182",
+  "T5b.dapt_wav2vec2_linear_probe.ece_after": "0.178 ± 0.051",
+  "T5b.dapt_wav2vec2_linear_probe.ece_before": "0.198 ± 0.049",
+  "T5b.dapt_wav2vec2_linear_probe.prec50": "72.3 ± 17.3",
+  "T5b.dapt_wav2vec2_linear_probe.prec70": "71.1 ± 17.9",
+  "T5b.dapt_wav2vec2_linear_probe.prec90": "67.6 ± 14.2",
+  "T5b.deepinfant_reproduced.aurc": "0.154 ± 0.047",
+  "T5b.deepinfant_reproduced.ece_after": "0.085 ± 0.068",
+  "T5b.deepinfant_reproduced.ece_before": "0.044 ± 0.035",
+  "T5b.deepinfant_reproduced.prec50": "84.6 ± 4.8",
+  "T5b.deepinfant_reproduced.prec70": "84.2 ± 3.5",
+  "T5b.deepinfant_reproduced.prec90": "84.0 ± 1.6",
+  "T5b.hubert_base_linear_probe.aurc": "0.232 ± 0.118",
+  "T5b.hubert_base_linear_probe.ece_after": "0.143 ± 0.036",
+  "T5b.hubert_base_linear_probe.ece_before": "0.141 ± 0.049",
+  "T5b.hubert_base_linear_probe.prec50": "73.4 ± 15.1",
+  "T5b.hubert_base_linear_probe.prec70": "72.9 ± 13.8",
+  "T5b.hubert_base_linear_probe.prec90": "69.5 ± 12.9",
+  "T5b.majority_class.aurc": "0.344 ± 0.045",
+  "T5b.majority_class.ece_after": "0.067 ± 0.036",
+  "T5b.majority_class.ece_before": "0.017 ± 0.010",
+  "T5b.majority_class.prec50": "83.6 ± 1.6",
+  "T5b.majority_class.prec70": "83.6 ± 1.6",
+  "T5b.majority_class.prec90": "83.6 ± 1.6",
+  "T5b.mfcc_plus_svm.aurc": "0.167 ± 0.031",
+  "T5b.mfcc_plus_svm.ece_after": "0.165 ± 0.103",
+  "T5b.mfcc_plus_svm.ece_before": "0.135 ± 0.010",
+  "T5b.mfcc_plus_svm.prec50": "84.3 ± 4.7",
+  "T5b.mfcc_plus_svm.prec70": "80.5 ± 4.1",
+  "T5b.mfcc_plus_svm.prec90": "80.2 ± 4.3",
+  "T5b.ours_crystal.aurc": null,
+  "T5b.ours_crystal.ece_after": null,
+  "T5b.ours_crystal.ece_before": null,
+  "T5b.ours_crystal.prec50": null,
+  "T5b.ours_crystal.prec70": null,
+  "T5b.ours_crystal.prec90": null,
+  "T5b.wav2vec2_base_fine_tuned.aurc": "0.189 ± 0.051",
+  "T5b.wav2vec2_base_fine_tuned.ece_after": "0.172 ± 0.073",
+  "T5b.wav2vec2_base_fine_tuned.ece_before": "0.434 ± 0.085",
+  "T5b.wav2vec2_base_fine_tuned.prec50": "81.9 ± 4.4",
+  "T5b.wav2vec2_base_fine_tuned.prec70": "82.7 ± 3.8",
+  "T5b.wav2vec2_base_fine_tuned.prec90": "82.4 ± 3.1",
+  "T5b.wav2vec2_base_linear_probe.aurc": "0.162 ± 0.020",
+  "T5b.wav2vec2_base_linear_probe.ece_after": "0.155 ± 0.039",
+  "T5b.wav2vec2_base_linear_probe.ece_before": "0.171 ± 0.034",
+  "T5b.wav2vec2_base_linear_probe.prec50": "84.7 ± 3.5",
+  "T5b.wav2vec2_base_linear_probe.prec70": "83.5 ± 3.3",
+  "T5b.wav2vec2_base_linear_probe.prec90": "77.3 ± 3.7",
+  "T5b.wav2vec2_base_lora.aurc": "0.277 ± 0.169",
+  "T5b.wav2vec2_base_lora.ece_after": "0.134 ± 0.049",
+  "T5b.wav2vec2_base_lora.ece_before": "0.439 ± 0.148",
+  "T5b.wav2vec2_base_lora.prec50": "72.9 ± 15.9",
+  "T5b.wav2vec2_base_lora.prec70": "73.9 ± 16.9",
+  "T5b.wav2vec2_base_lora.prec90": "73.2 ± 18.2",
+  "T5b.whisper_base_encoder_linear_probe.aurc": "0.195 ± 0.033",
+  "T5b.whisper_base_encoder_linear_probe.ece_after": "0.167 ± 0.022",
+  "T5b.whisper_base_encoder_linear_probe.ece_before": "0.180 ± 0.028",
+  "T5b.whisper_base_encoder_linear_probe.prec50": "80.9 ± 2.7",
+  "T5b.whisper_base_encoder_linear_probe.prec70": "78.7 ± 1.1",
+  "T5b.whisper_base_encoder_linear_probe.prec90": "75.9 ± 3.2",
   "T6.ast_detector.accuracy": "98.7 ± 0.3",
   "T6.ast_detector.f1": "0.987 ± 0.003",
   "T6.ast_detector.false_alarms_per_hour": null,
@@ -372,6 +468,342 @@
       "mean": 0.1839267558877006,
       "std": 0.018138928931463134
     },
+    "T5b.ast_fine_tuned.aurc": {
+      "mean": 0.212388875325235,
+      "std": 0.1143178398954979
+    },
+    "T5b.ast_fine_tuned.ece_after": {
+      "mean": 0.15848806067699056,
+      "std": 0.05303491246497213
+    },
+    "T5b.ast_fine_tuned.ece_before": {
+      "mean": 0.13558412726741084,
+      "std": 0.05159417895509198
+    },
+    "T5b.ast_fine_tuned.prec50": {
+      "mean": 0.7903387521090306,
+      "std": 0.12393496902948574
+    },
+    "T5b.ast_fine_tuned.prec70": {
+      "mean": 0.7591111885446217,
+      "std": 0.11011282006967854
+    },
+    "T5b.ast_fine_tuned.prec90": {
+      "mean": 0.742216853770542,
+      "std": 0.1146550111908729
+    },
+    "T5b.ast_linear_probe.aurc": {
+      "mean": 0.23860778364949578,
+      "std": 0.15810490489888532
+    },
+    "T5b.ast_linear_probe.ece_after": {
+      "mean": 0.18088359838108642,
+      "std": 0.04824033828355236
+    },
+    "T5b.ast_linear_probe.ece_before": {
+      "mean": 0.1246188509799513,
+      "std": 0.04119110129243394
+    },
+    "T5b.ast_linear_probe.prec50": {
+      "mean": 0.7596590486807877,
+      "std": 0.16888219415538525
+    },
+    "T5b.ast_linear_probe.prec70": {
+      "mean": 0.711904761904762,
+      "std": 0.17125161872298636
+    },
+    "T5b.ast_linear_probe.prec90": {
+      "mean": 0.6976288696826661,
+      "std": 0.15605248687429782
+    },
+    "T5b.ast_lora.aurc": {
+      "mean": 0.18526897029222053,
+      "std": 0.0498558397913681
+    },
+    "T5b.ast_lora.ece_after": {
+      "mean": 0.15351177065081828,
+      "std": 0.0455677006743748
+    },
+    "T5b.ast_lora.ece_before": {
+      "mean": 0.2489177422485545,
+      "std": 0.0537946079047909
+    },
+    "T5b.ast_lora.prec50": {
+      "mean": 0.8116468157635377,
+      "std": 0.06272894138359267
+    },
+    "T5b.ast_lora.prec70": {
+      "mean": 0.7726258842523097,
+      "std": 0.06992203957907214
+    },
+    "T5b.ast_lora.prec90": {
+      "mean": 0.7571583570244246,
+      "std": 0.07586830915778792
+    },
+    "T5b.best_backbone_plus_attention_pooling.aurc": {
+      "mean": 0.17280896730628498,
+      "std": 0.060625396436598894
+    },
+    "T5b.best_backbone_plus_attention_pooling.ece_after": {
+      "mean": 0.1283797492985224,
+      "std": 0.0407760749381513
+    },
+    "T5b.best_backbone_plus_attention_pooling.ece_before": {
+      "mean": 0.2252532168965685,
+      "std": 0.08958493724190207
+    },
+    "T5b.best_backbone_plus_attention_pooling.prec50": {
+      "mean": 0.8201474020758659,
+      "std": 0.061091680843945735
+    },
+    "T5b.best_backbone_plus_attention_pooling.prec70": {
+      "mean": 0.8057184367072872,
+      "std": 0.06491306190895506
+    },
+    "T5b.best_backbone_plus_attention_pooling.prec90": {
+      "mean": 0.7766127274807393,
+      "std": 0.07555076357183589
+    },
+    "T5b.dapt_wav2vec2_fine_tuned.aurc": {
+      "mean": 0.1441277948031508,
+      "std": 0.032817761088673326
+    },
+    "T5b.dapt_wav2vec2_fine_tuned.ece_after": {
+      "mean": 0.11893010534569501,
+      "std": 0.06398394755563996
+    },
+    "T5b.dapt_wav2vec2_fine_tuned.ece_before": {
+      "mean": 0.4456662927664663,
+      "std": 0.11187173851882987
+    },
+    "T5b.dapt_wav2vec2_fine_tuned.prec50": {
+      "mean": 0.8612192460539824,
+      "std": 0.039645890454856704
+    },
+    "T5b.dapt_wav2vec2_fine_tuned.prec70": {
+      "mean": 0.8461918020636704,
+      "std": 0.03700582963937705
+    },
+    "T5b.dapt_wav2vec2_fine_tuned.prec90": {
+      "mean": 0.831657032597752,
+      "std": 0.025399360397151457
+    },
+    "T5b.dapt_wav2vec2_linear_probe.aurc": {
+      "mean": 0.2951211783671741,
+      "std": 0.18158456780805093
+    },
+    "T5b.dapt_wav2vec2_linear_probe.ece_after": {
+      "mean": 0.1777878735652586,
+      "std": 0.051117088477710244
+    },
+    "T5b.dapt_wav2vec2_linear_probe.ece_before": {
+      "mean": 0.19762781247338096,
+      "std": 0.048584161117785324
+    },
+    "T5b.dapt_wav2vec2_linear_probe.prec50": {
+      "mean": 0.7226472148541115,
+      "std": 0.17312578280762908
+    },
+    "T5b.dapt_wav2vec2_linear_probe.prec70": {
+      "mean": 0.7108806117326669,
+      "std": 0.17932751169800717
+    },
+    "T5b.dapt_wav2vec2_linear_probe.prec90": {
+      "mean": 0.6760975756418017,
+      "std": 0.14242697187535355
+    },
+    "T5b.deepinfant_reproduced.aurc": {
+      "mean": 0.15418664801364054,
+      "std": 0.04681894913349043
+    },
+    "T5b.deepinfant_reproduced.ece_after": {
+      "mean": 0.0848648907183269,
+      "std": 0.06764816235098707
+    },
+    "T5b.deepinfant_reproduced.ece_before": {
+      "mean": 0.0442152069525878,
+      "std": 0.03467578449822252
+    },
+    "T5b.deepinfant_reproduced.prec50": {
+      "mean": 0.8464746980557806,
+      "std": 0.04757180983708084
+    },
+    "T5b.deepinfant_reproduced.prec70": {
+      "mean": 0.8423992539292444,
+      "std": 0.03452221815135814
+    },
+    "T5b.deepinfant_reproduced.prec90": {
+      "mean": 0.840067971944237,
+      "std": 0.01592211975219496
+    },
+    "T5b.hubert_base_linear_probe.aurc": {
+      "mean": 0.2315139697716406,
+      "std": 0.11785564868783092
+    },
+    "T5b.hubert_base_linear_probe.ece_after": {
+      "mean": 0.14282872952109765,
+      "std": 0.036426158175785435
+    },
+    "T5b.hubert_base_linear_probe.ece_before": {
+      "mean": 0.1409185259885388,
+      "std": 0.049115151075535685
+    },
+    "T5b.hubert_base_linear_probe.prec50": {
+      "mean": 0.7335774727799134,
+      "std": 0.1506290444511063
+    },
+    "T5b.hubert_base_linear_probe.prec70": {
+      "mean": 0.7286314387567092,
+      "std": 0.13838987064800157
+    },
+    "T5b.hubert_base_linear_probe.prec90": {
+      "mean": 0.6949036618627549,
+      "std": 0.12856921141480712
+    },
+    "T5b.majority_class.aurc": {
+      "mean": 0.344451407302413,
+      "std": 0.04468927955860501
+    },
+    "T5b.majority_class.ece_after": {
+      "mean": 0.06690139625907297,
+      "std": 0.036383859614549915
+    },
+    "T5b.majority_class.ece_before": {
+      "mean": 0.01703616013987195,
+      "std": 0.010444941215661026
+    },
+    "T5b.majority_class.prec50": {
+      "mean": 0.8361099420673888,
+      "std": 0.016317299644673898
+    },
+    "T5b.majority_class.prec70": {
+      "mean": 0.8361099420673888,
+      "std": 0.016317299644673898
+    },
+    "T5b.majority_class.prec90": {
+      "mean": 0.8361099420673888,
+      "std": 0.016317299644673898
+    },
+    "T5b.mfcc_plus_svm.aurc": {
+      "mean": 0.16697070548385246,
+      "std": 0.03125908401004587
+    },
+    "T5b.mfcc_plus_svm.ece_after": {
+      "mean": 0.16496310507351022,
+      "std": 0.1026142611167369
+    },
+    "T5b.mfcc_plus_svm.ece_before": {
+      "mean": 0.13531050914177886,
+      "std": 0.010473593052156031
+    },
+    "T5b.mfcc_plus_svm.prec50": {
+      "mean": 0.8425773785754157,
+      "std": 0.047461840507001134
+    },
+    "T5b.mfcc_plus_svm.prec70": {
+      "mean": 0.8053785639155304,
+      "std": 0.04118638686147088
+    },
+    "T5b.mfcc_plus_svm.prec90": {
+      "mean": 0.802485884840194,
+      "std": 0.043338505578026765
+    },
+    "T5b.wav2vec2_base_fine_tuned.aurc": {
+      "mean": 0.18902225778888862,
+      "std": 0.050858430078388056
+    },
+    "T5b.wav2vec2_base_fine_tuned.ece_after": {
+      "mean": 0.17213831365565316,
+      "std": 0.07290045566949731
+    },
+    "T5b.wav2vec2_base_fine_tuned.ece_before": {
+      "mean": 0.4344702609869921,
+      "std": 0.08483926483374081
+    },
+    "T5b.wav2vec2_base_fine_tuned.prec50": {
+      "mean": 0.8186929807628399,
+      "std": 0.04353536789881324
+    },
+    "T5b.wav2vec2_base_fine_tuned.prec70": {
+      "mean": 0.8266933261884368,
+      "std": 0.03836019994073894
+    },
+    "T5b.wav2vec2_base_fine_tuned.prec90": {
+      "mean": 0.8244729796596654,
+      "std": 0.030746556619679635
+    },
+    "T5b.wav2vec2_base_linear_probe.aurc": {
+      "mean": 0.16173421200841806,
+      "std": 0.020151460272695924
+    },
+    "T5b.wav2vec2_base_linear_probe.ece_after": {
+      "mean": 0.1553713152822524,
+      "std": 0.03918077689648591
+    },
+    "T5b.wav2vec2_base_linear_probe.ece_before": {
+      "mean": 0.1712730849418854,
+      "std": 0.0344920158709922
+    },
+    "T5b.wav2vec2_base_linear_probe.prec50": {
+      "mean": 0.8466514935629463,
+      "std": 0.035457196800275995
+    },
+    "T5b.wav2vec2_base_linear_probe.prec70": {
+      "mean": 0.8346343588132015,
+      "std": 0.03290458951639593
+    },
+    "T5b.wav2vec2_base_linear_probe.prec90": {
+      "mean": 0.7732666152651978,
+      "std": 0.03746620701693506
+    },
+    "T5b.wav2vec2_base_lora.aurc": {
+      "mean": 0.2774134021191957,
+      "std": 0.16932971175203532
+    },
+    "T5b.wav2vec2_base_lora.ece_after": {
+      "mean": 0.13392068414083386,
+      "std": 0.04875175843027411
+    },
+    "T5b.wav2vec2_base_lora.ece_before": {
+      "mean": 0.43937983322209045,
+      "std": 0.14780519604387599
+    },
+    "T5b.wav2vec2_base_lora.prec50": {
+      "mean": 0.7294822532156687,
+      "std": 0.1586678785448349
+    },
+    "T5b.wav2vec2_base_lora.prec70": {
+      "mean": 0.739393209374726,
+      "std": 0.16911398536532665
+    },
+    "T5b.wav2vec2_base_lora.prec90": {
+      "mean": 0.7323927936520077,
+      "std": 0.18213171573692916
+    },
+    "T5b.whisper_base_encoder_linear_probe.aurc": {
+      "mean": 0.19521949830669424,
+      "std": 0.03333117137563402
+    },
+    "T5b.whisper_base_encoder_linear_probe.ece_after": {
+      "mean": 0.16662794318793062,
+      "std": 0.021929066361158208
+    },
+    "T5b.whisper_base_encoder_linear_probe.ece_before": {
+      "mean": 0.179595349552209,
+      "std": 0.027618890038224986
+    },
+    "T5b.whisper_base_encoder_linear_probe.prec50": {
+      "mean": 0.8091726805997934,
+      "std": 0.02678085354492177
+    },
+    "T5b.whisper_base_encoder_linear_probe.prec70": {
+      "mean": 0.787131158283222,
+      "std": 0.011141922218655478
+    },
+    "T5b.whisper_base_encoder_linear_probe.prec90": {
+      "mean": 0.7589096810362633,
+      "std": 0.03184504053119413
+    },
     "T6.ast_detector.accuracy": {
       "mean": 0.9867837756231777,
       "std": 0.0032637192294700853
@@ -510,6 +942,90 @@
     "T3.whisper_base_encoder_linear_probe.balanced_acc": "E08__whisper_base_probe__20261117-002638__9b88bc7",
     "T3.whisper_base_encoder_linear_probe.ece": "E08__whisper_base_probe__20261117-002638__9b88bc7",
     "T3.whisper_base_encoder_linear_probe.macro_f1": "E08__whisper_base_probe__20261117-002638__9b88bc7",
+    "T5b.ast_fine_tuned.aurc": "E10__ast_ft__20261117-165906__5a3ceae",
+    "T5b.ast_fine_tuned.ece_after": "E10__ast_ft__20261117-165906__5a3ceae",
+    "T5b.ast_fine_tuned.ece_before": "E10__ast_ft__20261117-165906__5a3ceae",
+    "T5b.ast_fine_tuned.prec50": "E10__ast_ft__20261117-165906__5a3ceae",
+    "T5b.ast_fine_tuned.prec70": "E10__ast_ft__20261117-165906__5a3ceae",
+    "T5b.ast_fine_tuned.prec90": "E10__ast_ft__20261117-165906__5a3ceae",
+    "T5b.ast_linear_probe.aurc": "E07__ast_probe__20261117-001010__9b88bc7",
+    "T5b.ast_linear_probe.ece_after": "E07__ast_probe__20261117-001010__9b88bc7",
+    "T5b.ast_linear_probe.ece_before": "E07__ast_probe__20261117-001010__9b88bc7",
+    "T5b.ast_linear_probe.prec50": "E07__ast_probe__20261117-001010__9b88bc7",
+    "T5b.ast_linear_probe.prec70": "E07__ast_probe__20261117-001010__9b88bc7",
+    "T5b.ast_linear_probe.prec90": "E07__ast_probe__20261117-001010__9b88bc7",
+    "T5b.ast_lora.aurc": "E11__ast_lora__20261117-174815__5a3ceae",
+    "T5b.ast_lora.ece_after": "E11__ast_lora__20261117-174815__5a3ceae",
+    "T5b.ast_lora.ece_before": "E11__ast_lora__20261117-174815__5a3ceae",
+    "T5b.ast_lora.prec50": "E11__ast_lora__20261117-174815__5a3ceae",
+    "T5b.ast_lora.prec70": "E11__ast_lora__20261117-174815__5a3ceae",
+    "T5b.ast_lora.prec90": "E11__ast_lora__20261117-174815__5a3ceae",
+    "T5b.best_backbone_plus_attention_pooling.aurc": "E14__ast_ft_attnpool__20261117-201115__871fcbb",
+    "T5b.best_backbone_plus_attention_pooling.ece_after": "E14__ast_ft_attnpool__20261117-201115__871fcbb",
+    "T5b.best_backbone_plus_attention_pooling.ece_before": "E14__ast_ft_attnpool__20261117-201115__871fcbb",
+    "T5b.best_backbone_plus_attention_pooling.prec50": "E14__ast_ft_attnpool__20261117-201115__871fcbb",
+    "T5b.best_backbone_plus_attention_pooling.prec70": "E14__ast_ft_attnpool__20261117-201115__871fcbb",
+    "T5b.best_backbone_plus_attention_pooling.prec90": "E14__ast_ft_attnpool__20261117-201115__871fcbb",
+    "T5b.dapt_wav2vec2_fine_tuned.aurc": "E21__dapt_w2v2_ft__20261118-130145__72875a9",
+    "T5b.dapt_wav2vec2_fine_tuned.ece_after": "E21__dapt_w2v2_ft__20261118-130145__72875a9",
+    "T5b.dapt_wav2vec2_fine_tuned.ece_before": "E21__dapt_w2v2_ft__20261118-130145__72875a9",
+    "T5b.dapt_wav2vec2_fine_tuned.prec50": "E21__dapt_w2v2_ft__20261118-130145__72875a9",
+    "T5b.dapt_wav2vec2_fine_tuned.prec70": "E21__dapt_w2v2_ft__20261118-130145__72875a9",
+    "T5b.dapt_wav2vec2_fine_tuned.prec90": "E21__dapt_w2v2_ft__20261118-130145__72875a9",
+    "T5b.dapt_wav2vec2_linear_probe.aurc": "E20__dapt_w2v2_probe__20261118-124424__72875a9",
+    "T5b.dapt_wav2vec2_linear_probe.ece_after": "E20__dapt_w2v2_probe__20261118-124424__72875a9",
+    "T5b.dapt_wav2vec2_linear_probe.ece_before": "E20__dapt_w2v2_probe__20261118-124424__72875a9",
+    "T5b.dapt_wav2vec2_linear_probe.prec50": "E20__dapt_w2v2_probe__20261118-124424__72875a9",
+    "T5b.dapt_wav2vec2_linear_probe.prec70": "E20__dapt_w2v2_probe__20261118-124424__72875a9",
+    "T5b.dapt_wav2vec2_linear_probe.prec90": "E20__dapt_w2v2_probe__20261118-124424__72875a9",
+    "T5b.deepinfant_reproduced.aurc": "E02__deepinfant_repro__20261116-220106__428232e",
+    "T5b.deepinfant_reproduced.ece_after": "E02__deepinfant_repro__20261116-220106__428232e",
+    "T5b.deepinfant_reproduced.ece_before": "E02__deepinfant_repro__20261116-220106__428232e",
+    "T5b.deepinfant_reproduced.prec50": "E02__deepinfant_repro__20261116-220106__428232e",
+    "T5b.deepinfant_reproduced.prec70": "E02__deepinfant_repro__20261116-220106__428232e",
+    "T5b.deepinfant_reproduced.prec90": "E02__deepinfant_repro__20261116-220106__428232e",
+    "T5b.hubert_base_linear_probe.aurc": "E06__hubert_base_probe__20261116-235847__2df0f80",
+    "T5b.hubert_base_linear_probe.ece_after": "E06__hubert_base_probe__20261116-235847__2df0f80",
+    "T5b.hubert_base_linear_probe.ece_before": "E06__hubert_base_probe__20261116-235847__2df0f80",
+    "T5b.hubert_base_linear_probe.prec50": "E06__hubert_base_probe__20261116-235847__2df0f80",
+    "T5b.hubert_base_linear_probe.prec70": "E06__hubert_base_probe__20261116-235847__2df0f80",
+    "T5b.hubert_base_linear_probe.prec90": "E06__hubert_base_probe__20261116-235847__2df0f80",
+    "T5b.majority_class.aurc": "E00__majority__20261116-185927__bbaf546",
+    "T5b.majority_class.ece_after": "E00__majority__20261116-185927__bbaf546",
+    "T5b.majority_class.ece_before": "E00__majority__20261116-185927__bbaf546",
+    "T5b.majority_class.prec50": "E00__majority__20261116-185927__bbaf546",
+    "T5b.majority_class.prec70": "E00__majority__20261116-185927__bbaf546",
+    "T5b.majority_class.prec90": "E00__majority__20261116-185927__bbaf546",
+    "T5b.mfcc_plus_svm.aurc": "E01__mfcc_svm__20261116-190116__6bc3192",
+    "T5b.mfcc_plus_svm.ece_after": "E01__mfcc_svm__20261116-190116__6bc3192",
+    "T5b.mfcc_plus_svm.ece_before": "E01__mfcc_svm__20261116-190116__6bc3192",
+    "T5b.mfcc_plus_svm.prec50": "E01__mfcc_svm__20261116-190116__6bc3192",
+    "T5b.mfcc_plus_svm.prec70": "E01__mfcc_svm__20261116-190116__6bc3192",
+    "T5b.mfcc_plus_svm.prec90": "E01__mfcc_svm__20261116-190116__6bc3192",
+    "T5b.wav2vec2_base_fine_tuned.aurc": "E12__w2v2_ft__20261117-183854__5a3ceae",
+    "T5b.wav2vec2_base_fine_tuned.ece_after": "E12__w2v2_ft__20261117-183854__5a3ceae",
+    "T5b.wav2vec2_base_fine_tuned.ece_before": "E12__w2v2_ft__20261117-183854__5a3ceae",
+    "T5b.wav2vec2_base_fine_tuned.prec50": "E12__w2v2_ft__20261117-183854__5a3ceae",
+    "T5b.wav2vec2_base_fine_tuned.prec70": "E12__w2v2_ft__20261117-183854__5a3ceae",
+    "T5b.wav2vec2_base_fine_tuned.prec90": "E12__w2v2_ft__20261117-183854__5a3ceae",
+    "T5b.wav2vec2_base_linear_probe.aurc": "E05__wav2vec2_base_probe__20261116-234352__2df0f80",
+    "T5b.wav2vec2_base_linear_probe.ece_after": "E05__wav2vec2_base_probe__20261116-234352__2df0f80",
+    "T5b.wav2vec2_base_linear_probe.ece_before": "E05__wav2vec2_base_probe__20261116-234352__2df0f80",
+    "T5b.wav2vec2_base_linear_probe.prec50": "E05__wav2vec2_base_probe__20261116-234352__2df0f80",
+    "T5b.wav2vec2_base_linear_probe.prec70": "E05__wav2vec2_base_probe__20261116-234352__2df0f80",
+    "T5b.wav2vec2_base_linear_probe.prec90": "E05__wav2vec2_base_probe__20261116-234352__2df0f80",
+    "T5b.wav2vec2_base_lora.aurc": "E13__w2v2_lora__20261117-190008__5a3ceae",
+    "T5b.wav2vec2_base_lora.ece_after": "E13__w2v2_lora__20261117-190008__5a3ceae",
+    "T5b.wav2vec2_base_lora.ece_before": "E13__w2v2_lora__20261117-190008__5a3ceae",
+    "T5b.wav2vec2_base_lora.prec50": "E13__w2v2_lora__20261117-190008__5a3ceae",
+    "T5b.wav2vec2_base_lora.prec70": "E13__w2v2_lora__20261117-190008__5a3ceae",
+    "T5b.wav2vec2_base_lora.prec90": "E13__w2v2_lora__20261117-190008__5a3ceae",
+    "T5b.whisper_base_encoder_linear_probe.aurc": "E08__whisper_base_probe__20261117-002638__9b88bc7",
+    "T5b.whisper_base_encoder_linear_probe.ece_after": "E08__whisper_base_probe__20261117-002638__9b88bc7",
+    "T5b.whisper_base_encoder_linear_probe.ece_before": "E08__whisper_base_probe__20261117-002638__9b88bc7",
+    "T5b.whisper_base_encoder_linear_probe.prec50": "E08__whisper_base_probe__20261117-002638__9b88bc7",
+    "T5b.whisper_base_encoder_linear_probe.prec70": "E08__whisper_base_probe__20261117-002638__9b88bc7",
+    "T5b.whisper_base_encoder_linear_probe.prec90": "E08__whisper_base_probe__20261117-002638__9b88bc7",
     "T6.ast_detector.accuracy": "E40__ast_detector__20261118-153113__7509d81",
     "T6.ast_detector.f1": "E40__ast_detector__20261118-153113__7509d81",
     "T6.ast_detector.precision": "E40__ast_detector__20261118-153113__7509d81",
@@ -557,5 +1073,5 @@
     "overlap.deepinfant_v2.n_generated_copies": "dataset_stats.json",
     "splits.folds_file_sha256": "splits_report.json"
   },
-  "_generated_utc": "2026-11-18T17:14:19Z"
+  "_generated_utc": "2026-11-18T17:25:39Z"
 }
