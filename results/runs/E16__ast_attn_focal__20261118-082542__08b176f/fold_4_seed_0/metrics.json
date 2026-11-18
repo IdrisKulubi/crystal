@@ -1,0 +1,128 @@
+{
+  "n_test": 91,
+  "n_classes": 5,
+  "labels": [
+    "belly_pain",
+    "burping",
+    "discomfort",
+    "hungry",
+    "tired"
+  ],
+  "accuracy": 0.8131868131868132,
+  "macro_f1": 0.21914110429447856,
+  "weighted_f1": 0.7612485673835369,
+  "balanced_accuracy": 0.22543859649122808,
+  "per_class": {
+    "belly_pain": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 2
+    },
+    "burping": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 2
+    },
+    "discomfort": {
+      "precision": 0.25,
+      "recall": 0.16666666666666666,
+      "f1": 0.2,
+      "support": 6
+    },
+    "hungry": {
+      "precision": 0.8390804597701149,
+      "recall": 0.9605263157894737,
+      "f1": 0.8957055214723927,
+      "support": 76
+    },
+    "tired": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 5
+    }
+  },
+  "confusion_matrix": [
+    [
+      0,
+      0,
+      0,
+      2,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      2,
+      0
+    ],
+    [
+      0,
+      0,
+      1,
+      5,
+      0
+    ],
+    [
+      0,
+      0,
+      3,
+      73,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      5,
+      0
+    ]
+  ],
+  "nll": 0.8782687161888741,
+  "brier": 0.43464305010855303,
+  "ece_15_uncal": 0.1747024235992355,
+  "ece_15_cal": 0.2933359189610532,
+  "aurc": 0.1442299174326223,
+  "precision_at_coverage": {
+    "1.0": 0.8131868131868132,
+    "0.9": 0.8375,
+    "0.7": 0.855072463768116,
+    "0.5": 0.8461538461538461
+  },
+  "realised_coverage": {
+    "0.9": 0.8791208791208791,
+    "0.7": 0.7582417582417582,
+    "0.5": 0.7142857142857143
+  },
+  "top2_accuracy": 0.9010989010989011,
+  "train_seconds": 232.33,
+  "params_total": 86338950,
+  "params_trainable": 86338950,
+  "inference_ms_per_clip_cpu": null,
+  "model_selection": {
+    "best_epoch": 6,
+    "best_val_macro_f1": 0.2258064516129032,
+    "epochs_run": 11,
+    "backbone": "ast",
+    "revision": null,
+    "sampler": "shuffle",
+    "loss": "focal",
+    "selection_metric": "val_macro_f1",
+    "selection_trace": [
+      0.164979,
+      0.136709,
+      0.221353,
+      0.206027,
+      0.172,
+      0.225806,
+      0.15914,
+      0.172,
+      0.169697,
+      0.169697,
+      0.169697
+    ]
+  }
+}

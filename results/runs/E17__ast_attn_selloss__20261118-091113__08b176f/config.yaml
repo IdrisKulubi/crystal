@@ -1,0 +1,55 @@
+experiment_id: E17
+name: ast_attn_selloss
+parent_run: E14__ast_ft_attnpool__20261117-201115__871fcbb
+change_vs_parent: best epoch / early stopping on validation class-weighted CE loss
+  instead of validation macro-F1
+paper:
+  table: tuning
+  row: 'Imbalance: select on weighted val loss'
+task: reason
+data:
+  metadata: data/metadata_folds.csv
+  base_metadata: data/metadata.csv
+  datasets:
+  - donateacry
+  label_set: donateacry_v1
+  sample_rate: 16000
+  clip_seconds: 7.0
+model:
+  type: finetune
+  backbone: ast
+  init_checkpoint: null
+  head: attention
+  peft: null
+  context_features: []
+train:
+  epochs: 15
+  batch_size: 8
+  grad_accum: 4
+  lr: 3.0e-05
+  weight_decay: 0.01
+  warmup_ratio: 0.1
+  loss: weighted_ce
+  focal_gamma: 2.0
+  augment:
+    noise_snr_db: null
+    specaugment: false
+    mixup_alpha: null
+    pitch_shift: false
+  sampler: shuffle
+  early_stopping_metric: val_loss_weighted
+  patience: 5
+eval:
+  folds:
+  - 0
+  - 1
+  - 2
+  - 3
+  - 4
+  seeds:
+  - 0
+  - 1
+  - 2
+  val_group_fraction: 0.15
+notes: 'Imbalance study: same as E14 (AST full FT, attention pooling, lr 3e-5, 15
+  epochs, patience 5) except the one change above.'

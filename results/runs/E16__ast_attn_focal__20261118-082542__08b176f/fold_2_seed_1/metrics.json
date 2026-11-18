@@ -1,0 +1,123 @@
+{
+  "n_test": 90,
+  "n_classes": 5,
+  "labels": [
+    "belly_pain",
+    "burping",
+    "discomfort",
+    "hungry",
+    "tired"
+  ],
+  "accuracy": 0.8555555555555555,
+  "macro_f1": 0.18443113772455091,
+  "weighted_f1": 0.7889554224883567,
+  "balanced_accuracy": 0.2,
+  "per_class": {
+    "belly_pain": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 1
+    },
+    "burping": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 2
+    },
+    "discomfort": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 5
+    },
+    "hungry": {
+      "precision": 0.8555555555555555,
+      "recall": 1.0,
+      "f1": 0.9221556886227545,
+      "support": 77
+    },
+    "tired": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 5
+    }
+  },
+  "confusion_matrix": [
+    [
+      0,
+      0,
+      0,
+      1,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      2,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      5,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      77,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      5,
+      0
+    ]
+  ],
+  "nll": 0.7666652492019378,
+  "brier": 0.3538016018035022,
+  "ece_15_uncal": 0.41498599242311646,
+  "ece_15_cal": 0.24820291549294554,
+  "aurc": 0.12640742544459854,
+  "precision_at_coverage": {
+    "1.0": 0.8555555555555555,
+    "0.9": 0.8904109589041096,
+    "0.7": 0.8870967741935484,
+    "0.5": 0.8867924528301887
+  },
+  "realised_coverage": {
+    "0.9": 0.8111111111111111,
+    "0.7": 0.6888888888888889,
+    "0.5": 0.5888888888888889
+  },
+  "top2_accuracy": 0.9111111111111111,
+  "train_seconds": 131.8,
+  "params_total": 86338950,
+  "params_trainable": 86338950,
+  "inference_ms_per_clip_cpu": null,
+  "model_selection": {
+    "best_epoch": 1,
+    "best_val_macro_f1": 0.17916666666666667,
+    "epochs_run": 6,
+    "backbone": "ast",
+    "revision": null,
+    "sampler": "shuffle",
+    "loss": "focal",
+    "selection_metric": "val_macro_f1",
+    "selection_trace": [
+      0.179167,
+      0.122222,
+      0.167442,
+      0.179167,
+      0.176842,
+      0.176842
+    ]
+  }
+}

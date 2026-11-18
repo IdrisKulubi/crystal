@@ -1,0 +1,129 @@
+{
+  "n_test": 94,
+  "n_classes": 5,
+  "labels": [
+    "belly_pain",
+    "burping",
+    "discomfort",
+    "hungry",
+    "tired"
+  ],
+  "accuracy": 0.8085106382978723,
+  "macro_f1": 0.17882352941176471,
+  "weighted_f1": 0.7229036295369211,
+  "balanced_accuracy": 0.2,
+  "per_class": {
+    "belly_pain": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 8
+    },
+    "burping": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 1
+    },
+    "discomfort": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 5
+    },
+    "hungry": {
+      "precision": 0.8085106382978723,
+      "recall": 1.0,
+      "f1": 0.8941176470588236,
+      "support": 76
+    },
+    "tired": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 4
+    }
+  },
+  "confusion_matrix": [
+    [
+      0,
+      0,
+      0,
+      8,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      1,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      5,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      76,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      4,
+      0
+    ]
+  ],
+  "nll": 0.8122134524479493,
+  "brier": 0.342591180727471,
+  "ece_15_uncal": 0.18366027795047932,
+  "ece_15_cal": 0.05675872946981915,
+  "aurc": 0.15034996462015027,
+  "precision_at_coverage": {
+    "1.0": 0.8085106382978723,
+    "0.9": 0.8181818181818182,
+    "0.7": 0.8596491228070176,
+    "0.5": 0.8857142857142857
+  },
+  "realised_coverage": {
+    "0.9": 0.8191489361702128,
+    "0.7": 0.6063829787234043,
+    "0.5": 0.3723404255319149
+  },
+  "top2_accuracy": 0.851063829787234,
+  "train_seconds": 256.09,
+  "params_total": 86338950,
+  "params_trainable": 86338950,
+  "inference_ms_per_clip_cpu": null,
+  "model_selection": {
+    "best_epoch": 7,
+    "best_val_macro_f1": 0.18333333333333332,
+    "epochs_run": 12,
+    "backbone": "ast",
+    "revision": null,
+    "sampler": "balanced",
+    "loss": "ce",
+    "selection_metric": "val_macro_f1",
+    "selection_trace": [
+      0.123944,
+      0.148148,
+      0.168889,
+      0.171429,
+      0.176344,
+      0.181053,
+      0.183333,
+      0.183333,
+      0.178723,
+      0.183333,
+      0.183333,
+      0.183333
+    ]
+  }
+}

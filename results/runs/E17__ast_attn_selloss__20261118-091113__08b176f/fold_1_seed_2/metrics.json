@@ -1,0 +1,124 @@
+{
+  "n_test": 91,
+  "n_classes": 5,
+  "labels": [
+    "belly_pain",
+    "burping",
+    "discomfort",
+    "hungry",
+    "tired"
+  ],
+  "accuracy": 0.7912087912087912,
+  "macro_f1": 0.20831826401446657,
+  "weighted_f1": 0.760010333247223,
+  "balanced_accuracy": 0.22017543859649122,
+  "per_class": {
+    "belly_pain": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 3
+    },
+    "burping": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 1
+    },
+    "discomfort": {
+      "precision": 0.125,
+      "recall": 0.16666666666666666,
+      "f1": 0.14285714285714285,
+      "support": 6
+    },
+    "hungry": {
+      "precision": 0.8658536585365854,
+      "recall": 0.9342105263157895,
+      "f1": 0.8987341772151899,
+      "support": 76
+    },
+    "tired": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 5
+    }
+  },
+  "confusion_matrix": [
+    [
+      0,
+      0,
+      2,
+      1,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      1,
+      0
+    ],
+    [
+      0,
+      0,
+      1,
+      5,
+      0
+    ],
+    [
+      0,
+      1,
+      4,
+      71,
+      0
+    ],
+    [
+      0,
+      0,
+      1,
+      4,
+      0
+    ]
+  ],
+  "nll": 0.8174710970101376,
+  "brier": 0.3781707220430238,
+  "ece_15_uncal": 0.35520914264141185,
+  "ece_15_cal": 0.1650483696819258,
+  "aurc": 0.12581414431331137,
+  "precision_at_coverage": {
+    "1.0": 0.7912087912087912,
+    "0.9": 0.8513513513513513,
+    "0.7": 0.875,
+    "0.5": 0.8604651162790697
+  },
+  "realised_coverage": {
+    "0.9": 0.8131868131868132,
+    "0.7": 0.7032967032967034,
+    "0.5": 0.4725274725274725
+  },
+  "top2_accuracy": 0.8901098901098901,
+  "train_seconds": 151.97,
+  "params_total": 86338950,
+  "params_trainable": 86338950,
+  "inference_ms_per_clip_cpu": null,
+  "model_selection": {
+    "best_epoch": 2,
+    "best_val_macro_f1": 0.1696969696969697,
+    "epochs_run": 7,
+    "backbone": "ast",
+    "revision": null,
+    "sampler": "shuffle",
+    "loss": "weighted_ce",
+    "selection_metric": "val_loss_weighted",
+    "selection_trace": [
+      -2.115955,
+      -1.973808,
+      -3.617658,
+      -2.676786,
+      -3.543501,
+      -3.986681,
+      -6.715822
+    ]
+  }
+}

@@ -1,0 +1,126 @@
+{
+  "n_test": 94,
+  "n_classes": 5,
+  "labels": [
+    "belly_pain",
+    "burping",
+    "discomfort",
+    "hungry",
+    "tired"
+  ],
+  "accuracy": 0.7978723404255319,
+  "macro_f1": 0.17857142857142858,
+  "weighted_f1": 0.7218844984802432,
+  "balanced_accuracy": 0.19736842105263158,
+  "per_class": {
+    "belly_pain": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 8
+    },
+    "burping": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 1
+    },
+    "discomfort": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 5
+    },
+    "hungry": {
+      "precision": 0.8152173913043478,
+      "recall": 0.9868421052631579,
+      "f1": 0.8928571428571429,
+      "support": 76
+    },
+    "tired": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 4
+    }
+  },
+  "confusion_matrix": [
+    [
+      0,
+      0,
+      0,
+      8,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      1,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      5,
+      0
+    ],
+    [
+      0,
+      0,
+      1,
+      75,
+      0
+    ],
+    [
+      0,
+      0,
+      1,
+      3,
+      0
+    ]
+  ],
+  "nll": 0.8957262017750041,
+  "brier": 0.3465888088462544,
+  "ece_15_uncal": 0.08169641644113998,
+  "ece_15_cal": 0.09032091055428007,
+  "aurc": 0.10247661986500188,
+  "precision_at_coverage": {
+    "1.0": 0.7978723404255319,
+    "0.9": 0.7954545454545454,
+    "0.7": 0.8939393939393939,
+    "0.5": 0.9111111111111111
+  },
+  "realised_coverage": {
+    "0.9": 0.9361702127659575,
+    "0.7": 0.7021276595744681,
+    "0.5": 0.4787234042553192
+  },
+  "top2_accuracy": 0.851063829787234,
+  "train_seconds": 193.75,
+  "params_total": 86338950,
+  "params_trainable": 86338950,
+  "inference_ms_per_clip_cpu": null,
+  "model_selection": {
+    "best_epoch": 4,
+    "best_val_macro_f1": 0.18333333333333332,
+    "epochs_run": 9,
+    "backbone": "ast",
+    "revision": null,
+    "sampler": "balanced",
+    "loss": "ce",
+    "selection_metric": "val_macro_f1",
+    "selection_trace": [
+      0.092636,
+      0.171429,
+      0.178723,
+      0.183333,
+      0.183333,
+      0.183333,
+      0.178723,
+      0.173913,
+      0.183333
+    ]
+  }
+}

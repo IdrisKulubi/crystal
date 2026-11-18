@@ -1,0 +1,128 @@
+{
+  "n_test": 91,
+  "n_classes": 5,
+  "labels": [
+    "belly_pain",
+    "burping",
+    "discomfort",
+    "hungry",
+    "tired"
+  ],
+  "accuracy": 0.8241758241758241,
+  "macro_f1": 0.18072289156626506,
+  "weighted_f1": 0.7546670197272608,
+  "balanced_accuracy": 0.19736842105263158,
+  "per_class": {
+    "belly_pain": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 3
+    },
+    "burping": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 1
+    },
+    "discomfort": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 6
+    },
+    "hungry": {
+      "precision": 0.8333333333333334,
+      "recall": 0.9868421052631579,
+      "f1": 0.9036144578313253,
+      "support": 76
+    },
+    "tired": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 5
+    }
+  },
+  "confusion_matrix": [
+    [
+      0,
+      0,
+      0,
+      3,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      1,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      6,
+      0
+    ],
+    [
+      0,
+      0,
+      1,
+      75,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      5,
+      0
+    ]
+  ],
+  "nll": 0.7368883274950339,
+  "brier": 0.3330247040521887,
+  "ece_15_uncal": 0.16404057086211282,
+  "ece_15_cal": 0.12792684655581402,
+  "aurc": 0.11116721829806063,
+  "precision_at_coverage": {
+    "1.0": 0.8241758241758241,
+    "0.9": 0.8205128205128205,
+    "0.7": 0.859375,
+    "0.5": 0.8627450980392157
+  },
+  "realised_coverage": {
+    "0.9": 0.8571428571428571,
+    "0.7": 0.7032967032967034,
+    "0.5": 0.5604395604395604
+  },
+  "top2_accuracy": 0.8791208791208791,
+  "train_seconds": 234.24,
+  "params_total": 86338950,
+  "params_trainable": 86338950,
+  "inference_ms_per_clip_cpu": null,
+  "model_selection": {
+    "best_epoch": 6,
+    "best_val_macro_f1": 0.172,
+    "epochs_run": 11,
+    "backbone": "ast",
+    "revision": null,
+    "sampler": "balanced",
+    "loss": "ce",
+    "selection_metric": "val_macro_f1",
+    "selection_trace": [
+      0.045864,
+      0.142911,
+      0.135135,
+      0.114915,
+      0.164211,
+      0.172,
+      0.169697,
+      0.169697,
+      0.169697,
+      0.172,
+      0.172
+    ]
+  }
+}

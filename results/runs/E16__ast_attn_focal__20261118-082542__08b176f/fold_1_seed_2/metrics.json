@@ -1,0 +1,126 @@
+{
+  "n_test": 91,
+  "n_classes": 5,
+  "labels": [
+    "belly_pain",
+    "burping",
+    "discomfort",
+    "hungry",
+    "tired"
+  ],
+  "accuracy": 0.7912087912087912,
+  "macro_f1": 0.21497998856489425,
+  "weighted_f1": 0.7578584937075504,
+  "balanced_accuracy": 0.22017543859649122,
+  "per_class": {
+    "belly_pain": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 3
+    },
+    "burping": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 1
+    },
+    "discomfort": {
+      "precision": 0.2,
+      "recall": 0.16666666666666666,
+      "f1": 0.18181818181818182,
+      "support": 6
+    },
+    "hungry": {
+      "precision": 0.8554216867469879,
+      "recall": 0.9342105263157895,
+      "f1": 0.8930817610062893,
+      "support": 76
+    },
+    "tired": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 5
+    }
+  },
+  "confusion_matrix": [
+    [
+      0,
+      1,
+      0,
+      2,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      1,
+      0
+    ],
+    [
+      0,
+      0,
+      1,
+      5,
+      0
+    ],
+    [
+      0,
+      2,
+      3,
+      71,
+      0
+    ],
+    [
+      0,
+      0,
+      1,
+      4,
+      0
+    ]
+  ],
+  "nll": 0.8555079052827771,
+  "brier": 0.39760399605272384,
+  "ece_15_uncal": 0.2186377279409669,
+  "ece_15_cal": 0.18095269251455878,
+  "aurc": 0.11726693098682622,
+  "precision_at_coverage": {
+    "1.0": 0.7912087912087912,
+    "0.9": 0.8271604938271605,
+    "0.7": 0.864406779661017,
+    "0.5": 0.8292682926829268
+  },
+  "realised_coverage": {
+    "0.9": 0.8901098901098901,
+    "0.7": 0.6483516483516484,
+    "0.5": 0.45054945054945056
+  },
+  "top2_accuracy": 0.8681318681318682,
+  "train_seconds": 192.19,
+  "params_total": 86338950,
+  "params_trainable": 86338950,
+  "inference_ms_per_clip_cpu": null,
+  "model_selection": {
+    "best_epoch": 4,
+    "best_val_macro_f1": 0.25142857142857145,
+    "epochs_run": 9,
+    "backbone": "ast",
+    "revision": null,
+    "sampler": "shuffle",
+    "loss": "focal",
+    "selection_metric": "val_macro_f1",
+    "selection_trace": [
+      0.161702,
+      0.171429,
+      0.155556,
+      0.251429,
+      0.153488,
+      0.172,
+      0.172,
+      0.172,
+      0.172
+    ]
+  }
+}
