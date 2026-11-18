@@ -1,0 +1,112 @@
+{
+  "n_test": 91,
+  "n_classes": 5,
+  "labels": [
+    "belly_pain",
+    "burping",
+    "discomfort",
+    "hungry",
+    "tired"
+  ],
+  "accuracy": 0.6373626373626373,
+  "macro_f1": 0.17836879432624114,
+  "weighted_f1": 0.6798184085418127,
+  "balanced_accuracy": 0.19,
+  "per_class": {
+    "belly_pain": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 3
+    },
+    "burping": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 1
+    },
+    "discomfort": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 6
+    },
+    "hungry": {
+      "precision": 0.8769230769230769,
+      "recall": 0.75,
+      "f1": 0.8085106382978723,
+      "support": 76
+    },
+    "tired": {
+      "precision": 0.05263157894736842,
+      "recall": 0.2,
+      "f1": 0.08333333333333333,
+      "support": 5
+    }
+  },
+  "confusion_matrix": [
+    [
+      0,
+      1,
+      0,
+      2,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      1,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      2,
+      4
+    ],
+    [
+      1,
+      1,
+      3,
+      57,
+      14
+    ],
+    [
+      1,
+      0,
+      0,
+      3,
+      1
+    ]
+  ],
+  "nll": 1.0573937221184526,
+  "brier": 0.5251576732682612,
+  "ece_15_uncal": 0.1338284810273113,
+  "ece_15_cal": 0.1305156542354631,
+  "aurc": 0.2199155193285861,
+  "precision_at_coverage": {
+    "1.0": 0.6373626373626373,
+    "0.9": 0.6829268292682927,
+    "0.7": 0.7464788732394366,
+    "0.5": 0.7636363636363637
+  },
+  "realised_coverage": {
+    "0.9": 0.9010989010989011,
+    "0.7": 0.7802197802197802,
+    "0.5": 0.6043956043956044
+  },
+  "top2_accuracy": 0.8131868131868132,
+  "train_seconds": 282.72,
+  "params_total": 86338950,
+  "params_trainable": 86338950,
+  "inference_ms_per_clip_cpu": null,
+  "model_selection": {
+    "best_epoch": 7,
+    "best_val_macro_f1": 0.2627600202942668,
+    "epochs_run": 12,
+    "backbone": "ast",
+    "revision": null
+  }
+}

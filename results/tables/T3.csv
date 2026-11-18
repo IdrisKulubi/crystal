@@ -12,7 +12,7 @@ DeepInfant (reproduced),83.3 ± 2.0,0.182 ± 0.002,19.9 ± 0.3,0.085 ± 0.068,E0
 "AST, LoRA",73.1 ± 7.6,0.183 ± 0.013,19.1 ± 1.5,0.154 ± 0.046,E11__ast_lora__20261117-174815__5a3ceae
 "wav2vec2-base, fine-tuned",82.1 ± 3.6,0.182 ± 0.003,19.9 ± 0.3,0.172 ± 0.073,E12__w2v2_ft__20261117-183854__5a3ceae
 "wav2vec2-base, LoRA",73.1 ± 18.1,0.171 ± 0.020,19.9 ± 2.9,0.134 ± 0.049,E13__w2v2_lora__20261117-190008__5a3ceae
-Best backbone + attention pooling,,,,,
+Best backbone + attention pooling,75.3 ± 8.5,0.193 ± 0.018,21.3 ± 2.9,0.128 ± 0.041,E14__ast_ft_attnpool__20261117-201115__871fcbb
 "DAPT wav2vec2, linear probe",,,,,
 "DAPT wav2vec2, fine-tuned",,,,,
 Ours (CRYSTAL),,,,,

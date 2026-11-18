@@ -1,0 +1,112 @@
+{
+  "n_test": 91,
+  "n_classes": 5,
+  "labels": [
+    "belly_pain",
+    "burping",
+    "discomfort",
+    "hungry",
+    "tired"
+  ],
+  "accuracy": 0.7692307692307693,
+  "macro_f1": 0.20436760691537761,
+  "weighted_f1": 0.7435130838224561,
+  "balanced_accuracy": 0.21491228070175442,
+  "per_class": {
+    "belly_pain": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 3
+    },
+    "burping": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 1
+    },
+    "discomfort": {
+      "precision": 0.125,
+      "recall": 0.16666666666666666,
+      "f1": 0.14285714285714285,
+      "support": 6
+    },
+    "hungry": {
+      "precision": 0.8518518518518519,
+      "recall": 0.9078947368421053,
+      "f1": 0.8789808917197452,
+      "support": 76
+    },
+    "tired": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 5
+    }
+  },
+  "confusion_matrix": [
+    [
+      0,
+      1,
+      0,
+      2,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      1,
+      0
+    ],
+    [
+      0,
+      0,
+      1,
+      5,
+      0
+    ],
+    [
+      0,
+      1,
+      6,
+      69,
+      0
+    ],
+    [
+      0,
+      0,
+      1,
+      4,
+      0
+    ]
+  ],
+  "nll": 0.8633553838568808,
+  "brier": 0.4092848807811972,
+  "ece_15_uncal": 0.14827466937271971,
+  "ece_15_cal": 0.15690665811994767,
+  "aurc": 0.13345475268250734,
+  "precision_at_coverage": {
+    "1.0": 0.7692307692307693,
+    "0.9": 0.810126582278481,
+    "0.7": 0.8596491228070176,
+    "0.5": 0.8444444444444444
+  },
+  "realised_coverage": {
+    "0.9": 0.8681318681318682,
+    "0.7": 0.6263736263736264,
+    "0.5": 0.4945054945054945
+  },
+  "top2_accuracy": 0.8681318681318682,
+  "train_seconds": 215.37,
+  "params_total": 86338950,
+  "params_trainable": 86338950,
+  "inference_ms_per_clip_cpu": null,
+  "model_selection": {
+    "best_epoch": 4,
+    "best_val_macro_f1": 0.22380952380952382,
+    "epochs_run": 9,
+    "backbone": "ast",
+    "revision": null
+  }
+}

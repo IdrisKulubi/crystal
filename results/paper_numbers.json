@@ -15,10 +15,10 @@
   "T3.beats_linear_probe.balanced_acc": null,
   "T3.beats_linear_probe.ece": null,
   "T3.beats_linear_probe.macro_f1": null,
-  "T3.best_backbone_plus_attention_pooling.accuracy": null,
-  "T3.best_backbone_plus_attention_pooling.balanced_acc": null,
-  "T3.best_backbone_plus_attention_pooling.ece": null,
-  "T3.best_backbone_plus_attention_pooling.macro_f1": null,
+  "T3.best_backbone_plus_attention_pooling.accuracy": "75.3 ± 8.5",
+  "T3.best_backbone_plus_attention_pooling.balanced_acc": "21.3 ± 2.9",
+  "T3.best_backbone_plus_attention_pooling.ece": "0.128 ± 0.041",
+  "T3.best_backbone_plus_attention_pooling.macro_f1": "0.193 ± 0.018",
   "T3.dapt_wav2vec2_fine_tuned.accuracy": null,
   "T3.dapt_wav2vec2_fine_tuned.balanced_acc": null,
   "T3.dapt_wav2vec2_fine_tuned.ece": null,
@@ -194,6 +194,22 @@
       "mean": 0.1832107760845241,
       "std": 0.013168720375591168
     },
+    "T3.best_backbone_plus_attention_pooling.accuracy": {
+      "mean": 0.753050857731709,
+      "std": 0.08474691928900704
+    },
+    "T3.best_backbone_plus_attention_pooling.balanced_acc": {
+      "mean": 0.212647983595352,
+      "std": 0.029325280007929517
+    },
+    "T3.best_backbone_plus_attention_pooling.ece": {
+      "mean": 0.1283797492985224,
+      "std": 0.0407760749381513
+    },
+    "T3.best_backbone_plus_attention_pooling.macro_f1": {
+      "mean": 0.1930031511998355,
+      "std": 0.018165238097336403
+    },
     "T3.deepinfant_reported.accuracy": 0.89,
     "T3.deepinfant_reproduced.accuracy": {
       "mean": 0.8331795391369858,
@@ -367,6 +383,10 @@
     "T3.ast_lora.balanced_acc": "E11__ast_lora__20261117-174815__5a3ceae",
     "T3.ast_lora.ece": "E11__ast_lora__20261117-174815__5a3ceae",
     "T3.ast_lora.macro_f1": "E11__ast_lora__20261117-174815__5a3ceae",
+    "T3.best_backbone_plus_attention_pooling.accuracy": "E14__ast_ft_attnpool__20261117-201115__871fcbb",
+    "T3.best_backbone_plus_attention_pooling.balanced_acc": "E14__ast_ft_attnpool__20261117-201115__871fcbb",
+    "T3.best_backbone_plus_attention_pooling.ece": "E14__ast_ft_attnpool__20261117-201115__871fcbb",
+    "T3.best_backbone_plus_attention_pooling.macro_f1": "E14__ast_ft_attnpool__20261117-201115__871fcbb",
     "T3.deepinfant_reported.accuracy": "constant:E04",
     "T3.deepinfant_reported.balanced_acc": "constant:E04",
     "T3.deepinfant_reported.ece": "constant:E04",
@@ -437,5 +457,5 @@
     "overlap.deepinfant_v2.n_generated_copies": "dataset_stats.json",
     "splits.folds_file_sha256": "splits_report.json"
   },
-  "_generated_utc": "2026-11-17T19:43:26Z"
+  "_generated_utc": "2026-11-18T06:52:56Z"
 }

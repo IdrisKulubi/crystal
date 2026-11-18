@@ -1,0 +1,56 @@
+experiment_id: E14
+name: ast_ft_attnpool
+parent_run: E10__ast_ft__20261117-165906__5a3ceae
+change_vs_parent: learned attention pooling over all AST output tokens instead of
+  the mean of the [CLS]/[DIST] tokens (backbone = AST full FT, best fine-tuned run
+  in E10-E13)
+paper:
+  table: T3
+  row: Best backbone + attention pooling
+task: reason
+data:
+  metadata: data/metadata_folds.csv
+  base_metadata: data/metadata.csv
+  datasets:
+  - donateacry
+  label_set: donateacry_v1
+  sample_rate: 16000
+  clip_seconds: 7.0
+model:
+  type: finetune
+  backbone: ast
+  init_checkpoint: null
+  head: attention
+  peft: null
+  context_features: []
+train:
+  epochs: 15
+  batch_size: 8
+  grad_accum: 4
+  lr: 3.0e-05
+  weight_decay: 0.01
+  warmup_ratio: 0.1
+  loss: weighted_ce
+  focal_gamma: 2.0
+  augment:
+    noise_snr_db: null
+    specaugment: false
+    mixup_alpha: null
+    pitch_shift: false
+  early_stopping_metric: val_macro_f1
+  patience: 5
+eval:
+  folds:
+  - 0
+  - 1
+  - 2
+  - 3
+  - 4
+  seeds:
+  - 0
+  - 1
+  - 2
+  val_group_fraction: 0.15
+notes: 'Same as E10 except model.head. Defaults (configs/defaults.yaml): 15 epochs,
+  batch 8 x accum 4, AdamW wd 0.01, warmup 10%, weighted CE, early stop patience 5
+  on val macro-F1.'
