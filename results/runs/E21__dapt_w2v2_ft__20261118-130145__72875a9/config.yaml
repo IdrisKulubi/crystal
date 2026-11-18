@@ -1,0 +1,55 @@
+experiment_id: E21
+name: dapt_w2v2_ft
+parent_run: E12__w2v2_ft__20261117-183854__5a3ceae
+change_vs_parent: backbone initialised from DAPT run D01 (wav2vec2-base pretraining
+  continued on CryCeleb) instead of the released wav2vec2-base
+paper:
+  table: T3
+  row: DAPT wav2vec2, fine-tuned
+task: reason
+data:
+  metadata: data/metadata_folds.csv
+  base_metadata: data/metadata.csv
+  datasets:
+  - donateacry
+  label_set: donateacry_v1
+  sample_rate: 16000
+  clip_seconds: 7.0
+model:
+  type: finetune
+  backbone: wav2vec2_base
+  init_checkpoint: dapt:D01
+  head: mean_pool
+  peft: null
+  context_features: []
+train:
+  epochs: 15
+  batch_size: 8
+  grad_accum: 4
+  lr: 3.0e-05
+  weight_decay: 0.01
+  warmup_ratio: 0.1
+  loss: weighted_ce
+  focal_gamma: 2.0
+  augment:
+    noise_snr_db: null
+    specaugment: false
+    mixup_alpha: null
+    pitch_shift: false
+  sampler: shuffle
+  early_stopping_metric: val_macro_f1
+  patience: 5
+eval:
+  folds:
+  - 0
+  - 1
+  - 2
+  - 3
+  - 4
+  seeds:
+  - 0
+  - 1
+  - 2
+  val_group_fraction: 0.15
+notes: 'Same as E12 except the initial weights. Defaults: 15 epochs, batch 8 x accum
+  4, AdamW wd 0.01, warmup 10%, weighted CE, early stop patience 5 on val macro-F1.'

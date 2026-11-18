@@ -1,0 +1,125 @@
+{
+  "n_test": 94,
+  "n_classes": 5,
+  "labels": [
+    "belly_pain",
+    "burping",
+    "discomfort",
+    "hungry",
+    "tired"
+  ],
+  "accuracy": 0.8085106382978723,
+  "macro_f1": 0.17882352941176471,
+  "weighted_f1": 0.7229036295369211,
+  "balanced_accuracy": 0.2,
+  "per_class": {
+    "belly_pain": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 8
+    },
+    "burping": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 1
+    },
+    "discomfort": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 5
+    },
+    "hungry": {
+      "precision": 0.8085106382978723,
+      "recall": 1.0,
+      "f1": 0.8941176470588236,
+      "support": 76
+    },
+    "tired": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 4
+    }
+  },
+  "confusion_matrix": [
+    [
+      0,
+      0,
+      0,
+      8,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      1,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      5,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      76,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      4,
+      0
+    ]
+  ],
+  "nll": 0.8108923053851135,
+  "brier": 0.34970200629556536,
+  "ece_15_uncal": 0.2526529234121154,
+  "ece_15_cal": 0.09322255814403284,
+  "aurc": 0.19419035846858906,
+  "precision_at_coverage": {
+    "1.0": 0.8085106382978723,
+    "0.9": 0.7777777777777778,
+    "0.7": 0.803030303030303,
+    "0.5": 0.7647058823529411
+  },
+  "realised_coverage": {
+    "0.9": 0.8617021276595744,
+    "0.7": 0.7021276595744681,
+    "0.5": 0.3617021276595745
+  },
+  "top2_accuracy": 0.851063829787234,
+  "train_seconds": 63.08,
+  "params_total": 94375557,
+  "params_trainable": 90175109,
+  "inference_ms_per_clip_cpu": null,
+  "model_selection": {
+    "best_epoch": 2,
+    "best_val_macro_f1": 0.18333333333333332,
+    "epochs_run": 7,
+    "backbone": "wav2vec2_base",
+    "revision": "local:9e0a957f89829d63",
+    "init_checkpoint": "/tmp/crystal/checkpoints/D01__w2v2_cryceleb__20261118-111057__72875a9",
+    "sampler": "shuffle",
+    "loss": "weighted_ce",
+    "selection_metric": "val_macro_f1",
+    "selection_trace": [
+      0.181053,
+      0.183333,
+      0.183333,
+      0.178723,
+      0.176344,
+      0.178723,
+      0.178723
+    ]
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "run_id": "D01__w2v2_cryceleb__20261118-111057__72875a9",
+  "status": "completed",
+  "reason": null,
+  "steps_run": 10000,
+  "hours_corpus": 6.5091,
+  "n_chunks": 3733,
+  "base_model": "facebook/wav2vec2-base",
+  "base_revision": null,
+  "loss_first": 3.9529962062835695,
+  "loss_last": 2.91082896232605,
+  "perplexity_first": 109.22579956054688,
+  "perplexity_last": 280.3960925292969,
+  "checkpoint": "checkpoints/D01__w2v2_cryceleb__20261118-111057__72875a9",
+  "minutes": 93.3
+}

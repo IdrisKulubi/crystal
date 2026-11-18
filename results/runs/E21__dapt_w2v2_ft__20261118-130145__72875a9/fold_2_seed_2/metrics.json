@@ -1,0 +1,124 @@
+{
+  "n_test": 90,
+  "n_classes": 5,
+  "labels": [
+    "belly_pain",
+    "burping",
+    "discomfort",
+    "hungry",
+    "tired"
+  ],
+  "accuracy": 0.8444444444444444,
+  "macro_f1": 0.18313253012048192,
+  "weighted_f1": 0.7834002677376172,
+  "balanced_accuracy": 0.1974025974025974,
+  "per_class": {
+    "belly_pain": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 1
+    },
+    "burping": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 2
+    },
+    "discomfort": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 5
+    },
+    "hungry": {
+      "precision": 0.8539325842696629,
+      "recall": 0.987012987012987,
+      "f1": 0.9156626506024096,
+      "support": 77
+    },
+    "tired": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 5
+    }
+  },
+  "confusion_matrix": [
+    [
+      0,
+      0,
+      0,
+      1,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      2,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      5,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      76,
+      1
+    ],
+    [
+      0,
+      0,
+      0,
+      5,
+      0
+    ]
+  ],
+  "nll": 0.6956802806513741,
+  "brier": 0.30567055290711675,
+  "ece_15_uncal": 0.5448880899835041,
+  "ece_15_cal": 0.11283520981743811,
+  "aurc": 0.15254197481320608,
+  "precision_at_coverage": {
+    "1.0": 0.8444444444444444,
+    "0.9": 0.8313253012048193,
+    "0.7": 0.821917808219178,
+    "0.5": 0.8679245283018868
+  },
+  "realised_coverage": {
+    "0.9": 0.9222222222222223,
+    "0.7": 0.8111111111111111,
+    "0.5": 0.5888888888888889
+  },
+  "top2_accuracy": 0.9111111111111111,
+  "train_seconds": 55.14,
+  "params_total": 94375557,
+  "params_trainable": 90175109,
+  "inference_ms_per_clip_cpu": null,
+  "model_selection": {
+    "best_epoch": 1,
+    "best_val_macro_f1": 0.17916666666666667,
+    "epochs_run": 6,
+    "backbone": "wav2vec2_base",
+    "revision": "local:9e0a957f89829d63",
+    "init_checkpoint": "/tmp/crystal/checkpoints/D01__w2v2_cryceleb__20261118-111057__72875a9",
+    "sampler": "shuffle",
+    "loss": "weighted_ce",
+    "selection_metric": "val_macro_f1",
+    "selection_trace": [
+      0.179167,
+      0.179167,
+      0.179167,
+      0.179167,
+      0.176842,
+      0.179167
+    ]
+  }
+}

@@ -82,6 +82,31 @@ def normalise(x: np.ndarray, lens: np.ndarray) -> np.ndarray:
     return out
 
 
+def plot_loss(log_csv: Path, out_stem: Path) -> None:
+    """Figure 6: DAPT contrastive loss and codevector perplexity vs step (single column, 300 dpi)."""
+    import matplotlib
+
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+
+    t = pd.read_csv(log_csv)
+    fig, ax = plt.subplots(figsize=(3.35, 2.3))
+    ax.plot(t["step"], t["contrastive"], color="#0072B2", lw=1, label="contrastive loss")
+    ax.set_xlabel("step", fontsize=7)
+    ax.set_ylabel("contrastive loss / masked frame", fontsize=7, color="#0072B2")
+    ax2 = ax.twinx()
+    ax2.plot(t["step"], t["codevector_perplexity"], color="#E69F00", lw=1, label="codevector perplexity")
+    ax2.set_ylabel("codevector perplexity", fontsize=7, color="#E69F00")
+    for a in (ax, ax2):
+        a.tick_params(labelsize=7)
+        a.spines[["top"]].set_visible(False)
+    fig.tight_layout()
+    out_stem.parent.mkdir(parents=True, exist_ok=True)
+    fig.savefig(out_stem.with_suffix(".png"), dpi=300)
+    fig.savefig(out_stem.with_suffix(".pdf"))
+    plt.close(fig)
+
+
 def main(argv: list[str] | None = None) -> str:
     ap = argparse.ArgumentParser()
     ap.add_argument("--config", required=True)

@@ -305,6 +305,17 @@ def build(results_dir: Path = DEFAULT_RESULTS_DIR, project: dict | None = None) 
         h = read_json(dapt_path).get("hours_unlabelled")
         if h is not None:
             nums.set("dapt.hours_unlabelled", f"{h:.1f}", raw=h, source="dapt_stats.json")
+    dapt_runs = []
+    for st in sorted((results_dir / "dapt").glob("D01__*/status.json")):
+        if read_json(st).get("status") == "completed" and (st.parent / "train_log.csv").is_file():
+            dapt_runs.append((read_json(st).get("finished_utc", ""), st.parent))
+    if dapt_runs:
+        from src.dapt import plot_loss
+
+        run_dir = max(dapt_runs)[1]
+        plot_loss(run_dir / "train_log.csv", results_dir / "figures" / "fig6_dapt_loss")
+        s = read_json(run_dir / "summary.json")
+        nums.set("dapt.steps", str(s.get("steps_run")), raw=s.get("steps_run"), source=run_dir.name)
 
     # ---- protocol warnings: all reason-task paper runs must share one folds file (E90 excluded)
     hashes: dict[str, list[str]] = {}

@@ -19,14 +19,14 @@
   "T3.best_backbone_plus_attention_pooling.balanced_acc": "21.3 ± 2.9",
   "T3.best_backbone_plus_attention_pooling.ece": "0.128 ± 0.041",
   "T3.best_backbone_plus_attention_pooling.macro_f1": "0.193 ± 0.018",
-  "T3.dapt_wav2vec2_fine_tuned.accuracy": null,
-  "T3.dapt_wav2vec2_fine_tuned.balanced_acc": null,
-  "T3.dapt_wav2vec2_fine_tuned.ece": null,
-  "T3.dapt_wav2vec2_fine_tuned.macro_f1": null,
-  "T3.dapt_wav2vec2_linear_probe.accuracy": null,
-  "T3.dapt_wav2vec2_linear_probe.balanced_acc": null,
-  "T3.dapt_wav2vec2_linear_probe.ece": null,
-  "T3.dapt_wav2vec2_linear_probe.macro_f1": null,
+  "T3.dapt_wav2vec2_fine_tuned.accuracy": "82.6 ± 2.7",
+  "T3.dapt_wav2vec2_fine_tuned.balanced_acc": "19.8 ± 0.7",
+  "T3.dapt_wav2vec2_fine_tuned.ece": "0.119 ± 0.064",
+  "T3.dapt_wav2vec2_fine_tuned.macro_f1": "0.181 ± 0.003",
+  "T3.dapt_wav2vec2_linear_probe.accuracy": "66.7 ± 14.3",
+  "T3.dapt_wav2vec2_linear_probe.balanced_acc": "17.5 ± 2.6",
+  "T3.dapt_wav2vec2_linear_probe.ece": "0.178 ± 0.051",
+  "T3.dapt_wav2vec2_linear_probe.macro_f1": "0.169 ± 0.022",
   "T3.deepinfant_reported.accuracy": "89.0 (reported)",
   "T3.deepinfant_reported.balanced_acc": "n/a",
   "T3.deepinfant_reported.ece": "n/a",
@@ -108,6 +108,7 @@
   "abstract.selective_coverage": null,
   "abstract.selective_precision": null,
   "dapt.hours_unlabelled": "6.5",
+  "dapt.steps": "10000",
   "datasets.donateacry.class_counts.belly_pain": "16",
   "datasets.donateacry.class_counts.burping": "8",
   "datasets.donateacry.class_counts.discomfort": "27",
@@ -209,6 +210,38 @@
     "T3.best_backbone_plus_attention_pooling.macro_f1": {
       "mean": 0.1930031511998355,
       "std": 0.018165238097336403
+    },
+    "T3.dapt_wav2vec2_fine_tuned.accuracy": {
+      "mean": 0.8264965924540392,
+      "std": 0.02749240494206767
+    },
+    "T3.dapt_wav2vec2_fine_tuned.balanced_acc": {
+      "mean": 0.1977443609022557,
+      "std": 0.006722981590294838
+    },
+    "T3.dapt_wav2vec2_fine_tuned.ece": {
+      "mean": 0.11893010534569501,
+      "std": 0.06398394755563996
+    },
+    "T3.dapt_wav2vec2_fine_tuned.macro_f1": {
+      "mean": 0.18110073746661867,
+      "std": 0.0029303278076730855
+    },
+    "T3.dapt_wav2vec2_linear_probe.accuracy": {
+      "mean": 0.6667196633154082,
+      "std": 0.14275480347675523
+    },
+    "T3.dapt_wav2vec2_linear_probe.balanced_acc": {
+      "mean": 0.17478332194121673,
+      "std": 0.025839086446894016
+    },
+    "T3.dapt_wav2vec2_linear_probe.ece": {
+      "mean": 0.1777878735652586,
+      "std": 0.051117088477710244
+    },
+    "T3.dapt_wav2vec2_linear_probe.macro_f1": {
+      "mean": 0.16932559717872567,
+      "std": 0.021915412956914963
     },
     "T3.deepinfant_reported.accuracy": 0.89,
     "T3.deepinfant_reproduced.accuracy": {
@@ -344,6 +377,7 @@
       "std": 0.002402542108929079
     },
     "dapt.hours_unlabelled": 6.5091,
+    "dapt.steps": 10000,
     "datasets.donateacry.class_counts.belly_pain": 16,
     "datasets.donateacry.class_counts.burping": 8,
     "datasets.donateacry.class_counts.discomfort": 27,
@@ -388,6 +422,14 @@
     "T3.best_backbone_plus_attention_pooling.balanced_acc": "E14__ast_ft_attnpool__20261117-201115__871fcbb",
     "T3.best_backbone_plus_attention_pooling.ece": "E14__ast_ft_attnpool__20261117-201115__871fcbb",
     "T3.best_backbone_plus_attention_pooling.macro_f1": "E14__ast_ft_attnpool__20261117-201115__871fcbb",
+    "T3.dapt_wav2vec2_fine_tuned.accuracy": "E21__dapt_w2v2_ft__20261118-130145__72875a9",
+    "T3.dapt_wav2vec2_fine_tuned.balanced_acc": "E21__dapt_w2v2_ft__20261118-130145__72875a9",
+    "T3.dapt_wav2vec2_fine_tuned.ece": "E21__dapt_w2v2_ft__20261118-130145__72875a9",
+    "T3.dapt_wav2vec2_fine_tuned.macro_f1": "E21__dapt_w2v2_ft__20261118-130145__72875a9",
+    "T3.dapt_wav2vec2_linear_probe.accuracy": "E20__dapt_w2v2_probe__20261118-124424__72875a9",
+    "T3.dapt_wav2vec2_linear_probe.balanced_acc": "E20__dapt_w2v2_probe__20261118-124424__72875a9",
+    "T3.dapt_wav2vec2_linear_probe.ece": "E20__dapt_w2v2_probe__20261118-124424__72875a9",
+    "T3.dapt_wav2vec2_linear_probe.macro_f1": "E20__dapt_w2v2_probe__20261118-124424__72875a9",
     "T3.deepinfant_reported.accuracy": "constant:E04",
     "T3.deepinfant_reported.balanced_acc": "constant:E04",
     "T3.deepinfant_reported.ece": "constant:E04",
@@ -426,6 +468,7 @@
     "T3.whisper_base_encoder_linear_probe.macro_f1": "E08__whisper_base_probe__20261117-002638__9b88bc7",
     "abstract.reason_macro_f1_deepinfant": "E02__deepinfant_repro__20261116-220106__428232e",
     "dapt.hours_unlabelled": "dapt_stats.json",
+    "dapt.steps": "D01__w2v2_cryceleb__20261118-111057__72875a9",
     "datasets.donateacry.class_counts.belly_pain": "dataset_stats.json",
     "datasets.donateacry.class_counts.burping": "dataset_stats.json",
     "datasets.donateacry.class_counts.discomfort": "dataset_stats.json",
@@ -459,5 +502,5 @@
     "overlap.deepinfant_v2.n_generated_copies": "dataset_stats.json",
     "splits.folds_file_sha256": "splits_report.json"
   },
-  "_generated_utc": "2026-11-18T10:41:22Z"
+  "_generated_utc": "2026-11-18T14:09:49Z"
 }
