@@ -125,3 +125,31 @@ def make_figures(results_dir: Path, chosen: dict, fig_cfg: dict, n_bins: int = 1
             sources["fig3_reliability_before_after"] = [got[0]]
             break
     return sources
+
+
+def macro_f1_at_coverage(run_dir: Path, coverages=("0.9", "0.7", "0.5")) -> dict:
+    """macro_f1_at_coverage for every fold x seed of a run, recomputed from predictions.csv
+    (kept = not abstain@<c>cov, thresholds chosen on validation at training time).
+    Returns {"1.0": {"mean","std","n","values"}, "0.9": ..., ...} like summary.json metrics."""
+    from src.results.aggregate import mean_std
+
+    vals: dict[str, list[float]] = {}
+    for d in sorted(Path(run_dir).glob("fold_*_seed_*")):
+        p = d / "predictions.csv"
+        if not p.is_file():
+            continue
+        df = pd.read_csv(p)
+        labels = [c[2:] for c in df.columns if c.startswith("p_")]
+        index = {l: i for i, l in enumerate(labels)}
+        y = df["y_true"].map(index).to_numpy()
+        pred = df["y_pred"].map(index).to_numpy()
+        vals.setdefault("1.0", []).append(M.selective_macro_f1(y, pred, np.ones(len(df), bool), len(labels)))
+        for c in coverages:
+            col = f"abstain@{c}cov"
+            if col not in df or df[col].isna().any():
+                continue
+            keep = ~df[col].astype(str).str.lower().eq("true").to_numpy()
+            v = M.selective_macro_f1(y, pred, keep, len(labels))
+            if not np.isnan(v):
+                vals.setdefault(c, []).append(v)
+    return {k: mean_std(v) for k, v in vals.items()}

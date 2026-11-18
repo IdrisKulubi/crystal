@@ -46,6 +46,9 @@ T5B_COLS = [
     ("prec90", "precision_at_coverage.0.9", "pct"),
     ("prec70", "precision_at_coverage.0.7", "pct"),
     ("prec50", "precision_at_coverage.0.5", "pct"),
+    ("mf1_90", "macro_f1_at_coverage.0.9", "f3"),
+    ("mf1_70", "macro_f1_at_coverage.0.7", "f3"),
+    ("mf1_50", "macro_f1_at_coverage.0.5", "f3"),
 ]
 COVERAGES = [("cov100", "1.0"), ("cov90", "0.9"), ("cov70", "0.7"), ("cov50", "0.5")]
 ABSTRACT_KEYS = [
@@ -148,6 +151,16 @@ def build(results_dir: Path = DEFAULT_RESULTS_DIR, project: dict | None = None) 
         nums.declare(k)
 
     rows = project.get("paper_rows", {})
+
+    # macro_f1_at_coverage is recomputed from saved predictions.csv for every reason run (one code path
+    # for runs made before and after the metric was added; RESULTS_SPEC §5) and merged into its summary.
+    from src.selective import macro_f1_at_coverage
+
+    for key, rec in chosen.items():
+        summ = summaries.get(key)
+        if summ and rec.get("task", "reason") == "reason" and key[0] in ("T3", "T4"):
+            for cov, ms in macro_f1_at_coverage(results_dir / "runs" / rec["run_id"]).items():
+                summ.setdefault("metrics", {})[f"macro_f1_at_coverage.{cov}"] = ms
     constants = {(c["table"], c["row"]): c for c in project.get("constant_rows", [])}
 
     # ---- T3 main results
@@ -200,18 +213,23 @@ def build(results_dir: Path = DEFAULT_RESULTS_DIR, project: dict | None = None) 
     ours_rec = chosen.get(ours_key)
     t5_table = []
     for name, cov in COVERAGES:
-        pk, tk = f"T5.{name}.precision", f"T5.{name}.threshold"
+        pk, tk, fk = f"T5.{name}.precision", f"T5.{name}.threshold", f"T5.{name}.macro_f1"
         nums.declare(pk)
         nums.declare(tk)
+        nums.declare(fk)
         mean, std = _metric(ours_summ, f"precision_at_coverage.{cov}")
         if mean is not None:
             nums.set(pk, fmt("pct", mean, std), raw={"mean": mean, "std": std}, source=ours_rec["run_id"])
+        fmean, fstd = _metric(ours_summ, f"macro_f1_at_coverage.{cov}")
+        if fmean is not None:
+            nums.set(fk, fmt("f3", fmean, fstd), raw={"mean": fmean, "std": fstd}, source=ours_rec["run_id"])
         thr = (ours_summ or {}).get("calibration", {}).get(f"thresholds.{cov}")
         if thr:
             nums.set(tk, fmt("f3", thr["mean"], thr["std"]), raw=thr["mean"], source=ours_rec["run_id"])
         elif cov == "1.0" and mean is not None:
             nums.set(tk, "—", source=ours_rec["run_id"])
-        t5_table.append({"coverage": cov, "precision": nums.values[pk], "threshold": nums.values[tk]})
+        t5_table.append({"coverage": cov, "precision": nums.values[pk], "macro_f1": nums.values[fk],
+                         "threshold": nums.values[tk]})
 
     # ---- T5b calibration + selective prediction for every T3 model (HANDOFF Phase 6)
     t5b_table = []
@@ -398,11 +416,12 @@ TABLE_SPECS = {
            lambda r: [r["row"], r["accuracy"], r["macro_f1"], r["balanced_acc"], r["ece"], r["run_id"] or ""]),
     "T4": (["Configuration", "Macro-F1", "Δ vs full", "Run"],
            lambda r: [r["row"], r["macro_f1"], r["delta"], r["run_id"] or ""]),
-    "T5": (["Coverage", "Precision (%)", "Threshold τ (val)"],
-           lambda r: [f"{float(r['coverage']) * 100:.0f}%", r["precision"], r["threshold"]]),
-    "T5b": (["Model", "ECE before", "ECE after", "AURC", "Prec. @90% (%)", "Prec. @70% (%)", "Prec. @50% (%)", "Run"],
+    "T5": (["Coverage", "Precision (%)", "Macro-F1", "Threshold τ (val)"],
+           lambda r: [f"{float(r['coverage']) * 100:.0f}%", r["precision"], r["macro_f1"], r["threshold"]]),
+    "T5b": (["Model", "ECE before", "ECE after", "AURC", "Prec. @90% (%)", "Prec. @70% (%)", "Prec. @50% (%)",
+             "Macro-F1 @90%", "Macro-F1 @70%", "Macro-F1 @50%", "Run"],
             lambda r: [r["row"], r["ece_before"], r["ece_after"], r["aurc"], r["prec90"], r["prec70"], r["prec50"],
-                       r["run_id"] or ""]),
+                       r["mf1_90"], r["mf1_70"], r["mf1_50"], r["run_id"] or ""]),
     "T6": (["Detector", "Accuracy (%)", "F1", "Precision (%)", "Recall (%)", "ROC-AUC", "False alarms / h", "Run"],
            lambda r: [r["row"], r["accuracy"], r["f1"], r["precision"], r["recall"], r["roc_auc"],
                       r["false_alarms_per_hour"], r["run_id"] or ""]),

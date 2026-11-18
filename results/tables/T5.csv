@@ -1,5 +1,5 @@
-Coverage,Precision (%),Threshold τ (val)
-100%,,
-90%,,
-70%,,
-50%,,
+Coverage,Precision (%),Macro-F1,Threshold τ (val)
+100%,,,
+90%,,,
+70%,,,
+50%,,,

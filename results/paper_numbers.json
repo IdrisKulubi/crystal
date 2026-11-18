@@ -81,107 +81,159 @@
   "T4.ours_crystal.macro_f1": null,
   "T4.ours_random_clip_level_split.delta": null,
   "T4.ours_random_clip_level_split.macro_f1": null,
+  "T5.cov100.macro_f1": null,
   "T5.cov100.precision": null,
   "T5.cov100.threshold": null,
+  "T5.cov50.macro_f1": null,
   "T5.cov50.precision": null,
   "T5.cov50.threshold": null,
+  "T5.cov70.macro_f1": null,
   "T5.cov70.precision": null,
   "T5.cov70.threshold": null,
+  "T5.cov90.macro_f1": null,
   "T5.cov90.precision": null,
   "T5.cov90.threshold": null,
   "T5b.ast_fine_tuned.aurc": "0.212 ± 0.114",
   "T5b.ast_fine_tuned.ece_after": "0.158 ± 0.053",
   "T5b.ast_fine_tuned.ece_before": "0.136 ± 0.052",
+  "T5b.ast_fine_tuned.mf1_50": "0.189 ± 0.035",
+  "T5b.ast_fine_tuned.mf1_70": "0.181 ± 0.025",
+  "T5b.ast_fine_tuned.mf1_90": "0.194 ± 0.032",
   "T5b.ast_fine_tuned.prec50": "79.0 ± 12.4",
   "T5b.ast_fine_tuned.prec70": "75.9 ± 11.0",
   "T5b.ast_fine_tuned.prec90": "74.2 ± 11.5",
   "T5b.ast_linear_probe.aurc": "0.239 ± 0.158",
   "T5b.ast_linear_probe.ece_after": "0.181 ± 0.048",
   "T5b.ast_linear_probe.ece_before": "0.125 ± 0.041",
+  "T5b.ast_linear_probe.mf1_50": "0.183 ± 0.007",
+  "T5b.ast_linear_probe.mf1_70": "0.180 ± 0.015",
+  "T5b.ast_linear_probe.mf1_90": "0.202 ± 0.027",
   "T5b.ast_linear_probe.prec50": "76.0 ± 16.9",
   "T5b.ast_linear_probe.prec70": "71.2 ± 17.1",
   "T5b.ast_linear_probe.prec90": "69.8 ± 15.6",
   "T5b.ast_lora.aurc": "0.185 ± 0.050",
   "T5b.ast_lora.ece_after": "0.154 ± 0.046",
   "T5b.ast_lora.ece_before": "0.249 ± 0.054",
+  "T5b.ast_lora.mf1_50": "0.180 ± 0.008",
+  "T5b.ast_lora.mf1_70": "0.180 ± 0.018",
+  "T5b.ast_lora.mf1_90": "0.184 ± 0.014",
   "T5b.ast_lora.prec50": "81.2 ± 6.3",
   "T5b.ast_lora.prec70": "77.3 ± 7.0",
   "T5b.ast_lora.prec90": "75.7 ± 7.6",
   "T5b.beats_linear_probe.aurc": null,
   "T5b.beats_linear_probe.ece_after": null,
   "T5b.beats_linear_probe.ece_before": null,
+  "T5b.beats_linear_probe.mf1_50": null,
+  "T5b.beats_linear_probe.mf1_70": null,
+  "T5b.beats_linear_probe.mf1_90": null,
   "T5b.beats_linear_probe.prec50": null,
   "T5b.beats_linear_probe.prec70": null,
   "T5b.beats_linear_probe.prec90": null,
   "T5b.best_backbone_plus_attention_pooling.aurc": "0.173 ± 0.061",
   "T5b.best_backbone_plus_attention_pooling.ece_after": "0.128 ± 0.041",
   "T5b.best_backbone_plus_attention_pooling.ece_before": "0.225 ± 0.090",
+  "T5b.best_backbone_plus_attention_pooling.mf1_50": "0.187 ± 0.015",
+  "T5b.best_backbone_plus_attention_pooling.mf1_70": "0.193 ± 0.024",
+  "T5b.best_backbone_plus_attention_pooling.mf1_90": "0.190 ± 0.020",
   "T5b.best_backbone_plus_attention_pooling.prec50": "82.0 ± 6.1",
   "T5b.best_backbone_plus_attention_pooling.prec70": "80.6 ± 6.5",
   "T5b.best_backbone_plus_attention_pooling.prec90": "77.7 ± 7.6",
   "T5b.dapt_wav2vec2_fine_tuned.aurc": "0.144 ± 0.033",
   "T5b.dapt_wav2vec2_fine_tuned.ece_after": "0.119 ± 0.064",
   "T5b.dapt_wav2vec2_fine_tuned.ece_before": "0.446 ± 0.112",
+  "T5b.dapt_wav2vec2_fine_tuned.mf1_50": "0.185 ± 0.005",
+  "T5b.dapt_wav2vec2_fine_tuned.mf1_70": "0.183 ± 0.004",
+  "T5b.dapt_wav2vec2_fine_tuned.mf1_90": "0.182 ± 0.003",
   "T5b.dapt_wav2vec2_fine_tuned.prec50": "86.1 ± 4.0",
   "T5b.dapt_wav2vec2_fine_tuned.prec70": "84.6 ± 3.7",
   "T5b.dapt_wav2vec2_fine_tuned.prec90": "83.2 ± 2.5",
   "T5b.dapt_wav2vec2_linear_probe.aurc": "0.295 ± 0.182",
   "T5b.dapt_wav2vec2_linear_probe.ece_after": "0.178 ± 0.051",
   "T5b.dapt_wav2vec2_linear_probe.ece_before": "0.198 ± 0.049",
+  "T5b.dapt_wav2vec2_linear_probe.mf1_50": "0.166 ± 0.025",
+  "T5b.dapt_wav2vec2_linear_probe.mf1_70": "0.173 ± 0.033",
+  "T5b.dapt_wav2vec2_linear_probe.mf1_90": "0.170 ± 0.021",
   "T5b.dapt_wav2vec2_linear_probe.prec50": "72.3 ± 17.3",
   "T5b.dapt_wav2vec2_linear_probe.prec70": "71.1 ± 17.9",
   "T5b.dapt_wav2vec2_linear_probe.prec90": "67.6 ± 14.2",
   "T5b.deepinfant_reproduced.aurc": "0.154 ± 0.047",
   "T5b.deepinfant_reproduced.ece_after": "0.085 ± 0.068",
   "T5b.deepinfant_reproduced.ece_before": "0.044 ± 0.035",
+  "T5b.deepinfant_reproduced.mf1_50": "0.183 ± 0.006",
+  "T5b.deepinfant_reproduced.mf1_70": "0.183 ± 0.004",
+  "T5b.deepinfant_reproduced.mf1_90": "0.183 ± 0.002",
   "T5b.deepinfant_reproduced.prec50": "84.6 ± 4.8",
   "T5b.deepinfant_reproduced.prec70": "84.2 ± 3.5",
   "T5b.deepinfant_reproduced.prec90": "84.0 ± 1.6",
   "T5b.hubert_base_linear_probe.aurc": "0.232 ± 0.118",
   "T5b.hubert_base_linear_probe.ece_after": "0.143 ± 0.036",
   "T5b.hubert_base_linear_probe.ece_before": "0.141 ± 0.049",
+  "T5b.hubert_base_linear_probe.mf1_50": "0.171 ± 0.018",
+  "T5b.hubert_base_linear_probe.mf1_70": "0.210 ± 0.091",
+  "T5b.hubert_base_linear_probe.mf1_90": "0.191 ± 0.059",
   "T5b.hubert_base_linear_probe.prec50": "73.4 ± 15.1",
   "T5b.hubert_base_linear_probe.prec70": "72.9 ± 13.8",
   "T5b.hubert_base_linear_probe.prec90": "69.5 ± 12.9",
   "T5b.majority_class.aurc": "0.344 ± 0.045",
   "T5b.majority_class.ece_after": "0.067 ± 0.036",
   "T5b.majority_class.ece_before": "0.017 ± 0.010",
+  "T5b.majority_class.mf1_50": "0.182 ± 0.002",
+  "T5b.majority_class.mf1_70": "0.182 ± 0.002",
+  "T5b.majority_class.mf1_90": "0.182 ± 0.002",
   "T5b.majority_class.prec50": "83.6 ± 1.6",
   "T5b.majority_class.prec70": "83.6 ± 1.6",
   "T5b.majority_class.prec90": "83.6 ± 1.6",
   "T5b.mfcc_plus_svm.aurc": "0.167 ± 0.031",
   "T5b.mfcc_plus_svm.ece_after": "0.165 ± 0.103",
   "T5b.mfcc_plus_svm.ece_before": "0.135 ± 0.010",
+  "T5b.mfcc_plus_svm.mf1_50": "0.183 ± 0.005",
+  "T5b.mfcc_plus_svm.mf1_70": "0.178 ± 0.005",
+  "T5b.mfcc_plus_svm.mf1_90": "0.178 ± 0.006",
   "T5b.mfcc_plus_svm.prec50": "84.3 ± 4.7",
   "T5b.mfcc_plus_svm.prec70": "80.5 ± 4.1",
   "T5b.mfcc_plus_svm.prec90": "80.2 ± 4.3",
   "T5b.ours_crystal.aurc": null,
   "T5b.ours_crystal.ece_after": null,
   "T5b.ours_crystal.ece_before": null,
+  "T5b.ours_crystal.mf1_50": null,
+  "T5b.ours_crystal.mf1_70": null,
+  "T5b.ours_crystal.mf1_90": null,
   "T5b.ours_crystal.prec50": null,
   "T5b.ours_crystal.prec70": null,
   "T5b.ours_crystal.prec90": null,
   "T5b.wav2vec2_base_fine_tuned.aurc": "0.189 ± 0.051",
   "T5b.wav2vec2_base_fine_tuned.ece_after": "0.172 ± 0.073",
   "T5b.wav2vec2_base_fine_tuned.ece_before": "0.434 ± 0.085",
+  "T5b.wav2vec2_base_fine_tuned.mf1_50": "0.180 ± 0.005",
+  "T5b.wav2vec2_base_fine_tuned.mf1_70": "0.181 ± 0.004",
+  "T5b.wav2vec2_base_fine_tuned.mf1_90": "0.182 ± 0.003",
   "T5b.wav2vec2_base_fine_tuned.prec50": "81.9 ± 4.4",
   "T5b.wav2vec2_base_fine_tuned.prec70": "82.7 ± 3.8",
   "T5b.wav2vec2_base_fine_tuned.prec90": "82.4 ± 3.1",
   "T5b.wav2vec2_base_linear_probe.aurc": "0.162 ± 0.020",
   "T5b.wav2vec2_base_linear_probe.ece_after": "0.155 ± 0.039",
   "T5b.wav2vec2_base_linear_probe.ece_before": "0.171 ± 0.034",
+  "T5b.wav2vec2_base_linear_probe.mf1_50": "0.211 ± 0.056",
+  "T5b.wav2vec2_base_linear_probe.mf1_70": "0.196 ± 0.027",
+  "T5b.wav2vec2_base_linear_probe.mf1_90": "0.184 ± 0.015",
   "T5b.wav2vec2_base_linear_probe.prec50": "84.7 ± 3.5",
   "T5b.wav2vec2_base_linear_probe.prec70": "83.5 ± 3.3",
   "T5b.wav2vec2_base_linear_probe.prec90": "77.3 ± 3.7",
   "T5b.wav2vec2_base_lora.aurc": "0.277 ± 0.169",
   "T5b.wav2vec2_base_lora.ece_after": "0.134 ± 0.049",
   "T5b.wav2vec2_base_lora.ece_before": "0.439 ± 0.148",
+  "T5b.wav2vec2_base_lora.mf1_50": "0.171 ± 0.017",
+  "T5b.wav2vec2_base_lora.mf1_70": "0.172 ± 0.019",
+  "T5b.wav2vec2_base_lora.mf1_90": "0.171 ± 0.020",
   "T5b.wav2vec2_base_lora.prec50": "72.9 ± 15.9",
   "T5b.wav2vec2_base_lora.prec70": "73.9 ± 16.9",
   "T5b.wav2vec2_base_lora.prec90": "73.2 ± 18.2",
   "T5b.whisper_base_encoder_linear_probe.aurc": "0.195 ± 0.033",
   "T5b.whisper_base_encoder_linear_probe.ece_after": "0.167 ± 0.022",
   "T5b.whisper_base_encoder_linear_probe.ece_before": "0.180 ± 0.028",
+  "T5b.whisper_base_encoder_linear_probe.mf1_50": "0.179 ± 0.003",
+  "T5b.whisper_base_encoder_linear_probe.mf1_70": "0.177 ± 0.002",
+  "T5b.whisper_base_encoder_linear_probe.mf1_90": "0.183 ± 0.020",
   "T5b.whisper_base_encoder_linear_probe.prec50": "80.9 ± 2.7",
   "T5b.whisper_base_encoder_linear_probe.prec70": "78.7 ± 1.1",
   "T5b.whisper_base_encoder_linear_probe.prec90": "75.9 ± 3.2",
@@ -480,6 +532,18 @@
       "mean": 0.13558412726741084,
       "std": 0.05159417895509198
     },
+    "T5b.ast_fine_tuned.mf1_50": {
+      "mean": 0.18880648311860362,
+      "std": 0.03468373838081751
+    },
+    "T5b.ast_fine_tuned.mf1_70": {
+      "mean": 0.18074869818840347,
+      "std": 0.024516600486580203
+    },
+    "T5b.ast_fine_tuned.mf1_90": {
+      "mean": 0.1940152387319611,
+      "std": 0.03199364273165448
+    },
     "T5b.ast_fine_tuned.prec50": {
       "mean": 0.7903387521090306,
       "std": 0.12393496902948574
@@ -503,6 +567,18 @@
     "T5b.ast_linear_probe.ece_before": {
       "mean": 0.1246188509799513,
       "std": 0.04119110129243394
+    },
+    "T5b.ast_linear_probe.mf1_50": {
+      "mean": 0.18325941731180598,
+      "std": 0.006841728764170043
+    },
+    "T5b.ast_linear_probe.mf1_70": {
+      "mean": 0.18029798104387146,
+      "std": 0.015137429912848253
+    },
+    "T5b.ast_linear_probe.mf1_90": {
+      "mean": 0.20205263593351558,
+      "std": 0.027009186916176063
     },
     "T5b.ast_linear_probe.prec50": {
       "mean": 0.7596590486807877,
@@ -528,6 +604,18 @@
       "mean": 0.2489177422485545,
       "std": 0.0537946079047909
     },
+    "T5b.ast_lora.mf1_50": {
+      "mean": 0.17962481128898536,
+      "std": 0.007638655534325412
+    },
+    "T5b.ast_lora.mf1_70": {
+      "mean": 0.1800946654521595,
+      "std": 0.01779554782281447
+    },
+    "T5b.ast_lora.mf1_90": {
+      "mean": 0.18405507059322787,
+      "std": 0.014405022209736806
+    },
     "T5b.ast_lora.prec50": {
       "mean": 0.8116468157635377,
       "std": 0.06272894138359267
@@ -551,6 +639,18 @@
     "T5b.best_backbone_plus_attention_pooling.ece_before": {
       "mean": 0.2252532168965685,
       "std": 0.08958493724190207
+    },
+    "T5b.best_backbone_plus_attention_pooling.mf1_50": {
+      "mean": 0.18665553241824887,
+      "std": 0.014944834038030168
+    },
+    "T5b.best_backbone_plus_attention_pooling.mf1_70": {
+      "mean": 0.19347411871409792,
+      "std": 0.023969807684146277
+    },
+    "T5b.best_backbone_plus_attention_pooling.mf1_90": {
+      "mean": 0.19029018292349686,
+      "std": 0.020112535023592046
     },
     "T5b.best_backbone_plus_attention_pooling.prec50": {
       "mean": 0.8201474020758659,
@@ -576,6 +676,18 @@
       "mean": 0.4456662927664663,
       "std": 0.11187173851882987
     },
+    "T5b.dapt_wav2vec2_fine_tuned.mf1_50": {
+      "mean": 0.18499438140284152,
+      "std": 0.004666295606941641
+    },
+    "T5b.dapt_wav2vec2_fine_tuned.mf1_70": {
+      "mean": 0.18334788222453527,
+      "std": 0.004296818452228998
+    },
+    "T5b.dapt_wav2vec2_fine_tuned.mf1_90": {
+      "mean": 0.18165716929387563,
+      "std": 0.0029024112695524382
+    },
     "T5b.dapt_wav2vec2_fine_tuned.prec50": {
       "mean": 0.8612192460539824,
       "std": 0.039645890454856704
@@ -599,6 +711,18 @@
     "T5b.dapt_wav2vec2_linear_probe.ece_before": {
       "mean": 0.19762781247338096,
       "std": 0.048584161117785324
+    },
+    "T5b.dapt_wav2vec2_linear_probe.mf1_50": {
+      "mean": 0.16607395287377721,
+      "std": 0.024702510886627345
+    },
+    "T5b.dapt_wav2vec2_linear_probe.mf1_70": {
+      "mean": 0.1732097203996345,
+      "std": 0.03286010114307032
+    },
+    "T5b.dapt_wav2vec2_linear_probe.mf1_90": {
+      "mean": 0.17039589749661616,
+      "std": 0.020674639822225366
     },
     "T5b.dapt_wav2vec2_linear_probe.prec50": {
       "mean": 0.7226472148541115,
@@ -624,6 +748,18 @@
       "mean": 0.0442152069525878,
       "std": 0.03467578449822252
     },
+    "T5b.deepinfant_reproduced.mf1_50": {
+      "mean": 0.1832377019442223,
+      "std": 0.00554378058304923
+    },
+    "T5b.deepinfant_reproduced.mf1_70": {
+      "mean": 0.18282122281966492,
+      "std": 0.004035874193569704
+    },
+    "T5b.deepinfant_reproduced.mf1_90": {
+      "mean": 0.18260159268329104,
+      "std": 0.0018739731470166117
+    },
     "T5b.deepinfant_reproduced.prec50": {
       "mean": 0.8464746980557806,
       "std": 0.04757180983708084
@@ -647,6 +783,18 @@
     "T5b.hubert_base_linear_probe.ece_before": {
       "mean": 0.1409185259885388,
       "std": 0.049115151075535685
+    },
+    "T5b.hubert_base_linear_probe.mf1_50": {
+      "mean": 0.17149918640520337,
+      "std": 0.018023910610620072
+    },
+    "T5b.hubert_base_linear_probe.mf1_70": {
+      "mean": 0.2103416480634266,
+      "std": 0.09124609489831208
+    },
+    "T5b.hubert_base_linear_probe.mf1_90": {
+      "mean": 0.19095968804498745,
+      "std": 0.059161381642713944
     },
     "T5b.hubert_base_linear_probe.prec50": {
       "mean": 0.7335774727799134,
@@ -672,6 +820,18 @@
       "mean": 0.01703616013987195,
       "std": 0.010444941215661026
     },
+    "T5b.majority_class.mf1_50": {
+      "mean": 0.1821319713514148,
+      "std": 0.001947177808658662
+    },
+    "T5b.majority_class.mf1_70": {
+      "mean": 0.1821319713514148,
+      "std": 0.001947177808658662
+    },
+    "T5b.majority_class.mf1_90": {
+      "mean": 0.1821319713514148,
+      "std": 0.001947177808658662
+    },
     "T5b.majority_class.prec50": {
       "mean": 0.8361099420673888,
       "std": 0.016317299644673898
@@ -695,6 +855,18 @@
     "T5b.mfcc_plus_svm.ece_before": {
       "mean": 0.13531050914177886,
       "std": 0.010473593052156031
+    },
+    "T5b.mfcc_plus_svm.mf1_50": {
+      "mean": 0.18278159433330785,
+      "std": 0.0054579082370367245
+    },
+    "T5b.mfcc_plus_svm.mf1_70": {
+      "mean": 0.17832987077786966,
+      "std": 0.005164716484350304
+    },
+    "T5b.mfcc_plus_svm.mf1_90": {
+      "mean": 0.17796044796235935,
+      "std": 0.005517264419635208
     },
     "T5b.mfcc_plus_svm.prec50": {
       "mean": 0.8425773785754157,
@@ -720,6 +892,18 @@
       "mean": 0.4344702609869921,
       "std": 0.08483926483374081
     },
+    "T5b.wav2vec2_base_fine_tuned.mf1_50": {
+      "mean": 0.18022309615510082,
+      "std": 0.004874927380223888
+    },
+    "T5b.wav2vec2_base_fine_tuned.mf1_70": {
+      "mean": 0.1811188202203057,
+      "std": 0.004259349890994852
+    },
+    "T5b.wav2vec2_base_fine_tuned.mf1_90": {
+      "mean": 0.18226945607982367,
+      "std": 0.003499724122191052
+    },
     "T5b.wav2vec2_base_fine_tuned.prec50": {
       "mean": 0.8186929807628399,
       "std": 0.04353536789881324
@@ -743,6 +927,18 @@
     "T5b.wav2vec2_base_linear_probe.ece_before": {
       "mean": 0.1712730849418854,
       "std": 0.0344920158709922
+    },
+    "T5b.wav2vec2_base_linear_probe.mf1_50": {
+      "mean": 0.21069379787818837,
+      "std": 0.056362578731253464
+    },
+    "T5b.wav2vec2_base_linear_probe.mf1_70": {
+      "mean": 0.19646050120968336,
+      "std": 0.027297571363844343
+    },
+    "T5b.wav2vec2_base_linear_probe.mf1_90": {
+      "mean": 0.18416864966241367,
+      "std": 0.014791747741795746
     },
     "T5b.wav2vec2_base_linear_probe.prec50": {
       "mean": 0.8466514935629463,
@@ -768,6 +964,18 @@
       "mean": 0.43937983322209045,
       "std": 0.14780519604387599
     },
+    "T5b.wav2vec2_base_lora.mf1_50": {
+      "mean": 0.1710328542499479,
+      "std": 0.016638104421498247
+    },
+    "T5b.wav2vec2_base_lora.mf1_70": {
+      "mean": 0.17157571129969965,
+      "std": 0.018755351233730396
+    },
+    "T5b.wav2vec2_base_lora.mf1_90": {
+      "mean": 0.17057247905563677,
+      "std": 0.020341161406064585
+    },
     "T5b.wav2vec2_base_lora.prec50": {
       "mean": 0.7294822532156687,
       "std": 0.1586678785448349
@@ -791,6 +999,18 @@
     "T5b.whisper_base_encoder_linear_probe.ece_before": {
       "mean": 0.179595349552209,
       "std": 0.027618890038224986
+    },
+    "T5b.whisper_base_encoder_linear_probe.mf1_50": {
+      "mean": 0.17932379092925774,
+      "std": 0.0030876314564825293
+    },
+    "T5b.whisper_base_encoder_linear_probe.mf1_70": {
+      "mean": 0.1765188501057598,
+      "std": 0.0016519750111045302
+    },
+    "T5b.whisper_base_encoder_linear_probe.mf1_90": {
+      "mean": 0.18260518905725015,
+      "std": 0.020173637284656397
     },
     "T5b.whisper_base_encoder_linear_probe.prec50": {
       "mean": 0.8091726805997934,
@@ -945,84 +1165,126 @@
     "T5b.ast_fine_tuned.aurc": "E10__ast_ft__20261117-165906__5a3ceae",
     "T5b.ast_fine_tuned.ece_after": "E10__ast_ft__20261117-165906__5a3ceae",
     "T5b.ast_fine_tuned.ece_before": "E10__ast_ft__20261117-165906__5a3ceae",
+    "T5b.ast_fine_tuned.mf1_50": "E10__ast_ft__20261117-165906__5a3ceae",
+    "T5b.ast_fine_tuned.mf1_70": "E10__ast_ft__20261117-165906__5a3ceae",
+    "T5b.ast_fine_tuned.mf1_90": "E10__ast_ft__20261117-165906__5a3ceae",
     "T5b.ast_fine_tuned.prec50": "E10__ast_ft__20261117-165906__5a3ceae",
     "T5b.ast_fine_tuned.prec70": "E10__ast_ft__20261117-165906__5a3ceae",
     "T5b.ast_fine_tuned.prec90": "E10__ast_ft__20261117-165906__5a3ceae",
     "T5b.ast_linear_probe.aurc": "E07__ast_probe__20261117-001010__9b88bc7",
     "T5b.ast_linear_probe.ece_after": "E07__ast_probe__20261117-001010__9b88bc7",
     "T5b.ast_linear_probe.ece_before": "E07__ast_probe__20261117-001010__9b88bc7",
+    "T5b.ast_linear_probe.mf1_50": "E07__ast_probe__20261117-001010__9b88bc7",
+    "T5b.ast_linear_probe.mf1_70": "E07__ast_probe__20261117-001010__9b88bc7",
+    "T5b.ast_linear_probe.mf1_90": "E07__ast_probe__20261117-001010__9b88bc7",
     "T5b.ast_linear_probe.prec50": "E07__ast_probe__20261117-001010__9b88bc7",
     "T5b.ast_linear_probe.prec70": "E07__ast_probe__20261117-001010__9b88bc7",
     "T5b.ast_linear_probe.prec90": "E07__ast_probe__20261117-001010__9b88bc7",
     "T5b.ast_lora.aurc": "E11__ast_lora__20261117-174815__5a3ceae",
     "T5b.ast_lora.ece_after": "E11__ast_lora__20261117-174815__5a3ceae",
     "T5b.ast_lora.ece_before": "E11__ast_lora__20261117-174815__5a3ceae",
+    "T5b.ast_lora.mf1_50": "E11__ast_lora__20261117-174815__5a3ceae",
+    "T5b.ast_lora.mf1_70": "E11__ast_lora__20261117-174815__5a3ceae",
+    "T5b.ast_lora.mf1_90": "E11__ast_lora__20261117-174815__5a3ceae",
     "T5b.ast_lora.prec50": "E11__ast_lora__20261117-174815__5a3ceae",
     "T5b.ast_lora.prec70": "E11__ast_lora__20261117-174815__5a3ceae",
     "T5b.ast_lora.prec90": "E11__ast_lora__20261117-174815__5a3ceae",
     "T5b.best_backbone_plus_attention_pooling.aurc": "E14__ast_ft_attnpool__20261117-201115__871fcbb",
     "T5b.best_backbone_plus_attention_pooling.ece_after": "E14__ast_ft_attnpool__20261117-201115__871fcbb",
     "T5b.best_backbone_plus_attention_pooling.ece_before": "E14__ast_ft_attnpool__20261117-201115__871fcbb",
+    "T5b.best_backbone_plus_attention_pooling.mf1_50": "E14__ast_ft_attnpool__20261117-201115__871fcbb",
+    "T5b.best_backbone_plus_attention_pooling.mf1_70": "E14__ast_ft_attnpool__20261117-201115__871fcbb",
+    "T5b.best_backbone_plus_attention_pooling.mf1_90": "E14__ast_ft_attnpool__20261117-201115__871fcbb",
     "T5b.best_backbone_plus_attention_pooling.prec50": "E14__ast_ft_attnpool__20261117-201115__871fcbb",
     "T5b.best_backbone_plus_attention_pooling.prec70": "E14__ast_ft_attnpool__20261117-201115__871fcbb",
     "T5b.best_backbone_plus_attention_pooling.prec90": "E14__ast_ft_attnpool__20261117-201115__871fcbb",
     "T5b.dapt_wav2vec2_fine_tuned.aurc": "E21__dapt_w2v2_ft__20261118-130145__72875a9",
     "T5b.dapt_wav2vec2_fine_tuned.ece_after": "E21__dapt_w2v2_ft__20261118-130145__72875a9",
     "T5b.dapt_wav2vec2_fine_tuned.ece_before": "E21__dapt_w2v2_ft__20261118-130145__72875a9",
+    "T5b.dapt_wav2vec2_fine_tuned.mf1_50": "E21__dapt_w2v2_ft__20261118-130145__72875a9",
+    "T5b.dapt_wav2vec2_fine_tuned.mf1_70": "E21__dapt_w2v2_ft__20261118-130145__72875a9",
+    "T5b.dapt_wav2vec2_fine_tuned.mf1_90": "E21__dapt_w2v2_ft__20261118-130145__72875a9",
     "T5b.dapt_wav2vec2_fine_tuned.prec50": "E21__dapt_w2v2_ft__20261118-130145__72875a9",
     "T5b.dapt_wav2vec2_fine_tuned.prec70": "E21__dapt_w2v2_ft__20261118-130145__72875a9",
     "T5b.dapt_wav2vec2_fine_tuned.prec90": "E21__dapt_w2v2_ft__20261118-130145__72875a9",
     "T5b.dapt_wav2vec2_linear_probe.aurc": "E20__dapt_w2v2_probe__20261118-124424__72875a9",
     "T5b.dapt_wav2vec2_linear_probe.ece_after": "E20__dapt_w2v2_probe__20261118-124424__72875a9",
     "T5b.dapt_wav2vec2_linear_probe.ece_before": "E20__dapt_w2v2_probe__20261118-124424__72875a9",
+    "T5b.dapt_wav2vec2_linear_probe.mf1_50": "E20__dapt_w2v2_probe__20261118-124424__72875a9",
+    "T5b.dapt_wav2vec2_linear_probe.mf1_70": "E20__dapt_w2v2_probe__20261118-124424__72875a9",
+    "T5b.dapt_wav2vec2_linear_probe.mf1_90": "E20__dapt_w2v2_probe__20261118-124424__72875a9",
     "T5b.dapt_wav2vec2_linear_probe.prec50": "E20__dapt_w2v2_probe__20261118-124424__72875a9",
     "T5b.dapt_wav2vec2_linear_probe.prec70": "E20__dapt_w2v2_probe__20261118-124424__72875a9",
     "T5b.dapt_wav2vec2_linear_probe.prec90": "E20__dapt_w2v2_probe__20261118-124424__72875a9",
     "T5b.deepinfant_reproduced.aurc": "E02__deepinfant_repro__20261116-220106__428232e",
     "T5b.deepinfant_reproduced.ece_after": "E02__deepinfant_repro__20261116-220106__428232e",
     "T5b.deepinfant_reproduced.ece_before": "E02__deepinfant_repro__20261116-220106__428232e",
+    "T5b.deepinfant_reproduced.mf1_50": "E02__deepinfant_repro__20261116-220106__428232e",
+    "T5b.deepinfant_reproduced.mf1_70": "E02__deepinfant_repro__20261116-220106__428232e",
+    "T5b.deepinfant_reproduced.mf1_90": "E02__deepinfant_repro__20261116-220106__428232e",
     "T5b.deepinfant_reproduced.prec50": "E02__deepinfant_repro__20261116-220106__428232e",
     "T5b.deepinfant_reproduced.prec70": "E02__deepinfant_repro__20261116-220106__428232e",
     "T5b.deepinfant_reproduced.prec90": "E02__deepinfant_repro__20261116-220106__428232e",
     "T5b.hubert_base_linear_probe.aurc": "E06__hubert_base_probe__20261116-235847__2df0f80",
     "T5b.hubert_base_linear_probe.ece_after": "E06__hubert_base_probe__20261116-235847__2df0f80",
     "T5b.hubert_base_linear_probe.ece_before": "E06__hubert_base_probe__20261116-235847__2df0f80",
+    "T5b.hubert_base_linear_probe.mf1_50": "E06__hubert_base_probe__20261116-235847__2df0f80",
+    "T5b.hubert_base_linear_probe.mf1_70": "E06__hubert_base_probe__20261116-235847__2df0f80",
+    "T5b.hubert_base_linear_probe.mf1_90": "E06__hubert_base_probe__20261116-235847__2df0f80",
     "T5b.hubert_base_linear_probe.prec50": "E06__hubert_base_probe__20261116-235847__2df0f80",
     "T5b.hubert_base_linear_probe.prec70": "E06__hubert_base_probe__20261116-235847__2df0f80",
     "T5b.hubert_base_linear_probe.prec90": "E06__hubert_base_probe__20261116-235847__2df0f80",
     "T5b.majority_class.aurc": "E00__majority__20261116-185927__bbaf546",
     "T5b.majority_class.ece_after": "E00__majority__20261116-185927__bbaf546",
     "T5b.majority_class.ece_before": "E00__majority__20261116-185927__bbaf546",
+    "T5b.majority_class.mf1_50": "E00__majority__20261116-185927__bbaf546",
+    "T5b.majority_class.mf1_70": "E00__majority__20261116-185927__bbaf546",
+    "T5b.majority_class.mf1_90": "E00__majority__20261116-185927__bbaf546",
     "T5b.majority_class.prec50": "E00__majority__20261116-185927__bbaf546",
     "T5b.majority_class.prec70": "E00__majority__20261116-185927__bbaf546",
     "T5b.majority_class.prec90": "E00__majority__20261116-185927__bbaf546",
     "T5b.mfcc_plus_svm.aurc": "E01__mfcc_svm__20261116-190116__6bc3192",
     "T5b.mfcc_plus_svm.ece_after": "E01__mfcc_svm__20261116-190116__6bc3192",
     "T5b.mfcc_plus_svm.ece_before": "E01__mfcc_svm__20261116-190116__6bc3192",
+    "T5b.mfcc_plus_svm.mf1_50": "E01__mfcc_svm__20261116-190116__6bc3192",
+    "T5b.mfcc_plus_svm.mf1_70": "E01__mfcc_svm__20261116-190116__6bc3192",
+    "T5b.mfcc_plus_svm.mf1_90": "E01__mfcc_svm__20261116-190116__6bc3192",
     "T5b.mfcc_plus_svm.prec50": "E01__mfcc_svm__20261116-190116__6bc3192",
     "T5b.mfcc_plus_svm.prec70": "E01__mfcc_svm__20261116-190116__6bc3192",
     "T5b.mfcc_plus_svm.prec90": "E01__mfcc_svm__20261116-190116__6bc3192",
     "T5b.wav2vec2_base_fine_tuned.aurc": "E12__w2v2_ft__20261117-183854__5a3ceae",
     "T5b.wav2vec2_base_fine_tuned.ece_after": "E12__w2v2_ft__20261117-183854__5a3ceae",
     "T5b.wav2vec2_base_fine_tuned.ece_before": "E12__w2v2_ft__20261117-183854__5a3ceae",
+    "T5b.wav2vec2_base_fine_tuned.mf1_50": "E12__w2v2_ft__20261117-183854__5a3ceae",
+    "T5b.wav2vec2_base_fine_tuned.mf1_70": "E12__w2v2_ft__20261117-183854__5a3ceae",
+    "T5b.wav2vec2_base_fine_tuned.mf1_90": "E12__w2v2_ft__20261117-183854__5a3ceae",
     "T5b.wav2vec2_base_fine_tuned.prec50": "E12__w2v2_ft__20261117-183854__5a3ceae",
     "T5b.wav2vec2_base_fine_tuned.prec70": "E12__w2v2_ft__20261117-183854__5a3ceae",
     "T5b.wav2vec2_base_fine_tuned.prec90": "E12__w2v2_ft__20261117-183854__5a3ceae",
     "T5b.wav2vec2_base_linear_probe.aurc": "E05__wav2vec2_base_probe__20261116-234352__2df0f80",
     "T5b.wav2vec2_base_linear_probe.ece_after": "E05__wav2vec2_base_probe__20261116-234352__2df0f80",
     "T5b.wav2vec2_base_linear_probe.ece_before": "E05__wav2vec2_base_probe__20261116-234352__2df0f80",
+    "T5b.wav2vec2_base_linear_probe.mf1_50": "E05__wav2vec2_base_probe__20261116-234352__2df0f80",
+    "T5b.wav2vec2_base_linear_probe.mf1_70": "E05__wav2vec2_base_probe__20261116-234352__2df0f80",
+    "T5b.wav2vec2_base_linear_probe.mf1_90": "E05__wav2vec2_base_probe__20261116-234352__2df0f80",
     "T5b.wav2vec2_base_linear_probe.prec50": "E05__wav2vec2_base_probe__20261116-234352__2df0f80",
     "T5b.wav2vec2_base_linear_probe.prec70": "E05__wav2vec2_base_probe__20261116-234352__2df0f80",
     "T5b.wav2vec2_base_linear_probe.prec90": "E05__wav2vec2_base_probe__20261116-234352__2df0f80",
     "T5b.wav2vec2_base_lora.aurc": "E13__w2v2_lora__20261117-190008__5a3ceae",
     "T5b.wav2vec2_base_lora.ece_after": "E13__w2v2_lora__20261117-190008__5a3ceae",
     "T5b.wav2vec2_base_lora.ece_before": "E13__w2v2_lora__20261117-190008__5a3ceae",
+    "T5b.wav2vec2_base_lora.mf1_50": "E13__w2v2_lora__20261117-190008__5a3ceae",
+    "T5b.wav2vec2_base_lora.mf1_70": "E13__w2v2_lora__20261117-190008__5a3ceae",
+    "T5b.wav2vec2_base_lora.mf1_90": "E13__w2v2_lora__20261117-190008__5a3ceae",
     "T5b.wav2vec2_base_lora.prec50": "E13__w2v2_lora__20261117-190008__5a3ceae",
     "T5b.wav2vec2_base_lora.prec70": "E13__w2v2_lora__20261117-190008__5a3ceae",
     "T5b.wav2vec2_base_lora.prec90": "E13__w2v2_lora__20261117-190008__5a3ceae",
     "T5b.whisper_base_encoder_linear_probe.aurc": "E08__whisper_base_probe__20261117-002638__9b88bc7",
     "T5b.whisper_base_encoder_linear_probe.ece_after": "E08__whisper_base_probe__20261117-002638__9b88bc7",
     "T5b.whisper_base_encoder_linear_probe.ece_before": "E08__whisper_base_probe__20261117-002638__9b88bc7",
+    "T5b.whisper_base_encoder_linear_probe.mf1_50": "E08__whisper_base_probe__20261117-002638__9b88bc7",
+    "T5b.whisper_base_encoder_linear_probe.mf1_70": "E08__whisper_base_probe__20261117-002638__9b88bc7",
+    "T5b.whisper_base_encoder_linear_probe.mf1_90": "E08__whisper_base_probe__20261117-002638__9b88bc7",
     "T5b.whisper_base_encoder_linear_probe.prec50": "E08__whisper_base_probe__20261117-002638__9b88bc7",
     "T5b.whisper_base_encoder_linear_probe.prec70": "E08__whisper_base_probe__20261117-002638__9b88bc7",
     "T5b.whisper_base_encoder_linear_probe.prec90": "E08__whisper_base_probe__20261117-002638__9b88bc7",
@@ -1073,5 +1335,5 @@
     "overlap.deepinfant_v2.n_generated_copies": "dataset_stats.json",
     "splits.folds_file_sha256": "splits_report.json"
   },
-  "_generated_utc": "2026-11-18T17:25:39Z"
+  "_generated_utc": "2026-11-18T18:20:17Z"
 }

@@ -137,6 +137,16 @@ def selective_accuracy(confidence: np.ndarray, correct: np.ndarray, tau: float) 
     return acc, cov
 
 
+def selective_macro_f1(y: np.ndarray, pred: np.ndarray, keep: np.ndarray, n_classes: int) -> float:
+    """Macro-F1 on the kept clips, averaged over ALL ``n_classes`` classes (zero_division=0).
+    A class with no kept clips and no kept predictions scores 0, so abstaining on a whole
+    class is penalised, not hidden. NaN if nothing is kept. RESULTS_SPEC: macro_f1_at_coverage."""
+    y, pred, keep = np.asarray(y).astype(int), np.asarray(pred).astype(int), np.asarray(keep, dtype=bool)
+    if not keep.any():
+        return float("nan")
+    return float(f1_score(y[keep], pred[keep], labels=list(range(n_classes)), average="macro", zero_division=0))
+
+
 # --------------------------------------------------------------------------- classification
 def top_k_accuracy(y: np.ndarray, probs: np.ndarray, k: int = 2) -> float:
     y, probs = _check(y, probs)
@@ -178,14 +188,16 @@ def classification_metrics(
     }
 
     pac: dict[str, float | None] = {"1.0": float(correct.mean()) if len(y) else float("nan")}
+    mfac: dict[str, float | None] = {"1.0": selective_macro_f1(y, pred, np.ones(len(y), bool), n_classes)}
     realised: dict[str, float | None] = {}
     for c in coverages:
         key = str(c)
         tau = (thresholds or {}).get(key)
         if tau is None:
-            pac[key], realised[key] = None, None
+            pac[key], realised[key], mfac[key] = None, None, None
         else:
             pac[key], realised[key] = selective_accuracy(conf, correct, tau)
+            mfac[key] = selective_macro_f1(y, pred, conf >= tau, n_classes)
 
     return {
         "n_test": int(len(y)),
@@ -203,6 +215,7 @@ def classification_metrics(
         "ece_15_cal": ece(y, probs, n_bins),
         "aurc": aurc(conf, correct),
         "precision_at_coverage": pac,
+        "macro_f1_at_coverage": mfac,
         "realised_coverage": realised,
         "top2_accuracy": top_k_accuracy(y, probs, 2),
     }

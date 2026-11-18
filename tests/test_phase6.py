@@ -65,3 +65,24 @@ def test_load_outputs_and_figures(tmp_path):
     plot_risk_coverage([("m", o)], tmp_path / "fig2")
     plot_reliability("m", o, tmp_path / "fig3")
     assert (tmp_path / "fig2.png").is_file() and (tmp_path / "fig3.pdf").is_file()
+
+
+def test_selective_macro_f1_penalises_dropped_class():
+    from src.results.metrics import selective_macro_f1
+    y = np.array([0, 0, 1, 1, 2, 2])
+    pred = y.copy()
+    assert selective_macro_f1(y, pred, np.ones(6, bool), 3) == 1.0
+    keep = np.array([1, 1, 1, 1, 0, 0], bool)          # abstain on all of class 2
+    assert abs(selective_macro_f1(y, pred, keep, 3) - 2 / 3) < 1e-12
+    assert np.isnan(selective_macro_f1(y, pred, np.zeros(6, bool), 3))
+
+
+def test_classification_metrics_has_macro_f1_at_coverage():
+    from src.results.metrics import classification_metrics
+    rng = np.random.default_rng(0)
+    probs = rng.dirichlet(np.ones(3), 50)
+    y = rng.integers(0, 3, 50)
+    m = classification_metrics(y, probs, ["a", "b", "c"], thresholds={"0.5": float(np.median(probs.max(1)))},
+                               coverages=(0.5,))
+    assert abs(m["macro_f1_at_coverage"]["1.0"] - m["macro_f1"]) < 1e-12
+    assert m["macro_f1_at_coverage"]["0.5"] is not None
