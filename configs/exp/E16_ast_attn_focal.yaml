@@ -1,0 +1,16 @@
+experiment_id: E16
+name: ast_attn_focal
+parent_run: E14
+change_vs_parent: "focal loss (gamma 2, alpha = the same train class weights) instead of class-weighted CE"
+paper: {table: tuning, row: "Imbalance: focal loss"}
+data: {label_set: donateacry_v1}
+model:
+  type: finetune
+  backbone: ast
+  head: attention
+  peft: null
+train:
+  lr: 3.0e-5
+  loss: focal
+  focal_gamma: 2.0
+notes: "Imbalance study: same as E14 (AST full FT, attention pooling, lr 3e-5, 15 epochs, patience 5) except the one change above."

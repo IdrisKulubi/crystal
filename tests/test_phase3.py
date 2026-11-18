@@ -8,7 +8,7 @@ torch = pytest.importorskip("torch")
 
 from src.datasets import FoldData  # noqa: E402
 from src.models import probe  # noqa: E402
-from src.models.finetune import AttentionPool, class_weights  # noqa: E402
+from src.models.finetune import AttentionPool, FocalLoss, class_weights, epoch_order  # noqa: E402
 
 LABELS = ["a", "b", "c"]
 
@@ -91,3 +91,55 @@ def test_resolve_parent(tmp_path):
     assert resolve_parent("E05__x__20261117-000000__ccccccc", tmp_path) == "E05__x__20261117-000000__ccccccc"
     assert resolve_parent(None, tmp_path) is None
     json.dumps(resolve_parent("E07", tmp_path))
+
+
+def test_focal_gamma0_equals_weighted_ce():
+    logits, y = torch.randn(16, 3), torch.randint(0, 3, (16,))
+    w = torch.tensor([0.5, 1.0, 2.0])
+    ref = torch.nn.functional.cross_entropy(logits, y, weight=w)
+    assert torch.allclose(FocalLoss(0.0, w)(logits, y), ref, atol=1e-6)
+    assert FocalLoss(2.0, w)(logits, y) < ref                      # down-weights easy examples
+
+
+def test_balanced_sampler_equalises_classes():
+    y = np.array([0] * 90 + [1] * 9 + [2] * 1)
+    rng = np.random.default_rng(0)
+    draws = np.concatenate([epoch_order(y, 3, "balanced", rng) for _ in range(50)])
+    frac = np.bincount(y[draws], minlength=3) / len(draws)
+    assert np.all(np.abs(frac - 1 / 3) < 0.03)
+    perm = epoch_order(y, 3, "shuffle", np.random.default_rng(0))
+    assert sorted(perm) == list(range(len(y)))
+    with pytest.raises(ValueError):
+        epoch_order(y, 3, "nope", rng)
+
+
+@pytest.mark.parametrize("train", [
+    {"loss": "focal", "sampler": "shuffle", "early_stopping_metric": "val_macro_f1"},
+    {"loss": "ce", "sampler": "balanced", "early_stopping_metric": "val_macro_f1"},
+    {"loss": "weighted_ce", "sampler": "shuffle", "early_stopping_metric": "val_loss_weighted"},
+])
+def test_finetune_loop_options(monkeypatch, train):
+    import transformers
+    from src.models import finetune
+
+    class Tiny(torch.nn.Module):
+        def __init__(self, *a, **k):
+            super().__init__()
+            self.lin, self.revision = torch.nn.Linear(4, 3), "r"
+
+        def forward(self, x):
+            return self.lin(x)
+
+    fd = _fold(30)
+    monkeypatch.setattr(finetune, "FineTuneModel", Tiny)
+    monkeypatch.setattr(finetune, "load_waveforms", lambda paths: [np.zeros(4, np.float32)] * len(paths))
+    monkeypatch.setattr(finetune, "model_inputs", lambda fe, kind, w, n: np.random.default_rng(0).normal(size=(len(w), 4)).astype(np.float32))
+    monkeypatch.setattr(transformers.AutoFeatureExtractor, "from_pretrained", staticmethod(lambda *a, **k: None))
+    cfg = {"model": {"backbone": "ast", "head": "mean_pool", "peft": None}, "data": {"clip_seconds": 1.0},
+           "train": {"lr": 1e-2, "weight_decay": 0.0, "batch_size": 8, "grad_accum": 1, "epochs": 3,
+                     "warmup_ratio": 0.0, "patience": 5, "focal_gamma": 2.0, **train}}
+    out = finetune.finetune_fit_predict(fd, cfg, 0)
+    ch = out["chosen"]
+    assert out["test_logits"].shape == (len(fd.test), 3) and len(ch["selection_trace"]) == 3
+    assert ch["best_epoch"] == 1 + int(np.argmax(ch["selection_trace"]))
+    assert ch["loss"] == train["loss"] and ch["sampler"] == train["sampler"]

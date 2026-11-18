@@ -11,8 +11,10 @@ see ``src.models.encoders.ENCODERS``. Fixed choices (docs/DECISIONS.md):
 * LoRA (``model.peft: {type: lora, r, alpha, dropout}``): adapters on the attention query/value
   projections; only adapters + head train.
 * optimiser AdamW(lr, weight_decay), linear warm-up (warmup_ratio) then linear decay, batch_size x
-  grad_accum, loss ``weighted_ce`` (class weights n/(K*n_c) from the TRAIN split) or ``ce``.
-* best epoch by validation macro-F1 (strictly greater), early stop after ``patience`` epochs
+  grad_accum, loss ``weighted_ce`` (class weights n/(K*n_c) from the TRAIN split), ``ce`` or ``focal``
+  (gamma ``focal_gamma``, alpha = the same class weights); ``sampler`` shuffle or balanced.
+* best epoch by ``early_stopping_metric`` on validation (val_macro_f1, or val_loss_weighted = class-
+  weighted CE with train weights; strictly better), early stop after ``patience`` epochs
   without improvement; test is predicted once with the best weights.
 * fp16 autocast on CUDA.
 No augmentation here (that is Phase 5), so model inputs are computed once per clip.
@@ -105,6 +107,34 @@ def class_weights(y: np.ndarray, k: int) -> torch.Tensor:
     return torch.tensor(w, dtype=torch.float32)
 
 
+class FocalLoss(nn.Module):
+    """Multi-class focal loss (Lin et al. 2017), alpha = per-class weights, normalised like weighted CE."""
+
+    def __init__(self, gamma: float = 2.0, weight: torch.Tensor | None = None):
+        super().__init__()
+        self.gamma, self.weight = float(gamma), weight
+
+    def forward(self, logits: torch.Tensor, y: torch.Tensor) -> torch.Tensor:
+        ce = nn.functional.cross_entropy(logits, y, reduction="none")
+        focal = (1.0 - torch.exp(-ce)).clamp(min=0.0) ** self.gamma * ce
+        if self.weight is None:
+            return focal.mean()
+        w = self.weight[y]
+        return (w * focal).sum() / w.sum().clamp(min=1e-12)
+
+
+def epoch_order(y: np.ndarray, k: int, sampler: str, rng: np.random.Generator) -> np.ndarray:
+    """Training order for one epoch. ``shuffle``: a permutation. ``balanced``: len(y) draws with
+    replacement, P(clip) proportional to 1/count(its class), so every class is equally likely per draw."""
+    if sampler == "shuffle":
+        return rng.permutation(len(y))
+    if sampler == "balanced":
+        counts = np.bincount(y, minlength=k).astype(np.float64)
+        p = 1.0 / counts[y]
+        return rng.choice(len(y), size=len(y), replace=True, p=p / p.sum())
+    raise ValueError(f"train.sampler must be shuffle or balanced, got {sampler!r}")
+
+
 @torch.no_grad()
 def _predict(model, x: np.ndarray, device, bs: int = 16) -> np.ndarray:
     model.eval()
@@ -144,19 +174,27 @@ def finetune_fit_predict(fd: FoldData, cfg: dict, seed: int) -> dict:
     sched = torch.optim.lr_scheduler.LambdaLR(
         opt, lambda s: (s + 1) / max(1, warm) if s < warm else max(0.0, (total - s) / max(1, total - warm)))
     loss_name = tcfg.get("loss", "weighted_ce")
-    if loss_name not in ("weighted_ce", "ce"):
-        raise ValueError(f"finetune supports loss weighted_ce / ce, got {loss_name!r}")
-    weight = class_weights(ytr, k).to(device) if loss_name == "weighted_ce" else None
-    criterion = nn.CrossEntropyLoss(weight=weight)
+    if loss_name not in ("weighted_ce", "ce", "focal"):
+        raise ValueError(f"finetune supports loss weighted_ce / ce / focal, got {loss_name!r}")
+    w_train = class_weights(ytr, k)
+    if loss_name == "focal":   # alpha = the same class weights as weighted_ce
+        criterion = FocalLoss(float(tcfg.get("focal_gamma", 2.0)), w_train.to(device))
+    else:
+        criterion = nn.CrossEntropyLoss(weight=w_train.to(device) if loss_name == "weighted_ce" else None)
+    sampler = tcfg.get("sampler") or "shuffle"
+    sel_metric = tcfg.get("early_stopping_metric") or "val_macro_f1"
+    if sel_metric not in ("val_macro_f1", "val_loss_weighted"):
+        raise ValueError(f"early_stopping_metric must be val_macro_f1 or val_loss_weighted, got {sel_metric!r}")
     scaler = torch.amp.GradScaler("cuda", enabled=device.type == "cuda")
     patience = int(tcfg.get("patience", 5))
 
-    best_f1, best_state, best_epoch, bad, log, step = -1.0, None, 0, 0, [], 0
+    best_score, best_state, best_epoch, bad, log, step = -math.inf, None, 0, 0, [], 0
+    best_f1, sel_trace = -1.0, []
     for epoch in range(1, epochs + 1):
         t0 = time.time()
         model.train()
         tot, n = 0.0, 0
-        order = rng.permutation(len(ytr))
+        order = epoch_order(ytr, k, sampler, rng)
         opt.zero_grad(set_to_none=True)
         batches = [order[i:i + bs] for i in range(0, len(order), bs)]
         for bi, b in enumerate(batches):
@@ -183,8 +221,14 @@ def finetune_fit_predict(fd: FoldData, cfg: dict, seed: int) -> dict:
                     "val_macro_f1": val_f1, "val_acc": float((val_pred == yva).mean()),
                     "lr": sched.get_last_lr()[0], "seconds": round(time.time() - t0, 2)})
         print(f"    epoch {epoch}: train_loss {tot / max(n, 1):.3f} val_f1 {val_f1:.3f}", flush=True)
-        if val_f1 > best_f1:
-            best_f1, best_epoch, bad = val_f1, epoch, 0
+        if sel_metric == "val_macro_f1":
+            score = val_f1
+        else:  # class-weighted CE on validation (weights from TRAIN counts); lower is better
+            score = -float(nn.functional.cross_entropy(torch.from_numpy(val_logits), torch.from_numpy(yva),
+                                                       weight=w_train))
+        sel_trace.append(round(score, 6))
+        if score > best_score:
+            best_score, best_f1, best_epoch, bad = score, val_f1, epoch, 0
             best_state = {kk: v.detach().cpu().clone() for kk, v in model.state_dict().items()}
         else:
             bad += 1
@@ -208,5 +252,6 @@ def finetune_fit_predict(fd: FoldData, cfg: dict, seed: int) -> dict:
         "params_trainable": sum(p.numel() for p in trainable),
         "train_log": log, "predict_one": predict_one,
         "chosen": {"best_epoch": best_epoch, "best_val_macro_f1": best_f1, "epochs_run": len(log),
-                   "backbone": backbone, "revision": model.revision},
+                   "backbone": backbone, "revision": model.revision, "sampler": sampler, "loss": loss_name,
+                   "selection_metric": sel_metric, "selection_trace": sel_trace},
     }

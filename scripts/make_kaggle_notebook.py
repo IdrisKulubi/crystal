@@ -12,7 +12,9 @@ locally: `python -m src.import_runs crystal_results.zip` (then `python -m src.re
 Edit `CONFIGS` below to choose experiments. No audio leaves Kaggle; the zip holds only logits,
 predictions, metrics and logs."""),
     ("code", """CONFIGS = [                                             # each runs 5 folds x 3 seeds
-    "configs/exp/E14_ast_ft_attnpool.yaml",
+    "configs/exp/E15_ast_attn_balsampler.yaml",
+    "configs/exp/E16_ast_attn_focal.yaml",
+    "configs/exp/E17_ast_attn_selloss.yaml",
 ]
 EXTRA_ARGS = ""                                         # e.g. "--fold 0 --seeds 0" for a quick check
 REPO = "https://github.com/IdrisKulubi/crystal.git"

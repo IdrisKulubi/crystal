@@ -32,7 +32,8 @@ train:
   loss: weighted_ce
   focal_gamma: 2.0
   augment: {noise_snr_db: null, specaugment: false, mixup_alpha: null, pitch_shift: false}
-  early_stopping_metric: val_macro_f1
+  sampler: shuffle          # shuffle | balanced (class-balanced draws with replacement)
+  early_stopping_metric: val_macro_f1   # val_macro_f1 | val_loss_weighted
   patience: 5
 eval:
   folds: [0, 1, 2, 3, 4]
