@@ -1,0 +1,40 @@
+{
+  "n_test": 3852,
+  "threshold": 0.10970578342676163,
+  "accuracy": 0.9880581516095535,
+  "f1": 0.9878435517970402,
+  "precision": 0.9878435517970402,
+  "recall": 0.9878435517970402,
+  "miss_rate": 0.012156448202959802,
+  "roc_auc": 0.9990231425551193,
+  "false_alarms_per_hour": null,
+  "clip": {
+    "n_test": 681,
+    "threshold": 0.9996048808097839,
+    "accuracy": 0.986784140969163,
+    "f1": 0.9842381786339754,
+    "precision": 0.9964539007092199,
+    "recall": 0.972318339100346,
+    "miss_rate": 0.02768166089965396,
+    "roc_auc": 0.9994262410846692,
+    "false_alarms_per_hour": null
+  },
+  "by_source": {
+    "cryceleb_recall": 0.9969992498124531,
+    "donateacry_recall": 0.9769673704414588,
+    "esc50_recall": 0.8157894736842105,
+    "esc50_false_positive_rate": 0.01173469387755102
+  },
+  "train_seconds": 376.45,
+  "params_total": 85367809,
+  "params_trainable": 85367809,
+  "inference_ms_per_frame_cpu": null,
+  "n_val_frames": 2248,
+  "model_selection": {
+    "best_epoch": 3,
+    "best_val_roc_auc": 0.9998670212765957,
+    "epochs_run": 6,
+    "threshold_from_val": 0.10970578342676163,
+    "revision": null
+  }
+}

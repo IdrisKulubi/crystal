@@ -1,0 +1,58 @@
+experiment_id: E40
+name: ast_detector
+parent_run: null
+change_vs_parent: null
+paper:
+  table: T6
+  row: AST detector
+task: detection
+data:
+  metadata: data/detection_folds.csv
+  base_metadata: data/metadata.csv
+  datasets:
+  - donateacry
+  - cryceleb
+  - esc50
+  label_set: detect_v1
+  sample_rate: 16000
+  clip_seconds: 7.0
+model:
+  type: ast_detector
+  backbone: null
+  init_checkpoint: null
+  head: mean_pool
+  peft: null
+  context_features: []
+train:
+  epochs: 6
+  batch_size: 32
+  grad_accum: 4
+  lr: 2.0e-05
+  weight_decay: 0.01
+  warmup_ratio: 0.1
+  loss: weighted_ce
+  focal_gamma: 2.0
+  augment:
+    noise_snr_db: null
+    specaugment: false
+    mixup_alpha: null
+    pitch_shift: false
+  sampler: shuffle
+  early_stopping_metric: val_macro_f1
+  patience: 3
+  frames_per_epoch: 8000
+eval:
+  folds:
+  - 0
+  - 1
+  - 2
+  - 3
+  - 4
+  seeds:
+  - 0
+  - 1
+  - 2
+  val_group_fraction: 0.15
+notes: Stage-1 detector on 1 s frames, 4 kHz band-limited (src/detection.py). Best
+  epoch by val ROC-AUC; threshold = max val F1. False alarms/hour pending the household
+  recording.

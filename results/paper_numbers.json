@@ -89,19 +89,19 @@
   "T5.cov70.threshold": null,
   "T5.cov90.precision": null,
   "T5.cov90.threshold": null,
-  "T6.ast_detector.accuracy": null,
-  "T6.ast_detector.f1": null,
+  "T6.ast_detector.accuracy": "98.7 ± 0.3",
+  "T6.ast_detector.f1": "0.987 ± 0.003",
   "T6.ast_detector.false_alarms_per_hour": null,
-  "T6.ast_detector.precision": null,
-  "T6.ast_detector.recall": null,
-  "T6.ast_detector.roc_auc": null,
-  "T6.small_cnn_detector.accuracy": null,
-  "T6.small_cnn_detector.f1": null,
+  "T6.ast_detector.precision": "98.6 ± 0.5",
+  "T6.ast_detector.recall": "98.7 ± 0.4",
+  "T6.ast_detector.roc_auc": "0.999 ± 0.001",
+  "T6.small_cnn_detector.accuracy": "96.9 ± 0.6",
+  "T6.small_cnn_detector.f1": "0.969 ± 0.006",
   "T6.small_cnn_detector.false_alarms_per_hour": null,
-  "T6.small_cnn_detector.precision": null,
-  "T6.small_cnn_detector.recall": null,
-  "T6.small_cnn_detector.roc_auc": null,
-  "abstract.detection_acc": null,
+  "T6.small_cnn_detector.precision": "96.9 ± 1.2",
+  "T6.small_cnn_detector.recall": "96.9 ± 0.7",
+  "T6.small_cnn_detector.roc_auc": "0.995 ± 0.002",
+  "abstract.detection_acc": "98.7 ± 0.3",
   "abstract.ece_ours": null,
   "abstract.reason_macro_f1_deepinfant": "0.182 ± 0.002",
   "abstract.reason_macro_f1_ours": null,
@@ -372,6 +372,50 @@
       "mean": 0.1839267558877006,
       "std": 0.018138928931463134
     },
+    "T6.ast_detector.accuracy": {
+      "mean": 0.9867837756231777,
+      "std": 0.0032637192294700853
+    },
+    "T6.ast_detector.f1": {
+      "mean": 0.9867002386784999,
+      "std": 0.0032769191063481175
+    },
+    "T6.ast_detector.precision": {
+      "mean": 0.986381271371023,
+      "std": 0.0048729606734739354
+    },
+    "T6.ast_detector.recall": {
+      "mean": 0.9870390314952339,
+      "std": 0.004300409108012964
+    },
+    "T6.ast_detector.roc_auc": {
+      "mean": 0.9986667822838718,
+      "std": 0.0008181821325518504
+    },
+    "T6.small_cnn_detector.accuracy": {
+      "mean": 0.9689947040438033,
+      "std": 0.00618054942832915
+    },
+    "T6.small_cnn_detector.f1": {
+      "mean": 0.9688029628880677,
+      "std": 0.0060549294171550316
+    },
+    "T6.small_cnn_detector.precision": {
+      "mean": 0.969027604156427,
+      "std": 0.01195635096705649
+    },
+    "T6.small_cnn_detector.recall": {
+      "mean": 0.968697433972739,
+      "std": 0.007218793641156515
+    },
+    "T6.small_cnn_detector.roc_auc": {
+      "mean": 0.9952310785352424,
+      "std": 0.0020931385334030635
+    },
+    "abstract.detection_acc": {
+      "mean": 0.9867837756231777,
+      "std": 0.0032637192294700853
+    },
     "abstract.reason_macro_f1_deepinfant": {
       "mean": 0.18177538391279507,
       "std": 0.002402542108929079
@@ -466,6 +510,17 @@
     "T3.whisper_base_encoder_linear_probe.balanced_acc": "E08__whisper_base_probe__20261117-002638__9b88bc7",
     "T3.whisper_base_encoder_linear_probe.ece": "E08__whisper_base_probe__20261117-002638__9b88bc7",
     "T3.whisper_base_encoder_linear_probe.macro_f1": "E08__whisper_base_probe__20261117-002638__9b88bc7",
+    "T6.ast_detector.accuracy": "E40__ast_detector__20261118-153113__7509d81",
+    "T6.ast_detector.f1": "E40__ast_detector__20261118-153113__7509d81",
+    "T6.ast_detector.precision": "E40__ast_detector__20261118-153113__7509d81",
+    "T6.ast_detector.recall": "E40__ast_detector__20261118-153113__7509d81",
+    "T6.ast_detector.roc_auc": "E40__ast_detector__20261118-153113__7509d81",
+    "T6.small_cnn_detector.accuracy": "E41__cnn_detector__20261118-152348__7509d81",
+    "T6.small_cnn_detector.f1": "E41__cnn_detector__20261118-152348__7509d81",
+    "T6.small_cnn_detector.precision": "E41__cnn_detector__20261118-152348__7509d81",
+    "T6.small_cnn_detector.recall": "E41__cnn_detector__20261118-152348__7509d81",
+    "T6.small_cnn_detector.roc_auc": "E41__cnn_detector__20261118-152348__7509d81",
+    "abstract.detection_acc": "E40__ast_detector__20261118-153113__7509d81",
     "abstract.reason_macro_f1_deepinfant": "E02__deepinfant_repro__20261116-220106__428232e",
     "dapt.hours_unlabelled": "dapt_stats.json",
     "dapt.steps": "D01__w2v2_cryceleb__20261118-111057__72875a9",
@@ -502,5 +557,5 @@
     "overlap.deepinfant_v2.n_generated_copies": "dataset_stats.json",
     "splits.folds_file_sha256": "splits_report.json"
   },
-  "_generated_utc": "2026-11-18T14:09:49Z"
+  "_generated_utc": "2026-11-18T17:14:19Z"
 }
