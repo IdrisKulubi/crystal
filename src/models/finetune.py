@@ -31,6 +31,7 @@ import torch.nn as nn
 from sklearn.metrics import f1_score
 
 from src.audio import TARGET_SR
+from src.dapt import resolve_checkpoint
 from src.datasets import FoldData, load_waveforms, pad_or_crop
 from src.models.encoders import ENCODERS
 
@@ -48,16 +49,16 @@ class AttentionPool(nn.Module):
 
 
 class FineTuneModel(nn.Module):
-    def __init__(self, backbone: str, n_classes: int, head: str = "mean_pool", peft: dict | None = None):
+    def __init__(self, backbone: str, n_classes: int, head: str = "mean_pool", peft: dict | None = None,
+                 init_checkpoint: str | None = None):
         super().__init__()
-        from transformers import AutoModel
+        from src.models.encoders import load_backbone
 
         spec = ENCODERS[backbone]
         self.kind, self.head_type = spec["kind"], head
         if self.kind not in ("ast", "w2v"):
             raise ValueError(f"fine-tuning supports ast / wav2vec2-style backbones, not {backbone!r}")
-        self.backbone = AutoModel.from_pretrained(spec["hf_id"])
-        self.revision = getattr(self.backbone.config, "_commit_hash", None)
+        self.backbone, self.revision = load_backbone(backbone, init_checkpoint)
         dim = self.backbone.config.hidden_size
         if peft:
             if peft.get("type") != "lora":
@@ -164,7 +165,8 @@ def finetune_fit_predict(fd: FoldData, cfg: dict, seed: int) -> dict:
          for role, part in (("train", fd.train), ("val", fd.val), ("test", fd.test))}
     ytr, yva = fd.train["label_idx"].to_numpy(), fd.val["label_idx"].to_numpy()
 
-    model = FineTuneModel(backbone, k, mcfg.get("head") or "mean_pool", mcfg.get("peft")).to(device)
+    ckpt = resolve_checkpoint(mcfg.get("init_checkpoint"))
+    model = FineTuneModel(backbone, k, mcfg.get("head") or "mean_pool", mcfg.get("peft"), ckpt).to(device)
     trainable = [p for p in model.parameters() if p.requires_grad]
     opt = torch.optim.AdamW(trainable, lr=float(tcfg["lr"]), weight_decay=float(tcfg["weight_decay"]))
     bs, accum, epochs = int(tcfg["batch_size"]), int(tcfg["grad_accum"]), int(tcfg["epochs"])
@@ -252,6 +254,6 @@ def finetune_fit_predict(fd: FoldData, cfg: dict, seed: int) -> dict:
         "params_trainable": sum(p.numel() for p in trainable),
         "train_log": log, "predict_one": predict_one,
         "chosen": {"best_epoch": best_epoch, "best_val_macro_f1": best_f1, "epochs_run": len(log),
-                   "backbone": backbone, "revision": model.revision, "sampler": sampler, "loss": loss_name,
+                   "backbone": backbone, "revision": model.revision, "init_checkpoint": ckpt, "sampler": sampler, "loss": loss_name,
                    "selection_metric": sel_metric, "selection_trace": sel_trace},
     }

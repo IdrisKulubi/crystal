@@ -1,0 +1,13 @@
+experiment_id: E20
+name: dapt_w2v2_probe
+parent_run: E05
+change_vs_parent: "encoder weights from DAPT run D01 (wav2vec2-base self-supervised pretraining continued on CryCeleb) instead of the released wav2vec2-base"
+paper: {table: T3, row: "DAPT wav2vec2, linear probe"}
+data: {label_set: donateacry_v1}
+model:
+  type: linear_probe
+  encoder: wav2vec2_base
+  init_checkpoint: "dapt:D01"
+  layer: last
+  grid_C: [0.001, 0.01, 0.1, 1, 10]
+notes: "Same as E05 except the encoder weights. dapt:D01 resolves to the latest completed D01 checkpoint (src/dapt.py)."

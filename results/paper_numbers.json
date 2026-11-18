@@ -107,7 +107,7 @@
   "abstract.reason_macro_f1_ours": null,
   "abstract.selective_coverage": null,
   "abstract.selective_precision": null,
-  "dapt.hours_unlabelled": null,
+  "dapt.hours_unlabelled": "6.5",
   "datasets.donateacry.class_counts.belly_pain": "16",
   "datasets.donateacry.class_counts.burping": "8",
   "datasets.donateacry.class_counts.discomfort": "27",
@@ -343,6 +343,7 @@
       "mean": 0.18177538391279507,
       "std": 0.002402542108929079
     },
+    "dapt.hours_unlabelled": 6.5091,
     "datasets.donateacry.class_counts.belly_pain": 16,
     "datasets.donateacry.class_counts.burping": 8,
     "datasets.donateacry.class_counts.discomfort": 27,
@@ -424,6 +425,7 @@
     "T3.whisper_base_encoder_linear_probe.ece": "E08__whisper_base_probe__20261117-002638__9b88bc7",
     "T3.whisper_base_encoder_linear_probe.macro_f1": "E08__whisper_base_probe__20261117-002638__9b88bc7",
     "abstract.reason_macro_f1_deepinfant": "E02__deepinfant_repro__20261116-220106__428232e",
+    "dapt.hours_unlabelled": "dapt_stats.json",
     "datasets.donateacry.class_counts.belly_pain": "dataset_stats.json",
     "datasets.donateacry.class_counts.burping": "dataset_stats.json",
     "datasets.donateacry.class_counts.discomfort": "dataset_stats.json",
@@ -457,5 +459,5 @@
     "overlap.deepinfant_v2.n_generated_copies": "dataset_stats.json",
     "splits.folds_file_sha256": "splits_report.json"
   },
-  "_generated_utc": "2026-11-18T10:12:47Z"
+  "_generated_utc": "2026-11-18T10:41:22Z"
 }

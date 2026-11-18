@@ -17,6 +17,7 @@ Pooling per encoder (fixed, documented in docs/DECISIONS.md):
 from __future__ import annotations
 
 import math
+from pathlib import Path
 
 import numpy as np
 import torch
@@ -31,9 +32,36 @@ ENCODERS = {
 }
 
 
+def checkpoint_revision(path) -> str:
+    """Revision string for a local checkpoint dir: ``local:<sha256 of model.safetensors, 16 hex>``."""
+    from src.results.run import sha256_file
+
+    from pathlib import Path
+
+    p = Path(path)
+    sha = sha256_file(p / "model.safetensors") or sha256_file(p / "pytorch_model.bin")
+    if sha is None:
+        raise FileNotFoundError(f"no model weights in checkpoint {path}")
+    return f"local:{sha[:16]}"
+
+
+def load_backbone(key: str, checkpoint: str | None = None):
+    """(model, revision): released HF weights for ``key``, or a local checkpoint of the same architecture
+    (e.g. a DAPT checkpoint; resolved with ``src.dapt.resolve_checkpoint``)."""
+    from transformers import AutoModel
+
+    from src.config import REPO_ROOT
+
+    if checkpoint:
+        path = Path(checkpoint) if Path(checkpoint).is_absolute() else REPO_ROOT / checkpoint
+        return AutoModel.from_pretrained(path), checkpoint_revision(path)
+    model = AutoModel.from_pretrained(ENCODERS[key]["hf_id"])
+    return model, getattr(model.config, "_commit_hash", None)
+
+
 class Encoder:
-    def __init__(self, key: str, device: str | torch.device = "cpu"):
-        from transformers import AutoFeatureExtractor, AutoModel
+    def __init__(self, key: str, device: str | torch.device = "cpu", checkpoint: str | None = None):
+        from transformers import AutoFeatureExtractor
 
         if key not in ENCODERS:
             raise ValueError(f"unknown encoder {key!r}; known: {sorted(ENCODERS)}")
@@ -41,9 +69,9 @@ class Encoder:
         self.hf_id, self.kind = spec["hf_id"], spec["kind"]
         self.device = torch.device(device)
         self.fe = AutoFeatureExtractor.from_pretrained(self.hf_id)
-        model = AutoModel.from_pretrained(self.hf_id)
+        model, self.revision = load_backbone(key, checkpoint)
+        self.checkpoint = checkpoint
         self.model = (model.encoder if self.kind == "whisper" else model).to(self.device).eval()
-        self.revision = getattr(model.config, "_commit_hash", None)
         self.n_params = sum(p.numel() for p in self.model.parameters())
 
     @torch.no_grad()

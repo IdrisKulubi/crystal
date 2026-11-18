@@ -13,6 +13,7 @@ The validation macro-F1 of every layer is always recorded in ``chosen.val_macro_
 from __future__ import annotations
 
 import time
+from pathlib import Path
 import warnings
 
 import numpy as np
@@ -21,27 +22,33 @@ from sklearn.metrics import f1_score
 from sklearn.preprocessing import StandardScaler
 
 from src.config import REPO_ROOT
+from src.dapt import resolve_checkpoint
 from src.datasets import FoldData, load_waveforms
 
 EMB_DIR = REPO_ROOT / "data" / "embeddings"
 _ENCODERS: dict = {}
 
 
-def get_encoder(key: str, device: str):
+def get_encoder(key: str, device: str, checkpoint: str | None = None):
     from src.models.encoders import Encoder
 
-    if (key, device) not in _ENCODERS:
-        _ENCODERS[(key, device)] = Encoder(key, device)
-    return _ENCODERS[(key, device)]
+    if (key, device, checkpoint) not in _ENCODERS:
+        _ENCODERS[(key, device, checkpoint)] = Encoder(key, device, checkpoint)
+    return _ENCODERS[(key, device, checkpoint)]
 
 
-def embeddings_for(key: str, clip_ids, paths, device: str | None = None) -> tuple[np.ndarray, dict]:
+def cache_name(key: str, checkpoint: str | None = None) -> str:
+    return key if not checkpoint else f"{key}__{Path(checkpoint).name}"
+
+
+def embeddings_for(key: str, clip_ids, paths, device: str | None = None,
+                   checkpoint: str | None = None) -> tuple[np.ndarray, dict]:
     """[n_clips, n_layers, dim] for the given clips, computing and caching any that are missing."""
     import torch
 
     device = device or ("cuda" if torch.cuda.is_available() else "cpu")
     EMB_DIR.mkdir(parents=True, exist_ok=True)
-    path = EMB_DIR / f"{key}.npz"
+    path = EMB_DIR / f"{cache_name(key, checkpoint)}.npz"
     cache, info = {}, {}
     if path.exists():
         z = np.load(path, allow_pickle=False)
@@ -49,7 +56,7 @@ def embeddings_for(key: str, clip_ids, paths, device: str | None = None) -> tupl
         info = {"hf_id": str(z["hf_id"]), "revision": str(z["revision"])}
     todo = [(c, p) for c, p in zip(clip_ids, paths) if c not in cache]
     if todo:
-        enc = get_encoder(key, device)
+        enc = get_encoder(key, device, checkpoint)
         if info and info["revision"] != str(enc.revision):
             raise RuntimeError(f"{path} was built with revision {info['revision']}, model is {enc.revision}; "
                                "delete the cache to rebuild")
@@ -85,11 +92,12 @@ def _logits(clf, scaler, x, k):
 def probe_fit_predict(fd: FoldData, cfg: dict, seed: int) -> dict:
     mcfg = cfg["model"]
     key, layer_mode = mcfg["encoder"], mcfg.get("layer", "last")
+    ckpt = resolve_checkpoint(mcfg.get("init_checkpoint"))
     grid_c = [float(c) for c in mcfg.get("grid_C", [1e-3, 1e-2, 1e-1, 1, 10])]
     k = len(fd.labels)
     emb = {}
     for role, part in (("train", fd.train), ("val", fd.val), ("test", fd.test)):
-        emb[role], info = embeddings_for(key, part["clip_id"].tolist(), part["path"].tolist())
+        emb[role], info = embeddings_for(key, part["clip_id"].tolist(), part["path"].tolist(), checkpoint=ckpt)
     ytr, yva = fd.train["label_idx"].to_numpy(), fd.val["label_idx"].to_numpy()
     n_layers = emb["train"].shape[1]
 
@@ -118,18 +126,18 @@ def probe_fit_predict(fd: FoldData, cfg: dict, seed: int) -> dict:
     f1, c, scaler, clf = by_layer[layer]
 
     def predict_one(wav):
-        enc = get_encoder(key, "cpu")
+        enc = get_encoder(key, "cpu", ckpt)
         return _logits(clf, scaler, enc.layer_embeddings(wav)[None, layer], k)
 
     probe_params = int(clf.coef_.size + clf.intercept_.size)
-    enc_params = get_encoder(key, "cpu").n_params
+    enc_params = get_encoder(key, "cpu", ckpt).n_params
     train_log = [{"epoch": i, "val_macro_f1": r["val_macro_f1"]} for i, r in enumerate(logs)]  # grid order
     return {
         "val_logits": _logits(clf, scaler, emb["val"][:, layer], k),
         "test_logits": _logits(clf, scaler, emb["test"][:, layer], k),
         "params_total": enc_params + probe_params, "params_trainable": probe_params,
         "train_log": train_log, "predict_one": predict_one,
-        "chosen": {"encoder": key, "hf_id": info.get("hf_id"), "revision": info.get("revision"),
+        "chosen": {"encoder": key, "hf_id": info.get("hf_id"), "revision": info.get("revision"), "init_checkpoint": ckpt,
                    "layer": int(layer), "n_layers": int(n_layers), "C": c, "val_macro_f1": f1,
                    "val_macro_f1_by_layer": {str(i): round(b[0], 4) for i, b in by_layer.items()},
                    "grid": logs},

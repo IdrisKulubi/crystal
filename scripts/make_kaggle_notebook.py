@@ -1,4 +1,4 @@
-"""Generate notebooks/kaggle_train.ipynb (thin wrapper around the repo's own CLI)."""
+"""Generate notebooks/kaggle_train.ipynb and notebooks/kaggle_dapt.ipynb (thin wrappers around the repo's CLI)."""
 import json
 from pathlib import Path
 
@@ -67,22 +67,93 @@ print(out, round(out.stat().st_size / 1e6, 1), "MB;", len(lines), "registry line
 for line in lines: r = json.loads(line); print(r["run_id"], r["status"], r.get("macro_f1_mean"))"""),
 ]
 
+# Phase 4: DAPT on CryCeleb, then E20/E21 with the new checkpoint, in ONE session (checkpoint stays on disk).
+DAPT_CELLS = [
+    ("markdown", """# CRYSTAL — Phase 4: domain-adaptive pretraining (DAPT) on a Kaggle GPU
 
-def main():
+Settings: **Accelerator = GPU T4**, **Internet = On**, and **Add-ons -> Secrets -> `HF_TOKEN`** = a
+Hugging Face *read* token of the account that accepted the CryCeleb2023 terms (attach it to this
+notebook). Keep this notebook **private** (CryCeleb is CC BY-NC-ND; the checkpoint must not be shared).
+Then **Save Version -> Save & Run All**. Download `crystal_results.zip` (logs/metrics, no audio) from the
+Output tab; `dapt_checkpoint.zip` (the pretrained model, ~0.4 GB) is kept there too for later phases."""),
+    ("code", """DAPT_CONFIG = "configs/dapt/D01_w2v2_cryceleb.yaml"
+DAPT_MAX_STEPS = None                                   # None = config value (10k); e.g. 500 for a smoke test
+CONFIGS = [                                             # run after DAPT with init_checkpoint dapt:D01
+    "configs/exp/E20_dapt_w2v2_probe.yaml",
+    "configs/exp/E21_dapt_w2v2_ft.yaml",
+]
+EXTRA_ARGS = ""
+SAVE_CHECKPOINT = True
+REPO = "https://github.com/IdrisKulubi/crystal.git"
+BRANCH = "main\""""),
+    CELLS[2],
+    CELLS[3],
+    ("code", """# CryCeleb (gated): token from Kaggle Secrets, audio stays in /tmp
+from kaggle_secrets import UserSecretsClient
+os.environ["HF_TOKEN"] = UserSecretsClient().get_secret("HF_TOKEN")
+from huggingface_hub import snapshot_download
+snapshot_download("Ubenwa/CryCeleb2023", repo_type="dataset", local_dir="data/raw/cryceleb",
+                  allow_patterns=["audio.zip", "metadata.csv", "README.md"])
+expected_h = json.load(open("results/dapt_stats.json"))["hours_unlabelled"]
+subprocess.run([sys.executable, "-m", "src.build_dapt_corpus"], check=True)
+got_h = json.load(open("results/dapt_stats.json"))["hours_unlabelled"]
+assert got_h == expected_h, f"DAPT corpus differs from the committed one: {got_h} h != {expected_h} h"
+subprocess.run(["git", "checkout", "--", "results/"], check=True)"""),
+    ("code", """cmd = [sys.executable, "-m", "src.dapt", "--config", DAPT_CONFIG]
+if DAPT_MAX_STEPS: cmd += ["--max-steps", str(DAPT_MAX_STEPS)]
+print(" ".join(cmd), flush=True)
+subprocess.run(cmd, check=False)
+dapt_runs = sorted(p.name for p in pathlib.Path("results/dapt").glob("*") if p.is_dir())
+print("DAPT runs:", dapt_runs)
+for d in dapt_runs: print(d, json.load(open(f"results/dapt/{d}/status.json")))"""),
+    CELLS[4],
+    ("code", """import zipfile
+lines = reg.read_text().splitlines()[n_before:]
+out = pathlib.Path("/kaggle/working/crystal_results.zip")
+with zipfile.ZipFile(out, "w", zipfile.ZIP_DEFLATED) as z:
+    z.writestr("registry_new.jsonl", "\\n".join(lines) + ("\\n" if lines else ""))
+    for line in lines:
+        rid = json.loads(line)["run_id"]
+        for f in pathlib.Path("results/runs", rid).rglob("*"):
+            if f.is_file():
+                z.write(f, pathlib.Path("runs", rid, f.relative_to(pathlib.Path("results/runs", rid))))
+    for d in dapt_runs:
+        for f in pathlib.Path("results/dapt", d).rglob("*"):
+            if f.is_file():
+                z.write(f, pathlib.Path("dapt", d, f.relative_to(pathlib.Path("results/dapt", d))))
+print(out, round(out.stat().st_size / 1e6, 1), "MB;", len(lines), "registry lines;", len(dapt_runs), "DAPT runs")
+for line in lines: r = json.loads(line); print(r["run_id"], r["status"], r.get("macro_f1_mean"))
+if SAVE_CHECKPOINT:
+    for d in dapt_runs:
+        ck = pathlib.Path("checkpoints", d)
+        if ck.is_dir():
+            with zipfile.ZipFile("/kaggle/working/dapt_checkpoint.zip", "w", zipfile.ZIP_STORED) as z:
+                for f in ck.rglob("*"):
+                    z.write(f, pathlib.Path(d, f.relative_to(ck)))
+            print("saved /kaggle/working/dapt_checkpoint.zip")"""),
+]
+
+
+def _write(cells, name):
     nb = {
         "cells": [
             {"cell_type": t, "metadata": {}, "source": src.splitlines(keepends=True),
              **({"outputs": [], "execution_count": None} if t == "code" else {})}
-            for t, src in CELLS
+            for t, src in cells
         ],
         "metadata": {"kernelspec": {"display_name": "Python 3", "language": "python", "name": "python3"},
                      "language_info": {"name": "python"}},
         "nbformat": 4, "nbformat_minor": 5,
     }
-    out = Path(__file__).resolve().parents[1] / "notebooks" / "kaggle_train.ipynb"
+    out = Path(__file__).resolve().parents[1] / "notebooks" / name
     out.parent.mkdir(exist_ok=True)
     out.write_text(json.dumps(nb, indent=1), encoding="utf-8")
     print("wrote", out)
+
+
+def main():
+    _write(CELLS, "kaggle_train.ipynb")
+    _write(DAPT_CELLS, "kaggle_dapt.ipynb")
 
 
 if __name__ == "__main__":

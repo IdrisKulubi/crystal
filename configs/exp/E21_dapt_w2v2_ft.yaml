@@ -1,0 +1,15 @@
+experiment_id: E21
+name: dapt_w2v2_ft
+parent_run: E12
+change_vs_parent: "backbone initialised from DAPT run D01 (wav2vec2-base pretraining continued on CryCeleb) instead of the released wav2vec2-base"
+paper: {table: T3, row: "DAPT wav2vec2, fine-tuned"}
+data: {label_set: donateacry_v1}
+model:
+  type: finetune
+  backbone: wav2vec2_base
+  init_checkpoint: "dapt:D01"
+  head: mean_pool
+  peft: null
+train:
+  lr: 3.0e-5
+notes: "Same as E12 except the initial weights. Defaults: 15 epochs, batch 8 x accum 4, AdamW wd 0.01, warmup 10%, weighted CE, early stop patience 5 on val macro-F1."

@@ -1,0 +1,12 @@
+# Phase 4 DAPT: continue wav2vec2-base self-supervised pretraining on CryCeleb (src/dapt.py; DEFAULTS there).
+experiment_id: D01
+name: w2v2_cryceleb
+base_model: facebook/wav2vec2-base
+manifest: data/dapt/manifest.csv
+crop_seconds: 4.0
+batch_size: 16
+grad_accum: 1
+max_steps: 10000
+lr: 5.0e-5
+warmup_ratio: 0.1
+seed: 0

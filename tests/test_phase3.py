@@ -31,7 +31,7 @@ def _fake_embeddings(fd, informative_layer=2, n_layers=4, dim=8, seed=0):
             e = rng.normal(size=(n_layers, dim)).astype(np.float32)
             e[informative_layer, y] += 4.0       # only one layer carries the label
             table[cid] = e
-    return lambda key, ids, paths, device=None: (np.stack([table[i] for i in ids]), {"hf_id": "fake", "revision": "r"})
+    return lambda key, ids, paths, device=None, checkpoint=None: (np.stack([table[i] for i in ids]), {"hf_id": "fake", "revision": "r"})
 
 
 class _FakeEnc:
@@ -42,7 +42,7 @@ class _FakeEnc:
 def patched(monkeypatch):
     fd = _fold()
     monkeypatch.setattr(probe, "embeddings_for", _fake_embeddings(fd))
-    monkeypatch.setattr(probe, "get_encoder", lambda key, device: _FakeEnc())
+    monkeypatch.setattr(probe, "get_encoder", lambda key, device, checkpoint=None: _FakeEnc())
     return fd
 
 
@@ -143,3 +143,33 @@ def test_finetune_loop_options(monkeypatch, train):
     assert out["test_logits"].shape == (len(fd.test), 3) and len(ch["selection_trace"]) == 3
     assert ch["best_epoch"] == 1 + int(np.argmax(ch["selection_trace"]))
     assert ch["loss"] == train["loss"] and ch["sampler"] == train["sampler"]
+
+
+def test_dapt_resolve_checkpoint_and_helpers(tmp_path):
+    from src.dapt import crop_batch, normalise, resolve_checkpoint
+    from src.results.run import write_json
+
+    assert resolve_checkpoint(None) is None and resolve_checkpoint("some/dir") == "some/dir"
+    dd, cd = tmp_path / "dapt", tmp_path / "ckpt"
+    for rid, st, t in [("D01__a__20261118-000000__aaaaaaa", "completed", "2026-11-18T01:00:00Z"),
+                       ("D01__a__20261119-000000__bbbbbbb", "failed", "2026-11-19T01:00:00Z"),
+                       ("D01__a__20261117-000000__ccccccc", "completed", "2026-11-17T01:00:00Z")]:
+        (dd / rid).mkdir(parents=True)
+        write_json(dd / rid / "status.json", {"status": st, "finished_utc": t})
+        (cd / rid).mkdir(parents=True)
+    assert resolve_checkpoint("dapt:D01", dd, cd).endswith("D01__a__20261118-000000__aaaaaaa")
+    with pytest.raises(FileNotFoundError):
+        resolve_checkpoint("dapt:D02", dd, cd)
+
+    rng = np.random.default_rng(0)
+    x, lens = crop_batch([np.ones(10, np.float32), np.arange(3, dtype=np.float32)], 5, rng)
+    assert x.shape == (2, 5) and list(lens) == [5, 3] and np.all(x[1, 3:] == 0)
+    z = normalise(x, lens)
+    assert abs(z[1, :3].mean()) < 1e-6 and np.all(z[1, 3:] == 0)
+
+
+def test_pack_chunks_keeps_order_and_limit():
+    from src.build_dapt_corpus import pack_chunks
+
+    segs = [np.zeros(n) for n in (3, 4, 2, 9, 1)]
+    assert pack_chunks(segs, 8) == [[0, 1], [2], [3], [4]]

@@ -5,6 +5,7 @@
 The archive must contain ``runs/<run_id>/...`` and ``registry_new.jsonl`` (written by the Kaggle
 notebook). Run folders are copied only if they do not exist locally (never overwritten);
 registry lines are appended only for run_ids not already in the local registry.
+DAPT logs (``dapt/<run_id>/``, from src.dapt) are copied to results/dapt/ the same way (no registry).
 Numbers are never re-typed: they arrive as the same files the trainer wrote.
 """
 from __future__ import annotations
@@ -54,6 +55,13 @@ def import_runs(src: str | Path, results_dir: str | Path = DEFAULT_RESULTS_DIR) 
                 imported.append(rid)
             append_registry(rec, results_dir)
             known.add(rid)
+        for d in sorted((base / "dapt").glob("*")) if (base / "dapt").is_dir() else []:
+            dst = results_dir / "dapt" / d.name
+            if dst.exists():
+                print(f"skip (already present): dapt/{d.name}")
+                continue
+            shutil.copytree(d, dst)
+            imported.append(f"dapt/{d.name}")
     for rid in imported:
         print(f"imported {rid}")
     return imported
