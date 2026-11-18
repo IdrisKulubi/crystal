@@ -25,3 +25,13 @@
 - 2026-11-17 | Linear-probe protocol (E05–E08): frozen encoder, one vector per clip per layer (w2v2/HuBERT: frame mean at true length, no padding; AST: mean of [CLS]/[DIST] tokens, input padded to 1024 frames by the official extractor; Whisper: mean of output frames covering real audio only), StandardScaler + LogisticRegression(class_weight=balanced), C ∈ {1e-3…10} on val macro-F1; paper rows use the LAST layer, best-layer selection reported as a note | balanced weights for the same reason as E01 (otherwise collapses to "hungry"); last layer avoids an extra choice in the main table | src/models/encoders.py, src/models/probe.py
 - 2026-11-17 | Fine-tuning protocol (E10–E13): pad/crop 7 s, same pooling as the probe + dropout 0.1 + linear; wav2vec2 CNN feature encoder frozen during full FT; LoRA r=8 α=16 dropout 0.1 on attention q/v; AdamW, 10 % warm-up + linear decay, weighted CE (train-split class weights), best epoch by val macro-F1, patience 5; fp16 on GPU; no augmentation (Phase 5) | HANDOFF §8 defaults | src/models/finetune.py
 - 2026-11-17 | `parent_run: E07` in configs = latest completed, non-superseded run of that experiment at launch time (resolved by src/train.py and stored as the full run_id) | lets chained experiments (E10 → E11) run in one Kaggle session | src/train.py:resolve_parent
+
+## 2026-11-17 — Best backbone for Phase 3 = AST
+AST is best both as frozen probe (E07, macro-F1 0.209) and fine-tuned (E10, 0.188 > E11/E12/E13), per the
+run registry. E14 = E10 with the attention-pooling head as the only change (parent E10).
+
+## 2026-11-18 — Imbalance study E15–E17 (parent E14, paper.table: tuning)
+E15 balanced sampler + plain CE (swaps loss re-weighting for sampling re-weighting, so classes are not
+corrected twice); E16 focal loss gamma 2 with the same class weights as alpha; E17 best-epoch selection on
+validation class-weighted CE instead of validation macro-F1 (less noisy with ~5 minority clips per val fold).
+Model selection still uses validation only; the test protocol is unchanged. IDs E15–E19 are unused in HANDOFF.

@@ -120,3 +120,43 @@ Observations:
   mostly "hungry".
 - Fix (68a9f07): notebook uninstalls torchao before installing peft. Re-run of all four as a saved version
   (Save Version → Save & Run All) so the output is kept.
+
+## 2026-11-17 — Phase 3 fine-tuning E10–E13 (Kaggle T4, commit 5a3ceae)
+Runs imported from Kaggle zip: E10__ast_ft__20261117-165906__5a3ceae, E11__ast_lora__20261117-174815__5a3ceae,
+E12__w2v2_ft__20261117-183854__5a3ceae, E13__w2v2_lora__20261117-190008__5a3ceae (all completed, folds sha 14c58690).
+(One earlier saved version failed in 20 s at the GPU assert because the re-imported notebook had no accelerator set.)
+Observations (from registry/metrics.json; paper values come from paper_numbers.json):
+- Macro-F1 mean: E10 0.188, E11 0.183, E12 0.182, E13 0.171. None beats the frozen AST probe E07 (0.209);
+  E12 equals the majority baseline E00 (0.182).
+- Per-class test recall (mean over 15): belly_pain and burping ~0 for all (E13 belly_pain 0.11);
+  discomfort E10 0.08 vs E07 0.35. Fine-tuning pushes models back towards "hungry".
+- Best epochs are early (mostly 1–5), i.e. val F1 peaks before the model learns minority classes; with
+  ~5 minority clips per val fold the early-stopping signal is very noisy.
+Interpretation: on Donate-a-Cry alone (heavily hungry-dominated, few babies per minority class), fine-tuning
+does not help over a frozen probe. Best backbone so far: AST (best probe and best FT).
+
+## 2026-11-18 — E14 AST full FT + attention pooling (Kaggle T4, commit 871fcbb)
+Run E14__ast_ft_attnpool__20261117-201115__871fcbb, completed, parent E10.
+Macro-F1 0.193 ± 0.018 vs E10 0.188 ± 0.029 (gap far inside the spread); calibrated ECE 0.128 vs 0.158.
+Recall: belly_pain 0.03, burping 0, discomfort 0.10, hungry 0.89, tired 0.04. Best epochs later (1–8).
+Still below the frozen AST probe E07 (0.209). Phase 3 conclusion: on Donate-a-Cry alone, class imbalance /
+tiny minority classes dominate; architecture changes (FT, LoRA, pooling) do not move macro-F1.
+
+## 2026-11-18 — Imbalance study E15–E17 (Kaggle T4, commit 08b176f; parent E14)
+Runs: E15__ast_attn_balsampler__20261118-072958__08b176f, E16__ast_attn_focal__20261118-082542__08b176f,
+E17__ast_attn_selloss__20261118-091113__08b176f — all completed.
+Macro-F1: E14 0.193±0.018 | E15 balanced sampler 0.191±0.019 | E16 focal 0.193±0.026 | E17 select on weighted
+val loss 0.179±0.033. Belly_pain and burping recall 0 in all three; discomfort 0.12/0.10/0.17 (E07 probe 0.35).
+Calibrated ECE: E14 0.128 remains best.
+Conclusion: none of the three standard imbalance fixes moves macro-F1. Combined with E10–E14 (training data is fit
+but validation F1 stays ~chance), the limit is cross-baby generalisation with very few babies per minority class,
+not the loss/sampling. Next lever is more data (Phase 4: CryCeleb DAPT, other labelled sets).
+
+## 2026-11-18 — Phase 4 setup: CryCeleb DAPT corpus + trainer (commit 4b72e6a)
+CryCeleb2023 terms accepted by Idris; downloaded to data/raw/cryceleb (git-ignored). Licence CC BY-NC-ND 4.0:
+research use OK, the DAPT checkpoint must NOT be shared/released (keep Kaggle notebook + any HF repo private).
+Corpus (results/dapt_stats.json): 6.51 h, 26,093 segments from 946 babies packed into 3,733 chunks of <= 8 s
+(segments are single expirations, median 0.8 s); 0 exact duplicates, 0 overlap with labelled data.
+src/dapt.py: Wav2Vec2ForPreTraining from facebook/wav2vec2-base, 4 s crops, mask p .65 span 10, lr 5e-5,
+10k steps, batch 16; collapse guard on codevector perplexity. CPU smoke (4 steps): loss 3.98, perplexity 108.
+E20 = E05 + DAPT weights (probe); E21 = E12 + DAPT init (full FT). Next: Kaggle notebooks/kaggle_dapt.ipynb.
