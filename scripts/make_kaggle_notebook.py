@@ -134,6 +134,42 @@ if SAVE_CHECKPOINT:
 ]
 
 
+# Phase 7: stage-1 cry detector (E40 AST, E41 small CNN).
+DETECT_CELLS = [
+    ("markdown", """# CRYSTAL — Phase 7: cry detector on a Kaggle GPU
+
+Settings: **Accelerator = GPU T4**, **Internet = On**, **Add-ons -> Secrets -> `HF_TOKEN`** attached (CryCeleb
+is one of the positive sources). Keep the notebook private. **Save Version -> Save & Run All**, then download
+`crystal_results.zip` (scores/metrics/logs, no audio) from the Output tab."""),
+    ("code", """CONFIGS = [                                             # each runs 5 folds x 3 seeds
+    "configs/exp/E41_cnn_detector.yaml",
+    "configs/exp/E40_ast_detector.yaml",
+]
+EXTRA_ARGS = ""                                         # e.g. "--fold 0 --seeds 0" for a quick check
+REPO = "https://github.com/IdrisKulubi/crystal.git"
+BRANCH = "main\""""),
+    CELLS[2],
+    CELLS[3],
+    DAPT_CELLS[4],
+    ("code", """# ESC-50 (public, CC BY-NC) -> detection table; folds must equal the committed protocol
+if not pathlib.Path("data/raw/ESC-50").exists():
+    subprocess.run(["git", "clone", "-q", "--depth", "1", "https://github.com/karolpiczak/ESC-50", "data/raw/ESC-50"], check=True)
+expected = json.load(open("results/detection_splits_report.json"))["folds_file_sha256"]
+subprocess.run([sys.executable, "-m", "src.prepare_detection"], check=True)
+got = hashlib.sha256(open("data/detection_folds.csv", "rb").read()).hexdigest()
+assert got == expected, f"detection folds differ from the committed ones: {got} != {expected}"
+print("detection folds identical to the committed protocol:", got[:16])
+subprocess.run(["git", "checkout", "--", "results/"], check=True)"""),
+    ("code", """reg = pathlib.Path("results/registry.jsonl")
+n_before = len(reg.read_text().splitlines()) if reg.exists() else 0
+for cfg in CONFIGS:
+    cmd = [sys.executable, "-m", "src.detection", "--config", cfg] + EXTRA_ARGS.split()
+    print(" ".join(cmd), flush=True)
+    subprocess.run(cmd, check=False)   # failures are logged in the registry, keep going"""),
+    CELLS[5],
+]
+
+
 def _write(cells, name):
     nb = {
         "cells": [
@@ -154,6 +190,7 @@ def _write(cells, name):
 def main():
     _write(CELLS, "kaggle_train.ipynb")
     _write(DAPT_CELLS, "kaggle_dapt.ipynb")
+    _write(DETECT_CELLS, "kaggle_detect.ipynb")
 
 
 if __name__ == "__main__":

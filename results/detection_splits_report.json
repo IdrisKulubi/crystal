@@ -1,0 +1,131 @@
+{
+  "label_set": "detect_v1",
+  "n_clips": 3403,
+  "n_groups": 2691,
+  "hours": 5.5608,
+  "by_part": {
+    "cryceleb:cry": {
+      "clips": 946,
+      "groups": 946,
+      "hours": 1.9047
+    },
+    "donateacry:cry": {
+      "clips": 457,
+      "groups": 221,
+      "hours": 0.8782
+    },
+    "esc50:cry": {
+      "clips": 40,
+      "groups": 18,
+      "hours": 0.0556
+    },
+    "esc50:non_cry": {
+      "clips": 1960,
+      "groups": 1506,
+      "hours": 2.7222
+    }
+  },
+  "folds": {
+    "fold_0": {
+      "train": {
+        "esc50:non_cry": 1344,
+        "cryceleb:cry": 648,
+        "donateacry:cry": 313,
+        "esc50:cry": 28
+      },
+      "val": {
+        "esc50:non_cry": 224,
+        "cryceleb:cry": 109,
+        "donateacry:cry": 52,
+        "esc50:cry": 4
+      },
+      "test": {
+        "esc50:non_cry": 392,
+        "cryceleb:cry": 189,
+        "donateacry:cry": 92,
+        "esc50:cry": 8
+      }
+    },
+    "fold_1": {
+      "train": {
+        "esc50:non_cry": 1344,
+        "cryceleb:cry": 648,
+        "donateacry:cry": 314,
+        "esc50:cry": 27
+      },
+      "val": {
+        "esc50:non_cry": 224,
+        "cryceleb:cry": 108,
+        "donateacry:cry": 52,
+        "esc50:cry": 5
+      },
+      "test": {
+        "esc50:non_cry": 392,
+        "cryceleb:cry": 190,
+        "donateacry:cry": 91,
+        "esc50:cry": 8
+      }
+    },
+    "fold_2": {
+      "train": {
+        "esc50:non_cry": 1344,
+        "cryceleb:cry": 649,
+        "donateacry:cry": 313,
+        "esc50:cry": 28
+      },
+      "val": {
+        "esc50:non_cry": 224,
+        "cryceleb:cry": 108,
+        "donateacry:cry": 53,
+        "esc50:cry": 4
+      },
+      "test": {
+        "esc50:non_cry": 392,
+        "cryceleb:cry": 189,
+        "donateacry:cry": 91,
+        "esc50:cry": 8
+      }
+    },
+    "fold_3": {
+      "train": {
+        "esc50:non_cry": 1344,
+        "cryceleb:cry": 648,
+        "donateacry:cry": 313,
+        "esc50:cry": 28
+      },
+      "val": {
+        "esc50:non_cry": 224,
+        "cryceleb:cry": 109,
+        "donateacry:cry": 52,
+        "esc50:cry": 4
+      },
+      "test": {
+        "esc50:non_cry": 392,
+        "cryceleb:cry": 189,
+        "donateacry:cry": 92,
+        "esc50:cry": 8
+      }
+    },
+    "fold_4": {
+      "train": {
+        "esc50:non_cry": 1344,
+        "cryceleb:cry": 649,
+        "donateacry:cry": 313,
+        "esc50:cry": 28
+      },
+      "val": {
+        "esc50:non_cry": 224,
+        "cryceleb:cry": 108,
+        "donateacry:cry": 53,
+        "esc50:cry": 4
+      },
+      "test": {
+        "esc50:non_cry": 392,
+        "cryceleb:cry": 189,
+        "donateacry:cry": 91,
+        "esc50:cry": 8
+      }
+    }
+  },
+  "folds_file_sha256": "3e86b880be534c33b93f7a826377f20c799293ee8926fc6ed85289938f289a9b"
+}

@@ -1,0 +1,19 @@
+experiment_id: E41
+name: cnn_detector
+task: detection
+paper: {table: T6, row: "Small CNN detector"}
+data:
+  metadata: data/detection_folds.csv
+  datasets: [donateacry, cryceleb, esc50]
+  label_set: detect_v1
+model:
+  type: cnn_detector
+train:
+  lr: 1.0e-3
+  batch_size: 32
+  epochs: 20
+  frames_per_epoch: 8000
+  patience: 5
+  warmup_ratio: 0.1
+  weight_decay: 0.01
+notes: "Stage-1 detector on 1 s frames, 4 kHz band-limited (src/detection.py). Best epoch by val ROC-AUC; threshold = max val F1. False alarms/hour pending the household recording."

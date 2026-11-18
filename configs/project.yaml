@@ -13,6 +13,7 @@ paths:
 label_sets:
   donateacry_v1: [belly_pain, burping, discomfort, hungry, tired]
   unified_v1: [hungry, pain_discomfort, tired, burping]
+  detect_v1: [non_cry, cry]          # Phase 7 detector (src/prepare_detection.py); index 1 = cry
 
 # original label (folder name) -> label in each label set; unmapped labels are excluded
 label_maps:
