@@ -1,0 +1,29 @@
+experiment_id: E36-noContext
+name: crystal_nocontext
+parent_run: E36
+change_vs_parent: no age/gender context
+paper:
+  table: T4
+  row: − context features
+data:
+  label_set: donateacry_v1
+model:
+  type: finetune
+  backbone: ast
+  head: attention
+  peft: null
+train:
+  lr: 3.0e-05
+  loss: focal
+  focal_gamma: 2.0
+  augment:
+    noise_snr_db:
+    - 0
+    - 20
+    noise_prob: 0.5
+    specaugment:
+      freq_mask: 24
+      time_mask: 96
+      n_masks: 1
+    mixup_alpha: 0.4
+notes: 'T4 ablation: E36 with exactly one component removed.'

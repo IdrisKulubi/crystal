@@ -1,0 +1,55 @@
+experiment_id: E32
+name: ast_attn_mixup
+parent_run: E14__ast_ft_attnpool__20261117-201115__871fcbb
+change_vs_parent: training-only mixup on the AST fbank input, alpha 0.4 (loss mixed
+  with the same lambda)
+paper:
+  table: tuning
+  row: 'Phase 5: + mixup'
+task: reason
+data:
+  metadata: data/metadata_folds.csv
+  base_metadata: data/metadata.csv
+  datasets:
+  - donateacry
+  label_set: donateacry_v1
+  sample_rate: 16000
+  clip_seconds: 7.0
+model:
+  type: finetune
+  backbone: ast
+  init_checkpoint: null
+  head: attention
+  peft: null
+  context_features: []
+train:
+  epochs: 15
+  batch_size: 8
+  grad_accum: 4
+  lr: 3.0e-05
+  weight_decay: 0.01
+  warmup_ratio: 0.1
+  loss: weighted_ce
+  focal_gamma: 2.0
+  augment:
+    noise_snr_db: null
+    noise_prob: 0.5
+    specaugment: false
+    mixup_alpha: 0.4
+    pitch_shift: false
+  sampler: shuffle
+  early_stopping_metric: val_macro_f1
+  patience: 5
+eval:
+  folds:
+  - 0
+  - 1
+  - 2
+  - 3
+  - 4
+  seeds:
+  - 0
+  - 1
+  - 2
+  val_group_fraction: 0.15
+notes: Phase 5, single change vs E14.

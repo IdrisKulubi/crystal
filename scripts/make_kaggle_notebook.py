@@ -12,10 +12,12 @@ locally: `python -m src.import_runs crystal_results.zip` (then `python -m src.re
 Edit `CONFIGS` below to choose experiments. No audio leaves Kaggle; the zip holds only logits,
 predictions, metrics and logs."""),
     ("code", """CONFIGS = [                                             # each runs 5 folds x 3 seeds
-    "configs/exp/E34_ast_attn_context.yaml",            # Phase 5: one change each vs E14 (~1 h each on a T4)
-    "configs/exp/E31_ast_attn_specaug.yaml",
-    "configs/exp/E32_ast_attn_mixup.yaml",
-    "configs/exp/E30_ast_attn_noise.yaml",
+    "configs/exp/E36_crystal.yaml",                     # final model first: the ablations name it as parent (~1 h each on a T4)
+    "configs/exp/E36-noMixup.yaml",                     # T4 ablations: E36 minus one component
+    "configs/exp/E36-noNoise.yaml",
+    "configs/exp/E36-noSpecAug.yaml",
+    "configs/exp/E36-noContext.yaml",
+    "configs/exp/E36-noFocal.yaml",
 ]
 EXTRA_ARGS = ""                                         # e.g. "--fold 0 --seeds 0" for a quick check
 REPO = "https://github.com/IdrisKulubi/crystal.git"

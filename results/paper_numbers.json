@@ -75,8 +75,12 @@
   "T4.minus_domain_adaptive_pretraining.macro_f1": null,
   "T4.minus_focal_loss.delta": null,
   "T4.minus_focal_loss.macro_f1": null,
+  "T4.minus_mixup.delta": null,
+  "T4.minus_mixup.macro_f1": null,
   "T4.minus_noise_augmentation.delta": null,
   "T4.minus_noise_augmentation.macro_f1": null,
+  "T4.minus_specaugment.delta": null,
+  "T4.minus_specaugment.macro_f1": null,
   "T4.ours_crystal.delta": null,
   "T4.ours_crystal.macro_f1": null,
   "T4.ours_random_clip_level_split.delta": null,
@@ -1335,5 +1339,5 @@
     "overlap.deepinfant_v2.n_generated_copies": "dataset_stats.json",
     "splits.folds_file_sha256": "splits_report.json"
   },
-  "_generated_utc": "2026-11-18T18:20:17Z"
+  "_generated_utc": "2026-11-19T05:08:50Z"
 }

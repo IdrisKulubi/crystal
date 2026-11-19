@@ -1,0 +1,28 @@
+experiment_id: E36-noSpecAug
+name: crystal_nospecaug
+parent_run: E36
+change_vs_parent: no SpecAugment
+paper:
+  table: T4
+  row: − SpecAugment
+data:
+  label_set: donateacry_v1
+model:
+  type: finetune
+  backbone: ast
+  head: attention
+  peft: null
+  context_features:
+  - age_bracket
+  - gender
+train:
+  lr: 3.0e-05
+  loss: focal
+  focal_gamma: 2.0
+  augment:
+    noise_snr_db:
+    - 0
+    - 20
+    noise_prob: 0.5
+    mixup_alpha: 0.4
+notes: 'T4 ablation: E36 with exactly one component removed.'
