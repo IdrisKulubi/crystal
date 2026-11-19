@@ -1,0 +1,61 @@
+experiment_id: E36-noMixup
+name: crystal_nomixup
+parent_run: E36__crystal__20261119-063159__1c39f27
+change_vs_parent: no mixup
+paper:
+  table: T4
+  row: − mixup
+task: reason
+data:
+  metadata: data/metadata_folds.csv
+  base_metadata: data/metadata.csv
+  datasets:
+  - donateacry
+  label_set: donateacry_v1
+  sample_rate: 16000
+  clip_seconds: 7.0
+model:
+  type: finetune
+  backbone: ast
+  init_checkpoint: null
+  head: attention
+  peft: null
+  context_features:
+  - age_bracket
+  - gender
+train:
+  epochs: 15
+  batch_size: 8
+  grad_accum: 4
+  lr: 3.0e-05
+  weight_decay: 0.01
+  warmup_ratio: 0.1
+  loss: focal
+  focal_gamma: 2.0
+  augment:
+    noise_snr_db:
+    - 0
+    - 20
+    noise_prob: 0.5
+    specaugment:
+      freq_mask: 24
+      time_mask: 96
+      n_masks: 1
+    mixup_alpha: null
+    pitch_shift: false
+  sampler: shuffle
+  early_stopping_metric: val_macro_f1
+  patience: 5
+eval:
+  folds:
+  - 0
+  - 1
+  - 2
+  - 3
+  - 4
+  seeds:
+  - 0
+  - 1
+  - 2
+  val_group_fraction: 0.15
+notes: 'T4 ablation: E36 with exactly one component removed.'

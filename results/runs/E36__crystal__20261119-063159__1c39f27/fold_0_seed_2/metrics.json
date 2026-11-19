@@ -1,0 +1,148 @@
+{
+  "n_test": 91,
+  "n_classes": 5,
+  "labels": [
+    "belly_pain",
+    "burping",
+    "discomfort",
+    "hungry",
+    "tired"
+  ],
+  "accuracy": 0.8461538461538461,
+  "macro_f1": 0.18333333333333332,
+  "weighted_f1": 0.7756410256410255,
+  "balanced_accuracy": 0.2,
+  "per_class": {
+    "belly_pain": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 2
+    },
+    "burping": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 2
+    },
+    "discomfort": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 5
+    },
+    "hungry": {
+      "precision": 0.8461538461538461,
+      "recall": 1.0,
+      "f1": 0.9166666666666666,
+      "support": 77
+    },
+    "tired": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 5
+    }
+  },
+  "confusion_matrix": [
+    [
+      0,
+      0,
+      0,
+      2,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      2,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      5,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      77,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      5,
+      0
+    ]
+  ],
+  "nll": 0.6748586045457278,
+  "brier": 0.28909504397336394,
+  "ece_15_uncal": 0.46303988656714506,
+  "ece_15_cal": 0.06292028470314666,
+  "aurc": 0.15481231839872223,
+  "precision_at_coverage": {
+    "1.0": 0.8461538461538461,
+    "0.9": 0.8372093023255814,
+    "0.7": 0.8714285714285714,
+    "0.5": 0.8548387096774194
+  },
+  "macro_f1_at_coverage": {
+    "1.0": 0.18333333333333332,
+    "0.9": 0.18227848101265823,
+    "0.7": 0.18625954198473282,
+    "0.5": 0.18434782608695652
+  },
+  "realised_coverage": {
+    "0.9": 0.945054945054945,
+    "0.7": 0.7692307692307693,
+    "0.5": 0.6813186813186813
+  },
+  "top2_accuracy": 0.8571428571428571,
+  "train_seconds": 175.74,
+  "params_total": 86338985,
+  "params_trainable": 86338985,
+  "inference_ms_per_clip_cpu": null,
+  "model_selection": {
+    "best_epoch": 1,
+    "best_val_macro_f1": 0.17916666666666667,
+    "epochs_run": 6,
+    "backbone": "ast",
+    "revision": null,
+    "init_checkpoint": null,
+    "sampler": "shuffle",
+    "loss": "focal",
+    "selection_metric": "val_macro_f1",
+    "selection_trace": [
+      0.179167,
+      0.139024,
+      0.179167,
+      0.157143,
+      0.169565,
+      0.178723
+    ],
+    "augment": {
+      "noise_snr_db": [
+        0,
+        20
+      ],
+      "noise_prob": 0.5,
+      "noise_bank_clips": 1960,
+      "specaugment": {
+        "freq_mask": 24,
+        "time_mask": 96,
+        "n_masks": 1
+      },
+      "mixup_alpha": 0.4
+    },
+    "context_features": [
+      "age_bracket",
+      "gender"
+    ]
+  }
+}

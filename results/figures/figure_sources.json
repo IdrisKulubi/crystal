@@ -1,5 +1,6 @@
 {
   "fig2_risk_coverage": [
+    "E36__crystal__20261119-063159__1c39f27",
     "E14__ast_ft_attnpool__20261117-201115__871fcbb",
     "E07__ast_probe__20261117-001010__9b88bc7",
     "E21__dapt_w2v2_ft__20261118-130145__72875a9",
@@ -7,6 +8,6 @@
     "E01__mfcc_svm__20261116-190116__6bc3192"
   ],
   "fig3_reliability_before_after": [
-    "E14__ast_ft_attnpool__20261117-201115__871fcbb"
+    "E36__crystal__20261119-063159__1c39f27"
   ]
 }

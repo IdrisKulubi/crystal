@@ -12,12 +12,8 @@ locally: `python -m src.import_runs crystal_results.zip` (then `python -m src.re
 Edit `CONFIGS` below to choose experiments. No audio leaves Kaggle; the zip holds only logits,
 predictions, metrics and logs."""),
     ("code", """CONFIGS = [                                             # each runs 5 folds x 3 seeds
-    "configs/exp/E36_crystal.yaml",                     # final model first: the ablations name it as parent (~1 h each on a T4)
-    "configs/exp/E36-noMixup.yaml",                     # T4 ablations: E36 minus one component
-    "configs/exp/E36-noNoise.yaml",
-    "configs/exp/E36-noSpecAug.yaml",
-    "configs/exp/E36-noContext.yaml",
-    "configs/exp/E36-noFocal.yaml",
+    "configs/exp/E90-deepinfant.yaml",                  # Phase 8 leakage demo: random clip-level split (~10 min)
+    "configs/exp/E90-ours.yaml",                        # same, final model (~1 h on a T4)
 ]
 EXTRA_ARGS = ""                                         # e.g. "--fold 0 --seeds 0" for a quick check
 REPO = "https://github.com/IdrisKulubi/crystal.git"
@@ -46,11 +42,14 @@ if not pathlib.Path("baselines/DeepInfant").exists():
 if not pathlib.Path("data/raw/ESC-50").exists():   # noise augmentation pool (public, CC BY-NC), training only
     subprocess.run(["git", "clone", "-q", "--depth", "1", "https://github.com/karolpiczak/ESC-50", "data/raw/ESC-50"], check=True)
 expected = json.load(open("results/splits_report.json"))["folds_file_sha256"]
+exp_r = json.load(open("results/splits_report.json"))["randomsplit_file_sha256"]   # read BEFORE make_splits rewrites it
 for step in ["prepare_data", "dedup", "make_splits"]:
     subprocess.run([sys.executable, "-m", f"src.{step}"], check=True)
 got = hashlib.sha256(open("data/metadata_folds.csv", "rb").read()).hexdigest()
 assert got == expected, f"folds file differs from the committed one: {got} != {expected}"
 print("folds file identical to the committed protocol:", got[:16])
+got_r = hashlib.sha256(open("data/metadata_randomsplit.csv", "rb").read()).hexdigest()
+assert got_r == exp_r, f"random-split file differs from the committed one: {got_r} != {exp_r}"
 subprocess.run(["git", "checkout", "--", "results/"], check=True)  # keep committed results untouched"""),
     ("code", """reg = pathlib.Path("results/registry.jsonl")
 n_before = len(reg.read_text().splitlines()) if reg.exists() else 0
