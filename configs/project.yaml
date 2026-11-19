@@ -88,7 +88,6 @@ paper_rows:
     - "Ours (CRYSTAL)"
   T4:
     - "Ours (CRYSTAL)"
-    - "− domain-adaptive pretraining"
     - "− context features"
     - "− noise augmentation"
     - "− SpecAugment"

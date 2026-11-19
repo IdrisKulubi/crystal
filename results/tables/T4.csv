@@ -1,6 +1,5 @@
 Configuration,Macro-F1,Δ vs full,Run
 Ours (CRYSTAL),0.194 ± 0.025,+0.000,E36__crystal__20261119-063159__1c39f27
-− domain-adaptive pretraining,,,
 − context features,0.191 ± 0.036,-0.003,E36-noContext__crystal_nocontext__20261119-110044__1c39f27
 − noise augmentation,0.197 ± 0.023,+0.003,E36-noNoise__crystal_nonoise__20261119-084548__1c39f27
 − SpecAugment,0.191 ± 0.023,-0.002,E36-noSpecAug__crystal_nospecaug__20261119-094740__1c39f27

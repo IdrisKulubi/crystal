@@ -71,8 +71,6 @@
   "T4.deepinfant_random_clip_level_split.macro_f1": null,
   "T4.minus_context_features.delta": "-0.003",
   "T4.minus_context_features.macro_f1": "0.191 ± 0.036",
-  "T4.minus_domain_adaptive_pretraining.delta": null,
-  "T4.minus_domain_adaptive_pretraining.macro_f1": null,
   "T4.minus_focal_loss.delta": "+0.003",
   "T4.minus_focal_loss.macro_f1": "0.197 ± 0.037",
   "T4.minus_mixup.delta": "-0.003",
@@ -1523,5 +1521,5 @@
     "sig.ours_vs_deepinfant.p": "E36__crystal__20261119-063159__1c39f27__vs__E02__deepinfant_repro__20261116-220106__428232e.json",
     "splits.folds_file_sha256": "splits_report.json"
   },
-  "_generated_utc": "2026-11-19T13:48:41Z"
+  "_generated_utc": "2026-11-19T21:17:56Z"
 }
