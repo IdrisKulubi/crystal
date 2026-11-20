@@ -61,3 +61,22 @@ def test_render_drafts(tmp_path):
     (src / "x.md.tmpl").write_text("value {a}", encoding="utf-8")
     out = FP.render_drafts({"a": "1.0"}, src, tmp_path)
     assert out[0].name == "x.md" and out[0].read_text(encoding="utf-8") == "value 1.0"
+
+
+def test_render_tex_escapes_and_flags_missing():
+    text, missing = FP.render_tex(r"\textbf{F1} <<a.b>> and <<c>> at <<p>>", {"a.b": "0.194 ± 0.025", "c": None, "p": "50%"})
+    assert text == r"\textbf{F1} 0.194 $\pm$ 0.025 and \textbf{[c: not yet produced]} at 50\%"
+    assert missing == ["c"]
+
+
+def test_render_drafts_tex_subfolder(tmp_path):
+    src, figs, out = tmp_path / "src", tmp_path / "figs", tmp_path / "out"
+    (src / "short").mkdir(parents=True)
+    figs.mkdir()
+    (src / "short" / "main.tex.tmpl").write_text(r"\section{R} <<k_1>>", encoding="utf-8")
+    (src / "short" / "refs.bib").write_text("@misc{a}", encoding="utf-8")
+    (figs / "fig2.pdf").write_bytes(b"%PDF")
+    FP.render_drafts({"k_1": "a_b"}, src, out, figs)
+    assert (out / "short" / "main.tex").read_text(encoding="utf-8") == r"\section{R} a\_b"
+    assert (out / "short" / "refs.bib").read_text(encoding="utf-8") == "@misc{a}"
+    assert (out / "short" / "figures" / "fig2.pdf").read_bytes() == b"%PDF"

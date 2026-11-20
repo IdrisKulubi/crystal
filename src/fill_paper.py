@@ -230,15 +230,63 @@ def render_text(text: str, numbers: dict) -> tuple[str, list[str]]:
     return _TOKEN.sub(sub, text).replace("{{", "{").replace("}}", "}"), missing
 
 
-def render_drafts(numbers: dict, src_dir: Path = DRAFTS_SRC, out_dir: Path = DRAFTS) -> list[Path]:
+# LaTeX templates use <<key>> because {key} collides with LaTeX braces; values are escaped for LaTeX.
+_TEX_TOKEN = re.compile(r"<<([A-Za-z0-9_.]+)>>")
+_TEX_ESCAPES = {"\\": r"\textbackslash{}", "%": r"\%", "&": r"\&", "#": r"\#", "_": r"\_", "$": r"\$",
+                "{": r"\{", "}": r"\}", "~": r"\textasciitilde{}", "^": r"\textasciicircum{}",
+                "±": r"$\pm$", "−": r"$-$", "Δ": r"$\Delta$", "×": r"$\times$", "≤": r"$\le$", "≥": r"$\ge$"}
+
+
+def tex_escape(s: str) -> str:
+    return "".join(_TEX_ESCAPES.get(c, c) for c in str(s))
+
+
+def render_tex(text: str, numbers: dict) -> tuple[str, list[str]]:
+    """``<<key>>`` -> LaTeX-escaped value; a key without a value becomes a bold ``[key: not yet produced]``."""
+    missing = []
+
+    def sub(m):
+        v = numbers.get(m.group(1))
+        if v is None:
+            missing.append(m.group(1))
+            return r"\textbf{[" + tex_escape(m.group(1)) + ": not yet produced]}"
+        return tex_escape(v)
+    return _TEX_TOKEN.sub(sub, text), missing
+
+
+FIGURES = REPO_ROOT / "results" / "figures"
+
+
+def render_drafts(numbers: dict, src_dir: Path = DRAFTS_SRC, out_dir: Path = DRAFTS,
+                  figures_dir: Path = FIGURES) -> list[Path]:
+    """Render every ``*.md.tmpl`` / ``*.tex.tmpl`` under ``src_dir`` (sub-folders kept) into ``out_dir``.
+    Other files in sub-folders (e.g. ``refs.bib``) are copied as they are; a folder with a LaTeX
+    template also gets the report's figure PDFs in ``figures/`` (copied, never regenerated here)."""
+    src_dir, out_dir = Path(src_dir), Path(out_dir)
     out = []
-    for t in sorted(Path(src_dir).glob("*.md.tmpl")):
-        text, missing = render_text(t.read_text(encoding="utf-8"), numbers)
-        if missing:
-            print(f"  {t.name}: no value yet for {sorted(set(missing))}")
-        dst = Path(out_dir) / t.name[:-len(".tmpl")]
-        dst.write_text(text, encoding="utf-8")
-        out.append(dst)
+    if not src_dir.is_dir():
+        return out
+    for t in sorted(src_dir.rglob("*")):
+        if not t.is_file():
+            continue
+        rel = t.relative_to(src_dir)
+        dst = out_dir / rel
+        dst.parent.mkdir(parents=True, exist_ok=True)
+        if t.name.endswith((".md.tmpl", ".tex.tmpl")):
+            render = render_tex if t.name.endswith(".tex.tmpl") else render_text
+            text, missing = render(t.read_text(encoding="utf-8"), numbers)
+            if missing:
+                print(f"  {rel}: no value yet for {sorted(set(missing))}")
+            dst = dst.with_name(t.name[:-len(".tmpl")])
+            dst.write_text(text, encoding="utf-8")
+            if t.name.endswith(".tex.tmpl") and Path(figures_dir).is_dir():
+                (dst.parent / "figures").mkdir(exist_ok=True)
+                for fig in sorted(Path(figures_dir).glob("*.pdf")):
+                    shutil.copyfile(fig, dst.parent / "figures" / fig.name)
+            out.append(dst)
+        elif rel.parent != Path("."):
+            shutil.copyfile(t, dst)
+            out.append(dst)
     return out
 
 
