@@ -1,54 +1,142 @@
-# CRYSTAL — calibrated, leak-free infant cry analysis
+# CRYSTAL — leak-free infant cry analysis
 
 **CRYSTAL** (CRY Self-supervised Transformer with Abstention Learning) is a two-stage infant-cry
-system: (1) detect cries in household audio, (2) predict the likely reason (hungry,
-pain/discomfort, tired, burping) with calibrated confidence, abstaining when unsure. It is
-evaluated against a reproduced [DeepInfant](https://github.com/skytells-research/DeepInfant)
-baseline under a strict baby-grouped protocol.
+pipeline: (1) a detector finds cries in audio, (2) a classifier predicts the likely reason
+(Donate-a-Cry labels: belly pain, burping, discomfort, hungry, tired) with calibrated confidence and may abstain. Every
+model, including a reproduced [DeepInfant](https://github.com/skytells-research/DeepInfant) baseline,
+is evaluated under the same **infant-grouped** 5-fold protocol (3 seeds, macro-F1 as primary metric).
 
-> Status: Phase 1 (data) done. See `docs/STATUS.md`.
+All results (good and bad) are in [`results/RESULTS.md`](results/RESULTS.md); the paper's numbers
+come only from [`results/paper_numbers.json`](results/paper_numbers.json). Neither file is edited
+by hand.
 
-## Setup
+## Three levels of reproduction
+
+| Level | What you get | Needs | Time |
+|---|---|---|---|
+| **A** | every table, figure and paper number, from the committed run outputs | Python only | minutes, CPU |
+| **B** | the dataset, dedup and the exact folds, checked against committed hashes | public audio (Donate-a-Cry) | ~10 min, CPU |
+| **C** | re-train any experiment and compare | a GPU (Kaggle T4 notebooks provided); CryCeleb terms for DAPT / detection | hours |
+
+### Setup
 
 ```bash
+git clone https://github.com/IdrisKulubi/crystal && cd crystal
 python -m venv .venv
-.venv/Scripts/activate        # Windows  (Linux/macOS: source .venv/bin/activate)
-pip install -r requirements.txt
+.venv/Scripts/activate              # Windows   (Linux/macOS: source .venv/bin/activate)
+pip install -r requirements.txt     # exact versions used: requirements-lock.txt (Python 3.13)
 pytest -q
 ```
 
-## Reproducing everything (filled in as phases are completed)
+### A — regenerate all results from the committed run outputs (no audio, no GPU)
+
+Every run folder in `results/runs/` holds the config, environment, per-fold test/val logits,
+predictions and metrics the trainer wrote; `results/registry.jsonl` lists every run, including
+failed ones.
 
 ```bash
-python -m src.prepare_data          # raw -> data/processed + data/metadata.csv        (Phase 1)
-python -m src.make_splits           # -> data/metadata_folds.csv (+ leakage checks)     (Phase 1)
-python -m src.dataset_stats         # -> results/dataset_stats.json (paper Table 1)      (Phase 1)
-python -m src.train --config configs/exp/E10_ast_ft.yaml --fold all --seeds 0,1,2   (Phase 2+)
-python -m src.calibrate --run <run_id>                                               (Phase 6)
-python -m src.report                # -> results/RESULTS.md, paper_numbers.json, tables/
+python -m src.report        # -> results/paper_numbers.json, RESULTS.md, tables/, figures/
+python -m src.fill_paper    # -> paper/drafts/CRYSTAL_paper_filled.docx (+ fill_report.md)
 ```
+
+On a fresh clone `src.report` reproduces the committed `paper_numbers.json` exactly (only the
+`_generated_utc` timestamp changes). Significance tests (paired cluster bootstrap over infants,
+10,000 resamples, seed 0) are recomputed if `results/significance/` is missing.
+
+### B — rebuild the data and verify the protocol
+
+Infant audio is never committed; fetch it from its public sources:
+
+```bash
+git clone --depth 1 https://github.com/gveres/donateacry-corpus data/raw/donateacry-corpus   # ODbL / DbCL
+git clone --depth 1 https://github.com/skytells-research/DeepInfant baselines/DeepInfant      # Apache-2.0
+git clone --depth 1 https://github.com/karolpiczak/ESC-50 data/raw/ESC-50                     # CC BY-NC 3.0 (noise pool, detector negatives)
+
+python -m src.prepare_data     # raw -> data/processed + data/metadata.csv
+python -m src.dedup            # exact + near-duplicate clusters, merged into split groups
+python -m src.make_splits      # -> data/metadata_folds.csv (+ leakage assertions), data/metadata_randomsplit.csv
+python -m src.dataset_stats    # -> results/dataset_stats.json (Table 1)
+git diff --stat results/       # only figure PDFs change (they embed a creation date)
+```
+
+The DeepInfant clone is needed here too: its bundled audio is checked for overlap with
+Donate-a-Cry (`overlap` in `dataset_stats.json`).
+
+`make_splits` re-applies the committed fold assignment in `splits/` and asserts that no infant
+(group) appears in more than one fold. The SHA-256 of the folds file is in
+`results/splits_report.json`; the Kaggle notebooks refuse to train if it differs.
+
+### C — re-train
+
+Locally (any experiment config in `configs/exp/`):
+
+```bash
+python -m src.train --config configs/exp/E36_crystal.yaml            # 5 folds x seeds 0,1,2
+python -m src.train --config configs/exp/E36_crystal.yaml --debug    # tiny smoke test -> results/debug/
+```
+
+On a GPU, use the notebooks in `notebooks/` (generated by `scripts/make_kaggle_notebook.py`): set
+*Accelerator = GPU*, *Internet = On*, edit `CONFIGS`, *Run all*, download `crystal_results.zip`, then:
+
+```bash
+python -m src.import_runs crystal_results.zip   # copies new run folders, never overwrites
+python -m src.report
+```
+
+| Notebook | Runs | Extra requirement |
+|---|---|---|
+| `kaggle_train.ipynb` | any reason-task configs (E00–E36, E90) | — |
+| `kaggle_dapt.ipynb` | DAPT of wav2vec2 on CryCeleb (D01), then E20/E21 | `HF_TOKEN` secret of an account that accepted the CryCeleb2023 terms |
+| `kaggle_detect.ipynb` | cry detectors E40 (AST) and E41 (small CNN) | same `HF_TOKEN` (CryCeleb positives) |
+
+Order matters for configs with `parent_run: <experiment id>`: the parent is resolved to its latest
+completed run at launch, so run E36 before its `E36-no*` ablations.
+
+Other commands:
+
+```bash
+python -m src.calibrate --run <run_id>             # recompute calibration from saved val logits
+python -m src.significance --a <run_id> --b <run_id>
+python -m src.efficiency                           # params, fp32 size, CPU ms/clip on THIS machine -> results/efficiency.json
+python -m src.listen_check                         # optional: a few clips per class for a listening audit
+```
+
+## Experiments
+
+IDs, parents and paper rows are listed in `docs/HANDOFF.md` §7 and `configs/project.yaml`; each
+config states only what differs from `configs/defaults.yaml` and, unless it is a baseline, changes
+one thing relative to its `parent_run`.
+
+| Group | IDs |
+|---|---|
+| Baselines | E00 majority class, E01 MFCC + SVM, E02 DeepInfant reproduced |
+| Frozen encoders + linear probe | E05 wav2vec2, E06 HuBERT, E07 AST, E08 Whisper encoder |
+| Fine-tuning | E10–E17 (AST / wav2vec2: full vs LoRA, attention pooling, balanced sampler, focal loss, selection metric) |
+| Domain-adaptive pretraining | D01 (CryCeleb), E20 probe, E21 fine-tuned |
+| Augmentation / context | E30–E34 |
+| Final model and ablations | E36 (Ours), E36-noContext / -noNoise / -noSpecAug / -noMixup / -noFocal |
+| Cry detection | E40 AST, E41 small CNN |
+| Leakage demonstration | E90-deepinfant, E90-ours (random clip-level split) |
 
 ## How results are tracked
 
-Every run writes a folder `results/runs/<run_id>/` (config, environment, per-fold logits,
-predictions, metrics) and appends a line to `results/registry.jsonl`. `python -m src.report`
-turns the registry into `results/paper_numbers.json` — the only source of numbers for the
-paper. The full contract is in `docs/RESULTS_SPEC.md`.
+Each run writes `results/runs/<run_id>/` and appends one line to `results/registry.jsonl`; run
+folders are never overwritten. Tuning, early stopping, temperature scaling and abstention
+thresholds use validation data only; test folds are predicted once per finalised configuration.
+The full contract is in [`docs/RESULTS_SPEC.md`](docs/RESULTS_SPEC.md).
 
-## Data and privacy
+## Data, privacy and licences
 
-Infant audio is sensitive. `data/` and `baselines/` are git-ignored; no audio is committed or uploaded.
+Infant audio is sensitive personal data. `data/`, `baselines/`, `checkpoints/` and all audio files
+are git-ignored; nothing in this repo contains audio, and the Kaggle notebooks export only logits,
+predictions, metrics and logs.
 
-```bash
-git clone --depth 1 https://github.com/gveres/donateacry-corpus data/raw/donateacry-corpus      # ODbL / DbCL
-git clone --depth 1 https://github.com/skytells-research/DeepInfant baselines/DeepInfant         # Apache-2.0
-python -m src.prepare_data && python -m src.dedup && python -m src.make_splits && python -m src.dataset_stats
-python -m src.listen_check          # optional: 5 clips/class to data/listen/ for a listening audit
-```
-
-Donate-a-Cry is made available under the Open Database License (ODbL 1.0); its contents under
-the Database Contents License (DbCL 1.0). Further datasets (CryCeleb, ESC-50, Baby Chillanto) are
-added in later phases.
+| Source | Use | Licence |
+|---|---|---|
+| [Donate-a-Cry](https://github.com/gveres/donateacry-corpus) | reason labels, detector positives | ODbL 1.0 / DbCL 1.0 |
+| [CryCeleb2023](https://huggingface.co/datasets/Ubenwa/CryCeleb2023) (gated) | unlabelled DAPT corpus, detector positives | CC BY-NC-ND 4.0 — research use only; no derived model is released |
+| [ESC-50](https://github.com/karolpiczak/ESC-50) | training-time noise, detector negatives | CC BY-NC 3.0 |
+| [DeepInfant](https://github.com/skytells-research/DeepInfant) | baseline architecture | Apache-2.0 |
 
 ## Licence
 
