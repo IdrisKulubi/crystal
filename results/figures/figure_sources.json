@@ -9,5 +9,12 @@
   ],
   "fig3_reliability_before_after": [
     "E36__crystal__20261119-063159__1c39f27"
+  ],
+  "fig4_confusion_ours": [
+    "E36__crystal__20261119-063159__1c39f27"
+  ],
+  "figA_per_class_recall": [
+    "E36__crystal__20261119-063159__1c39f27",
+    "E02__deepinfant_repro__20261116-220106__428232e"
   ]
 }

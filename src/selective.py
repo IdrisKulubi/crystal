@@ -14,6 +14,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
+from src.figures import display_name
 from src.results import metrics as M
 
 
@@ -114,14 +115,14 @@ def make_figures(results_dir: Path, chosen: dict, fig_cfg: dict, n_bins: int = 1
     for row in fig_cfg.get("fig2_rows", []):
         got = outputs(row)
         if got:
-            curves.append((row, got[1]))
+            curves.append((display_name(row), got[1]))
             sources.setdefault("fig2_risk_coverage", []).append(got[0])
     if curves:
         plot_risk_coverage(curves, fig_dir / "fig2_risk_coverage")
     for row in fig_cfg.get("fig3_rows", []):
         got = outputs(row)
         if got and got[1]["p_raw"] is not None:
-            plot_reliability(row, got[1], fig_dir / "fig3_reliability_before_after", n_bins)
+            plot_reliability(display_name(row), got[1], fig_dir / "fig3_reliability_before_after", n_bins)
             sources["fig3_reliability_before_after"] = [got[0]]
             break
     return sources

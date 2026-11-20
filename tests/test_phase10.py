@@ -80,3 +80,58 @@ def test_render_drafts_tex_subfolder(tmp_path):
     assert (out / "short" / "main.tex").read_text(encoding="utf-8") == r"\section{R} a\_b"
     assert (out / "short" / "refs.bib").read_text(encoding="utf-8") == "@misc{a}"
     assert (out / "short" / "figures" / "fig2.pdf").read_bytes() == b"%PDF"
+
+
+def _doc_with(paragraphs, table_rows=None):
+    import docx
+
+    d = docx.Document()
+    for text in paragraphs:
+        d.add_paragraph(text)
+    if table_rows:
+        t = d.add_table(rows=len(table_rows), cols=len(table_rows[0]))
+        for r, row in enumerate(table_rows):
+            for c, text in enumerate(row):
+                t.cell(r, c).text = text
+    return d
+
+
+def test_apply_rewrites_ops(tmp_path):
+    from src import figures
+
+    figures.plot_pipeline(tmp_path / "fig")
+    d = _doc_with(["Old abstract text", "Delete me", "Anchor here", "Same", "Same"],
+                  [["Dataset", "Role"], ["Ours", "x"], ["Other", "y"]])
+    spec = [
+        {"find": "Old abstract", "text": "F1 {a} with **bold** and ==todo== and {missing}"},
+        {"find": "Delete me", "delete": True},
+        {"after": "Anchor here", "insert": ["first {a}", "second"]},
+        {"find": "Same", "nth": 1, "text": "second same"},
+        {"after": "first", "image": "fig.png", "caption": "Figure 1. {a}"},
+        {"table": 0, "row": "Ours", "cells": [None, "role {a}"]},
+        {"table": 0, "row": "Other", "delete_row": True},
+        {"find": "No such paragraph", "delete": True},
+    ]
+    applied, problems = FP.apply_rewrites(d, spec, {"a": "0.194 ± 0.025"}, tmp_path)
+    texts = [p.text for p in d.paragraphs]
+    assert texts[0] == "F1 0.194 ± 0.025 with bold and todo and [missing: not yet produced]"
+    runs = {r.text: r for r in d.paragraphs[0].runs}
+    assert runs["bold"].bold and runs["todo"].font.highlight_color is not None
+    assert runs["[missing: not yet produced]"].font.highlight_color is not None  # gap stays visible
+    assert "Delete me" not in texts
+    assert texts[1:7] == ["Anchor here", "first 0.194 ± 0.025", "", "Figure 1. 0.194 ± 0.025", "second", "Same"]
+    assert texts[7] == "second same"
+    assert len(d.inline_shapes) == 1
+    assert [r.cells[1].text for r in d.tables[0].rows] == ["Role", "role 0.194 ± 0.025"]
+    assert len(applied) == 7 and problems == ["'No such paragraph': 0 matching paragraphs"]
+
+
+def test_figures_render(tmp_path):
+    from src import figures
+
+    figures.plot_confusion(["a", "b"], [[3, 1], [0, 2]], "Ours", tmp_path / "cm")
+    figures.plot_per_class_recall([("Ours", {"a": {"mean": 0.5, "std": 0.1}, "b": {"mean": 0.0, "std": 0.0}})],
+                                  tmp_path / "rec")
+    assert all((tmp_path / f"{s}.{e}").stat().st_size > 0 for s in ("cm", "rec") for e in ("png", "pdf"))
+    assert figures.display_name("Ours (CRYSTAL)") == "Ours" and figures.display_name("MFCC + SVM") == "MFCC + SVM"
+    assert b"CRYSTAL" not in (tmp_path / "cm.pdf").read_bytes()

@@ -387,6 +387,30 @@ def build(results_dir: Path = DEFAULT_RESULTS_DIR, project: dict | None = None) 
                                    project.get("evaluation", {}).get("ece_bins", 15))
         write_json(results_dir / "figures" / "figure_sources.json", fig_sources)
 
+    # ---- per-class recall (every T3 run; mean ± std over folds × seeds) + fig1 / fig4 / figA (src/figures.py)
+    from src import figures as F
+
+    for row in rows.get("T3", []):
+        summ, rec = summaries.get(("T3", row)), chosen.get(("T3", row))
+        for lab, ms in ((summ or {}).get("per_class_recall_mean_std") or {}).items():
+            nums.set(f"perclass.{slugify(row)}.recall.{lab}", fmt("pct", ms["mean"], ms["std"]),
+                     raw={"mean": ms["mean"], "std": ms["std"]}, source=rec["run_id"])
+    fig_dir = results_dir / "figures"
+    F.plot_pipeline(fig_dir / "fig1_pipeline")
+    pooled = (ours_summ or {}).get("pooled") or {}
+    if pooled.get("confusion_matrix") and pooled.get("labels"):
+        F.plot_confusion(pooled["labels"], pooled["confusion_matrix"],
+                         f"{F.display_name(ours_key[1])}: pooled out-of-fold test, seed 0", fig_dir / "fig4_confusion_ours")
+        fig_sources["fig4_confusion_ours"] = [ours_rec["run_id"]]
+    di_summ = summaries.get((di.get("table"), di.get("row")))
+    series = [(F.display_name(r), s["per_class_recall_mean_std"]) for r, s in
+              ((ours_key[1], ours_summ), (di.get("row"), di_summ)) if s and s.get("per_class_recall_mean_std")]
+    if series:
+        F.plot_per_class_recall(series, fig_dir / "figA_per_class_recall")
+        fig_sources["figA_per_class_recall"] = [r["run_id"] for r in (ours_rec, chosen.get((di.get("table"), di.get("row")))) if r]
+    if fig_sources:
+        write_json(fig_dir / "figure_sources.json", fig_sources)
+
     # ---- T2 implementation details, read from the saved config/env of the final model and DAPT run
     if ours_rec:
         import yaml

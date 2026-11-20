@@ -290,6 +290,133 @@ def render_drafts(numbers: dict, src_dir: Path = DRAFTS_SRC, out_dir: Path = DRA
     return out
 
 
+# --------------------------------------------------------------------------- whole-paragraph rewrites
+# paper/drafts_src/word_rewrites.yaml (local, Idris's text) lists edits applied to the filled copy, so the
+# template's prose can be replaced with what was actually built. Text uses {key} tokens (render_text);
+# **bold** and ==highlight== (a placeholder left for Idris) are the only markup. Ops (each matches exactly ONE
+# body paragraph whose text starts with `find` / `after`, otherwise it is reported and skipped):
+#   {find, text}                    replace the paragraph's runs (style / list numbering kept)
+#   {find, delete: true}            remove the paragraph
+#   {after, insert: [text, ...], style?}  new paragraphs after the anchor (copies the anchor's formatting)
+#   {find|after, image, width_cm?, caption?}  picture (+ caption paragraph); `find` replaces the anchor
+#   {table, row, cells: [...]} / {table, row, delete_row: true}  row = start of the row's first cell
+REWRITES = DRAFTS_SRC / "word_rewrites.yaml"
+_MARK = re.compile(r"(\*\*.+?\*\*|==.+?==)")
+
+
+def _norm(s: str) -> str:
+    return " ".join(s.split())
+
+
+def _set_runs(p, text: str) -> None:
+    from docx.enum.text import WD_COLOR_INDEX
+
+    for r in list(p.runs):
+        r._element.getparent().remove(r._element)
+    for part in _MARK.split(text):
+        if not part:
+            continue
+        if part.startswith("**") and part.endswith("**"):
+            p.add_run(part[2:-2]).bold = True
+        elif part.startswith("==") and part.endswith("=="):
+            p.add_run(part[2:-2]).font.highlight_color = WD_COLOR_INDEX.YELLOW
+        else:
+            p.add_run(part)
+
+
+def _insert_after(p, style: str | None = None):
+    import copy
+
+    from docx.text.paragraph import Paragraph
+
+    el = copy.deepcopy(p._element)
+    p._element.addnext(el)
+    new = Paragraph(el, p._parent)
+    if style:
+        # look the style up on a paragraph that uses it: template style names may differ from python-docx's
+        # built-in name mapping (e.g. "Heading 2" is not found by name in this template)
+        same = next((q.style for q in p.part.document.paragraphs
+                     if q.style.name == style), None)
+        new.style = same if same is not None else style
+        ppr = el.pPr
+        if ppr is not None and ppr.numPr is not None and style != p.style.name:
+            ppr.remove(ppr.numPr)
+    return new
+
+
+def _find(doc, prefix: str, nth: int | None = None):
+    """The one paragraph starting with ``prefix`` (or the ``nth`` of several identical ones), else the hit count."""
+    hits = [p for p in doc.paragraphs if _norm(p.text).startswith(_norm(prefix))]
+    if nth is not None:
+        return hits[nth] if len(hits) > nth else len(hits)
+    return hits[0] if len(hits) == 1 else len(hits)
+
+
+def apply_rewrites(doc, spec: list[dict], numbers: dict, base_dir: Path = REPO_ROOT) -> tuple[list[str], list[str]]:
+    """-> (applied descriptions, problems). Numbers only via {key} tokens; missing keys stay highlighted."""
+    from docx.shared import Cm
+
+    applied, problems = [], []
+
+    def render(t: str) -> str:
+        text, missing = render_text(str(t), numbers)
+        for k in missing:  # keep the gap visible in Word
+            text = text.replace(f"[{k}: not yet produced]", f"==[{k}: not yet produced]==")
+        return text
+
+    for op in spec:
+        if "table" in op:
+            t = doc.tables[op["table"]]
+            rows = [r for r in t.rows if _norm(r.cells[0].text).startswith(_norm(op["row"]))]
+            if op.get("nth") is not None and len(rows) > op["nth"]:
+                rows = [rows[op["nth"]]]
+            if len(rows) != 1:
+                problems.append(f"table {op['table']} row '{op['row']}': {len(rows)} matches")
+                continue
+            if op.get("delete_row"):
+                rows[0]._tr.getparent().remove(rows[0]._tr)
+                applied.append(f"table {op['table']}: deleted row '{op['row']}'")
+            else:
+                for cell, text in zip(rows[0].cells, op["cells"]):
+                    if text is not None:
+                        _set_runs(cell.paragraphs[0], render(text))
+                        for extra in cell.paragraphs[1:]:
+                            extra._element.getparent().remove(extra._element)
+                applied.append(f"table {op['table']}: row '{op['row']}'")
+            continue
+        anchor = op.get("find") or op.get("after")
+        p = _find(doc, anchor, op.get("nth"))
+        if isinstance(p, int):
+            problems.append(f"'{anchor[:60]}': {p} matching paragraphs")
+            continue
+        if "image" in op:
+            img = Path(base_dir) / op["image"]
+            if not img.is_file():
+                problems.append(f"image missing: {op['image']}")
+                continue
+            target = p if "find" in op else _insert_after(p, "Normal")
+            _set_runs(target, "")
+            target.add_run().add_picture(str(img), width=Cm(float(op.get("width_cm", 15))))
+            if op.get("caption"):
+                _set_runs(_insert_after(target, "Normal"), render(op["caption"]))
+            applied.append(f"image {op['image']} at '{anchor[:40]}'")
+        elif op.get("delete"):
+            p._element.getparent().remove(p._element)
+            applied.append(f"deleted '{anchor[:60]}'")
+        elif "insert" in op:
+            cur = p
+            for text in op["insert"]:
+                cur = _insert_after(cur, op.get("style"))
+                _set_runs(cur, render(text))
+            applied.append(f"inserted {len(op['insert'])} after '{anchor[:40]}'")
+        else:
+            _set_runs(p, render(op["text"]))
+            if op.get("style"):
+                p.style = op["style"]
+            applied.append(f"rewrote '{anchor[:60]}'")
+    return applied, problems
+
+
 def fill(template: Path = TEMPLATE, numbers_path: Path = NUMBERS, out_dir: Path = DRAFTS) -> Path:
     import docx
 
@@ -303,6 +430,15 @@ def fill(template: Path = TEMPLATE, numbers_path: Path = NUMBERS, out_dir: Path 
     fill_body(doc, f)
     fill_cells(doc, f)
     fill_tables(doc, f, project)
+    rewrites, problems = [], []
+    spec_path = Path(DRAFTS_SRC) / REWRITES.name  # resolved at call time (tests point DRAFTS_SRC elsewhere)
+    if spec_path.is_file():
+        import yaml
+
+        nums = {k: v for k, v in numbers.items() if not k.startswith("_")}
+        rewrites, problems = apply_rewrites(doc, yaml.safe_load(spec_path.read_text(encoding="utf-8")) or [], nums)
+        for pr in problems:
+            print("  rewrite NOT applied:", pr)
     doc.save(out)
     left = remaining(docx.Document(out))
     lines = [f"# Fill report — {out.name}", "", f"Generated by `python -m src.fill_paper` from "
@@ -310,6 +446,9 @@ def fill(template: Path = TEMPLATE, numbers_path: Path = NUMBERS, out_dir: Path 
              f"Filled: {len(f.filled)} · still highlighted: {len(left)}", "", "## Filled", "",
              "| where | placeholder | value |", "|---|---|---|"]
     lines += [f"| {a} | {b} | {c} |" for a, b, c in f.filled]
+    if rewrites or problems:
+        lines += ["", f"## Rewrites from {REWRITES.name} ({len(rewrites)} applied)", ""]
+        lines += [f"- {x}" for x in rewrites] + [f"- **NOT applied:** {x}" for x in problems]
     lines += ["", "## Still highlighted (writing tasks, decisions for Idris, or numbers not yet produced)", ""]
     lines += [f"- [ ] {x}" for x in left]
     if f.missing:

@@ -338,6 +338,81 @@
   "overlap.deepinfant_v2.n_clips": "597",
   "overlap.deepinfant_v2.n_clips_duplicating_eval_set": "469",
   "overlap.deepinfant_v2.n_generated_copies": "24",
+  "perclass.ast_fine_tuned.recall.belly_pain": "0.0 ± 0.0",
+  "perclass.ast_fine_tuned.recall.burping": "0.0 ± 0.0",
+  "perclass.ast_fine_tuned.recall.discomfort": "8.2 ± 12.8",
+  "perclass.ast_fine_tuned.recall.hungry": "84.7 ± 14.6",
+  "perclass.ast_fine_tuned.recall.tired": "5.7 ± 9.8",
+  "perclass.ast_linear_probe.recall.belly_pain": "0.0 ± 0.0",
+  "perclass.ast_linear_probe.recall.burping": "0.0 ± 0.0",
+  "perclass.ast_linear_probe.recall.discomfort": "34.7 ± 25.1",
+  "perclass.ast_linear_probe.recall.hungry": "76.0 ± 20.4",
+  "perclass.ast_linear_probe.recall.tired": "4.0 ± 8.3",
+  "perclass.ast_lora.recall.belly_pain": "0.0 ± 0.0",
+  "perclass.ast_lora.recall.burping": "0.0 ± 0.0",
+  "perclass.ast_lora.recall.discomfort": "6.2 ± 9.2",
+  "perclass.ast_lora.recall.hungry": "86.8 ± 9.6",
+  "perclass.ast_lora.recall.tired": "2.7 ± 7.0",
+  "perclass.best_backbone_plus_attention_pooling.recall.belly_pain": "3.3 ± 12.9",
+  "perclass.best_backbone_plus_attention_pooling.recall.burping": "0.0 ± 0.0",
+  "perclass.best_backbone_plus_attention_pooling.recall.discomfort": "10.0 ± 18.0",
+  "perclass.best_backbone_plus_attention_pooling.recall.hungry": "89.0 ± 10.6",
+  "perclass.best_backbone_plus_attention_pooling.recall.tired": "4.0 ± 8.3",
+  "perclass.dapt_wav2vec2_fine_tuned.recall.belly_pain": "0.0 ± 0.0",
+  "perclass.dapt_wav2vec2_fine_tuned.recall.burping": "0.0 ± 0.0",
+  "perclass.dapt_wav2vec2_fine_tuned.recall.discomfort": "0.0 ± 0.0",
+  "perclass.dapt_wav2vec2_fine_tuned.recall.hungry": "98.9 ± 3.4",
+  "perclass.dapt_wav2vec2_fine_tuned.recall.tired": "0.0 ± 0.0",
+  "perclass.dapt_wav2vec2_linear_probe.recall.belly_pain": "0.0 ± 0.0",
+  "perclass.dapt_wav2vec2_linear_probe.recall.burping": "0.0 ± 0.0",
+  "perclass.dapt_wav2vec2_linear_probe.recall.discomfort": "4.0 ± 8.3",
+  "perclass.dapt_wav2vec2_linear_probe.recall.hungry": "79.4 ± 18.0",
+  "perclass.dapt_wav2vec2_linear_probe.recall.tired": "4.0 ± 8.3",
+  "perclass.deepinfant_reproduced.recall.belly_pain": "0.0 ± 0.0",
+  "perclass.deepinfant_reproduced.recall.burping": "0.0 ± 0.0",
+  "perclass.deepinfant_reproduced.recall.discomfort": "0.0 ± 0.0",
+  "perclass.deepinfant_reproduced.recall.hungry": "99.6 ± 1.4",
+  "perclass.deepinfant_reproduced.recall.tired": "0.0 ± 0.0",
+  "perclass.hubert_base_linear_probe.recall.belly_pain": "0.0 ± 0.0",
+  "perclass.hubert_base_linear_probe.recall.burping": "0.0 ± 0.0",
+  "perclass.hubert_base_linear_probe.recall.discomfort": "4.0 ± 8.3",
+  "perclass.hubert_base_linear_probe.recall.hungry": "78.8 ± 13.0",
+  "perclass.hubert_base_linear_probe.recall.tired": "9.0 ± 11.5",
+  "perclass.majority_class.recall.belly_pain": "0.0 ± 0.0",
+  "perclass.majority_class.recall.burping": "0.0 ± 0.0",
+  "perclass.majority_class.recall.discomfort": "0.0 ± 0.0",
+  "perclass.majority_class.recall.hungry": "100.0 ± 0.0",
+  "perclass.majority_class.recall.tired": "0.0 ± 0.0",
+  "perclass.mfcc_plus_svm.recall.belly_pain": "0.0 ± 0.0",
+  "perclass.mfcc_plus_svm.recall.burping": "0.0 ± 0.0",
+  "perclass.mfcc_plus_svm.recall.discomfort": "0.0 ± 0.0",
+  "perclass.mfcc_plus_svm.recall.hungry": "93.2 ± 10.9",
+  "perclass.mfcc_plus_svm.recall.tired": "0.0 ± 0.0",
+  "perclass.ours_crystal.recall.belly_pain": "0.0 ± 0.0",
+  "perclass.ours_crystal.recall.burping": "0.0 ± 0.0",
+  "perclass.ours_crystal.recall.discomfort": "12.9 ± 20.8",
+  "perclass.ours_crystal.recall.hungry": "91.7 ± 10.2",
+  "perclass.ours_crystal.recall.tired": "0.0 ± 0.0",
+  "perclass.wav2vec2_base_fine_tuned.recall.belly_pain": "0.0 ± 0.0",
+  "perclass.wav2vec2_base_fine_tuned.recall.burping": "0.0 ± 0.0",
+  "perclass.wav2vec2_base_fine_tuned.recall.discomfort": "1.3 ± 5.2",
+  "perclass.wav2vec2_base_fine_tuned.recall.hungry": "98.1 ± 4.8",
+  "perclass.wav2vec2_base_fine_tuned.recall.tired": "0.0 ± 0.0",
+  "perclass.wav2vec2_base_linear_probe.recall.belly_pain": "0.0 ± 0.0",
+  "perclass.wav2vec2_base_linear_probe.recall.burping": "0.0 ± 0.0",
+  "perclass.wav2vec2_base_linear_probe.recall.discomfort": "6.7 ± 8.5",
+  "perclass.wav2vec2_base_linear_probe.recall.hungry": "88.0 ± 5.1",
+  "perclass.wav2vec2_base_linear_probe.recall.tired": "4.0 ± 8.3",
+  "perclass.wav2vec2_base_lora.recall.belly_pain": "11.1 ± 30.0",
+  "perclass.wav2vec2_base_lora.recall.burping": "0.0 ± 0.0",
+  "perclass.wav2vec2_base_lora.recall.discomfort": "0.0 ± 0.0",
+  "perclass.wav2vec2_base_lora.recall.hungry": "87.0 ± 22.3",
+  "perclass.wav2vec2_base_lora.recall.tired": "1.7 ± 6.5",
+  "perclass.whisper_base_encoder_linear_probe.recall.belly_pain": "0.0 ± 0.0",
+  "perclass.whisper_base_encoder_linear_probe.recall.burping": "0.0 ± 0.0",
+  "perclass.whisper_base_encoder_linear_probe.recall.discomfort": "0.0 ± 0.0",
+  "perclass.whisper_base_encoder_linear_probe.recall.hungry": "87.2 ± 3.1",
+  "perclass.whisper_base_encoder_linear_probe.recall.tired": "9.0 ± 11.5",
   "sig.ours_vs_deepinfant.ci95": "[0.002, 0.034]",
   "sig.ours_vs_deepinfant.delta": "+0.018",
   "sig.ours_vs_deepinfant.p": "0.031",
@@ -1336,6 +1411,306 @@
     "overlap.deepinfant_v2.n_clips": 597,
     "overlap.deepinfant_v2.n_clips_duplicating_eval_set": 469,
     "overlap.deepinfant_v2.n_generated_copies": 24,
+    "perclass.ast_fine_tuned.recall.belly_pain": {
+      "mean": 0.0,
+      "std": 0.0
+    },
+    "perclass.ast_fine_tuned.recall.burping": {
+      "mean": 0.0,
+      "std": 0.0
+    },
+    "perclass.ast_fine_tuned.recall.discomfort": {
+      "mean": 0.08222222222222222,
+      "std": 0.12778122838681086
+    },
+    "perclass.ast_fine_tuned.recall.hungry": {
+      "mean": 0.846810207336523,
+      "std": 0.14600461486065655
+    },
+    "perclass.ast_fine_tuned.recall.tired": {
+      "mean": 0.05666666666666667,
+      "std": 0.09795528620364546
+    },
+    "perclass.ast_linear_probe.recall.belly_pain": {
+      "mean": 0.0,
+      "std": 0.0
+    },
+    "perclass.ast_linear_probe.recall.burping": {
+      "mean": 0.0,
+      "std": 0.0
+    },
+    "perclass.ast_linear_probe.recall.discomfort": {
+      "mean": 0.3466666666666668,
+      "std": 0.2512824250576573
+    },
+    "perclass.ast_linear_probe.recall.hungry": {
+      "mean": 0.7596719070403284,
+      "std": 0.2044264695990077
+    },
+    "perclass.ast_linear_probe.recall.tired": {
+      "mean": 0.04000000000000001,
+      "std": 0.08280786712108253
+    },
+    "perclass.ast_lora.recall.belly_pain": {
+      "mean": 0.0,
+      "std": 0.0
+    },
+    "perclass.ast_lora.recall.burping": {
+      "mean": 0.0,
+      "std": 0.0
+    },
+    "perclass.ast_lora.recall.discomfort": {
+      "mean": 0.062222222222222213,
+      "std": 0.0916053185766765
+    },
+    "perclass.ast_lora.recall.hungry": {
+      "mean": 0.8683640920483026,
+      "std": 0.09550891536765282
+    },
+    "perclass.ast_lora.recall.tired": {
+      "mean": 0.02666666666666667,
+      "std": 0.07037315505489966
+    },
+    "perclass.best_backbone_plus_attention_pooling.recall.belly_pain": {
+      "mean": 0.03333333333333333,
+      "std": 0.12909944487358058
+    },
+    "perclass.best_backbone_plus_attention_pooling.recall.burping": {
+      "mean": 0.0,
+      "std": 0.0
+    },
+    "perclass.best_backbone_plus_attention_pooling.recall.discomfort": {
+      "mean": 0.1,
+      "std": 0.17994708216848748
+    },
+    "perclass.best_backbone_plus_attention_pooling.recall.hungry": {
+      "mean": 0.8899065846434266,
+      "std": 0.10639574413594845
+    },
+    "perclass.best_backbone_plus_attention_pooling.recall.tired": {
+      "mean": 0.04000000000000001,
+      "std": 0.08280786712108253
+    },
+    "perclass.dapt_wav2vec2_fine_tuned.recall.belly_pain": {
+      "mean": 0.0,
+      "std": 0.0
+    },
+    "perclass.dapt_wav2vec2_fine_tuned.recall.burping": {
+      "mean": 0.0,
+      "std": 0.0
+    },
+    "perclass.dapt_wav2vec2_fine_tuned.recall.discomfort": {
+      "mean": 0.0,
+      "std": 0.0
+    },
+    "perclass.dapt_wav2vec2_fine_tuned.recall.hungry": {
+      "mean": 0.9887218045112782,
+      "std": 0.03361490795147418
+    },
+    "perclass.dapt_wav2vec2_fine_tuned.recall.tired": {
+      "mean": 0.0,
+      "std": 0.0
+    },
+    "perclass.dapt_wav2vec2_linear_probe.recall.belly_pain": {
+      "mean": 0.0,
+      "std": 0.0
+    },
+    "perclass.dapt_wav2vec2_linear_probe.recall.burping": {
+      "mean": 0.0,
+      "std": 0.0
+    },
+    "perclass.dapt_wav2vec2_linear_probe.recall.discomfort": {
+      "mean": 0.04000000000000001,
+      "std": 0.08280786712108251
+    },
+    "perclass.dapt_wav2vec2_linear_probe.recall.hungry": {
+      "mean": 0.7939166097060835,
+      "std": 0.18025555503195878
+    },
+    "perclass.dapt_wav2vec2_linear_probe.recall.tired": {
+      "mean": 0.04000000000000001,
+      "std": 0.08280786712108253
+    },
+    "perclass.deepinfant_reproduced.recall.belly_pain": {
+      "mean": 0.0,
+      "std": 0.0
+    },
+    "perclass.deepinfant_reproduced.recall.burping": {
+      "mean": 0.0,
+      "std": 0.0
+    },
+    "perclass.deepinfant_reproduced.recall.discomfort": {
+      "mean": 0.0,
+      "std": 0.0
+    },
+    "perclass.deepinfant_reproduced.recall.hungry": {
+      "mean": 0.9964912280701754,
+      "std": 0.013589415249850599
+    },
+    "perclass.deepinfant_reproduced.recall.tired": {
+      "mean": 0.0,
+      "std": 0.0
+    },
+    "perclass.hubert_base_linear_probe.recall.belly_pain": {
+      "mean": 0.0,
+      "std": 0.0
+    },
+    "perclass.hubert_base_linear_probe.recall.burping": {
+      "mean": 0.0,
+      "std": 0.0
+    },
+    "perclass.hubert_base_linear_probe.recall.discomfort": {
+      "mean": 0.04000000000000001,
+      "std": 0.08280786712108251
+    },
+    "perclass.hubert_base_linear_probe.recall.hungry": {
+      "mean": 0.7876281613123716,
+      "std": 0.13025347308270263
+    },
+    "perclass.hubert_base_linear_probe.recall.tired": {
+      "mean": 0.09000000000000001,
+      "std": 0.11526367287968174
+    },
+    "perclass.majority_class.recall.belly_pain": {
+      "mean": 0.0,
+      "std": 0.0
+    },
+    "perclass.majority_class.recall.burping": {
+      "mean": 0.0,
+      "std": 0.0
+    },
+    "perclass.majority_class.recall.discomfort": {
+      "mean": 0.0,
+      "std": 0.0
+    },
+    "perclass.majority_class.recall.hungry": {
+      "mean": 1.0,
+      "std": 0.0
+    },
+    "perclass.majority_class.recall.tired": {
+      "mean": 0.0,
+      "std": 0.0
+    },
+    "perclass.mfcc_plus_svm.recall.belly_pain": {
+      "mean": 0.0,
+      "std": 0.0
+    },
+    "perclass.mfcc_plus_svm.recall.burping": {
+      "mean": 0.0,
+      "std": 0.0
+    },
+    "perclass.mfcc_plus_svm.recall.discomfort": {
+      "mean": 0.0,
+      "std": 0.0
+    },
+    "perclass.mfcc_plus_svm.recall.hungry": {
+      "mean": 0.9322966507177033,
+      "std": 0.1093386312105963
+    },
+    "perclass.mfcc_plus_svm.recall.tired": {
+      "mean": 0.0,
+      "std": 0.0
+    },
+    "perclass.ours_crystal.recall.belly_pain": {
+      "mean": 0.0,
+      "std": 0.0
+    },
+    "perclass.ours_crystal.recall.burping": {
+      "mean": 0.0,
+      "std": 0.0
+    },
+    "perclass.ours_crystal.recall.discomfort": {
+      "mean": 0.1288888888888889,
+      "std": 0.20811575940367735
+    },
+    "perclass.ours_crystal.recall.hungry": {
+      "mean": 0.9173729778992937,
+      "std": 0.10172826842129547
+    },
+    "perclass.ours_crystal.recall.tired": {
+      "mean": 0.0,
+      "std": 0.0
+    },
+    "perclass.wav2vec2_base_fine_tuned.recall.belly_pain": {
+      "mean": 0.0,
+      "std": 0.0
+    },
+    "perclass.wav2vec2_base_fine_tuned.recall.burping": {
+      "mean": 0.0,
+      "std": 0.0
+    },
+    "perclass.wav2vec2_base_fine_tuned.recall.discomfort": {
+      "mean": 0.013333333333333334,
+      "std": 0.051639777949432225
+    },
+    "perclass.wav2vec2_base_fine_tuned.recall.hungry": {
+      "mean": 0.9809068124857598,
+      "std": 0.04782371358744533
+    },
+    "perclass.wav2vec2_base_fine_tuned.recall.tired": {
+      "mean": 0.0,
+      "std": 0.0
+    },
+    "perclass.wav2vec2_base_linear_probe.recall.belly_pain": {
+      "mean": 0.0,
+      "std": 0.0
+    },
+    "perclass.wav2vec2_base_linear_probe.recall.burping": {
+      "mean": 0.0,
+      "std": 0.0
+    },
+    "perclass.wav2vec2_base_linear_probe.recall.discomfort": {
+      "mean": 0.06666666666666667,
+      "std": 0.08451542547285165
+    },
+    "perclass.wav2vec2_base_linear_probe.recall.hungry": {
+      "mean": 0.8796308954203693,
+      "std": 0.05093852010788017
+    },
+    "perclass.wav2vec2_base_linear_probe.recall.tired": {
+      "mean": 0.04000000000000001,
+      "std": 0.08280786712108253
+    },
+    "perclass.wav2vec2_base_lora.recall.belly_pain": {
+      "mean": 0.1111111111111111,
+      "std": 0.2999118036141458
+    },
+    "perclass.wav2vec2_base_lora.recall.burping": {
+      "mean": 0.0,
+      "std": 0.0
+    },
+    "perclass.wav2vec2_base_lora.recall.discomfort": {
+      "mean": 0.0,
+      "std": 0.0
+    },
+    "perclass.wav2vec2_base_lora.recall.hungry": {
+      "mean": 0.8696172248803827,
+      "std": 0.2234810201603856
+    },
+    "perclass.wav2vec2_base_lora.recall.tired": {
+      "mean": 0.016666666666666666,
+      "std": 0.06454972243679029
+    },
+    "perclass.whisper_base_encoder_linear_probe.recall.belly_pain": {
+      "mean": 0.0,
+      "std": 0.0
+    },
+    "perclass.whisper_base_encoder_linear_probe.recall.burping": {
+      "mean": 0.0,
+      "std": 0.0
+    },
+    "perclass.whisper_base_encoder_linear_probe.recall.discomfort": {
+      "mean": 0.0,
+      "std": 0.0
+    },
+    "perclass.whisper_base_encoder_linear_probe.recall.hungry": {
+      "mean": 0.8716678058783323,
+      "std": 0.030539039132901884
+    },
+    "perclass.whisper_base_encoder_linear_probe.recall.tired": {
+      "mean": 0.09000000000000001,
+      "std": 0.11526367287968174
+    },
     "sig.ours_vs_deepinfant.ci95": [
       0.0015515248462078788,
       0.03364321227353536
@@ -1668,10 +2043,85 @@
     "overlap.deepinfant_v2.n_clips": "dataset_stats.json",
     "overlap.deepinfant_v2.n_clips_duplicating_eval_set": "dataset_stats.json",
     "overlap.deepinfant_v2.n_generated_copies": "dataset_stats.json",
+    "perclass.ast_fine_tuned.recall.belly_pain": "E10__ast_ft__20261117-165906__5a3ceae",
+    "perclass.ast_fine_tuned.recall.burping": "E10__ast_ft__20261117-165906__5a3ceae",
+    "perclass.ast_fine_tuned.recall.discomfort": "E10__ast_ft__20261117-165906__5a3ceae",
+    "perclass.ast_fine_tuned.recall.hungry": "E10__ast_ft__20261117-165906__5a3ceae",
+    "perclass.ast_fine_tuned.recall.tired": "E10__ast_ft__20261117-165906__5a3ceae",
+    "perclass.ast_linear_probe.recall.belly_pain": "E07__ast_probe__20261117-001010__9b88bc7",
+    "perclass.ast_linear_probe.recall.burping": "E07__ast_probe__20261117-001010__9b88bc7",
+    "perclass.ast_linear_probe.recall.discomfort": "E07__ast_probe__20261117-001010__9b88bc7",
+    "perclass.ast_linear_probe.recall.hungry": "E07__ast_probe__20261117-001010__9b88bc7",
+    "perclass.ast_linear_probe.recall.tired": "E07__ast_probe__20261117-001010__9b88bc7",
+    "perclass.ast_lora.recall.belly_pain": "E11__ast_lora__20261117-174815__5a3ceae",
+    "perclass.ast_lora.recall.burping": "E11__ast_lora__20261117-174815__5a3ceae",
+    "perclass.ast_lora.recall.discomfort": "E11__ast_lora__20261117-174815__5a3ceae",
+    "perclass.ast_lora.recall.hungry": "E11__ast_lora__20261117-174815__5a3ceae",
+    "perclass.ast_lora.recall.tired": "E11__ast_lora__20261117-174815__5a3ceae",
+    "perclass.best_backbone_plus_attention_pooling.recall.belly_pain": "E14__ast_ft_attnpool__20261117-201115__871fcbb",
+    "perclass.best_backbone_plus_attention_pooling.recall.burping": "E14__ast_ft_attnpool__20261117-201115__871fcbb",
+    "perclass.best_backbone_plus_attention_pooling.recall.discomfort": "E14__ast_ft_attnpool__20261117-201115__871fcbb",
+    "perclass.best_backbone_plus_attention_pooling.recall.hungry": "E14__ast_ft_attnpool__20261117-201115__871fcbb",
+    "perclass.best_backbone_plus_attention_pooling.recall.tired": "E14__ast_ft_attnpool__20261117-201115__871fcbb",
+    "perclass.dapt_wav2vec2_fine_tuned.recall.belly_pain": "E21__dapt_w2v2_ft__20261118-130145__72875a9",
+    "perclass.dapt_wav2vec2_fine_tuned.recall.burping": "E21__dapt_w2v2_ft__20261118-130145__72875a9",
+    "perclass.dapt_wav2vec2_fine_tuned.recall.discomfort": "E21__dapt_w2v2_ft__20261118-130145__72875a9",
+    "perclass.dapt_wav2vec2_fine_tuned.recall.hungry": "E21__dapt_w2v2_ft__20261118-130145__72875a9",
+    "perclass.dapt_wav2vec2_fine_tuned.recall.tired": "E21__dapt_w2v2_ft__20261118-130145__72875a9",
+    "perclass.dapt_wav2vec2_linear_probe.recall.belly_pain": "E20__dapt_w2v2_probe__20261118-124424__72875a9",
+    "perclass.dapt_wav2vec2_linear_probe.recall.burping": "E20__dapt_w2v2_probe__20261118-124424__72875a9",
+    "perclass.dapt_wav2vec2_linear_probe.recall.discomfort": "E20__dapt_w2v2_probe__20261118-124424__72875a9",
+    "perclass.dapt_wav2vec2_linear_probe.recall.hungry": "E20__dapt_w2v2_probe__20261118-124424__72875a9",
+    "perclass.dapt_wav2vec2_linear_probe.recall.tired": "E20__dapt_w2v2_probe__20261118-124424__72875a9",
+    "perclass.deepinfant_reproduced.recall.belly_pain": "E02__deepinfant_repro__20261116-220106__428232e",
+    "perclass.deepinfant_reproduced.recall.burping": "E02__deepinfant_repro__20261116-220106__428232e",
+    "perclass.deepinfant_reproduced.recall.discomfort": "E02__deepinfant_repro__20261116-220106__428232e",
+    "perclass.deepinfant_reproduced.recall.hungry": "E02__deepinfant_repro__20261116-220106__428232e",
+    "perclass.deepinfant_reproduced.recall.tired": "E02__deepinfant_repro__20261116-220106__428232e",
+    "perclass.hubert_base_linear_probe.recall.belly_pain": "E06__hubert_base_probe__20261116-235847__2df0f80",
+    "perclass.hubert_base_linear_probe.recall.burping": "E06__hubert_base_probe__20261116-235847__2df0f80",
+    "perclass.hubert_base_linear_probe.recall.discomfort": "E06__hubert_base_probe__20261116-235847__2df0f80",
+    "perclass.hubert_base_linear_probe.recall.hungry": "E06__hubert_base_probe__20261116-235847__2df0f80",
+    "perclass.hubert_base_linear_probe.recall.tired": "E06__hubert_base_probe__20261116-235847__2df0f80",
+    "perclass.majority_class.recall.belly_pain": "E00__majority__20261116-185927__bbaf546",
+    "perclass.majority_class.recall.burping": "E00__majority__20261116-185927__bbaf546",
+    "perclass.majority_class.recall.discomfort": "E00__majority__20261116-185927__bbaf546",
+    "perclass.majority_class.recall.hungry": "E00__majority__20261116-185927__bbaf546",
+    "perclass.majority_class.recall.tired": "E00__majority__20261116-185927__bbaf546",
+    "perclass.mfcc_plus_svm.recall.belly_pain": "E01__mfcc_svm__20261116-190116__6bc3192",
+    "perclass.mfcc_plus_svm.recall.burping": "E01__mfcc_svm__20261116-190116__6bc3192",
+    "perclass.mfcc_plus_svm.recall.discomfort": "E01__mfcc_svm__20261116-190116__6bc3192",
+    "perclass.mfcc_plus_svm.recall.hungry": "E01__mfcc_svm__20261116-190116__6bc3192",
+    "perclass.mfcc_plus_svm.recall.tired": "E01__mfcc_svm__20261116-190116__6bc3192",
+    "perclass.ours_crystal.recall.belly_pain": "E36__crystal__20261119-063159__1c39f27",
+    "perclass.ours_crystal.recall.burping": "E36__crystal__20261119-063159__1c39f27",
+    "perclass.ours_crystal.recall.discomfort": "E36__crystal__20261119-063159__1c39f27",
+    "perclass.ours_crystal.recall.hungry": "E36__crystal__20261119-063159__1c39f27",
+    "perclass.ours_crystal.recall.tired": "E36__crystal__20261119-063159__1c39f27",
+    "perclass.wav2vec2_base_fine_tuned.recall.belly_pain": "E12__w2v2_ft__20261117-183854__5a3ceae",
+    "perclass.wav2vec2_base_fine_tuned.recall.burping": "E12__w2v2_ft__20261117-183854__5a3ceae",
+    "perclass.wav2vec2_base_fine_tuned.recall.discomfort": "E12__w2v2_ft__20261117-183854__5a3ceae",
+    "perclass.wav2vec2_base_fine_tuned.recall.hungry": "E12__w2v2_ft__20261117-183854__5a3ceae",
+    "perclass.wav2vec2_base_fine_tuned.recall.tired": "E12__w2v2_ft__20261117-183854__5a3ceae",
+    "perclass.wav2vec2_base_linear_probe.recall.belly_pain": "E05__wav2vec2_base_probe__20261116-234352__2df0f80",
+    "perclass.wav2vec2_base_linear_probe.recall.burping": "E05__wav2vec2_base_probe__20261116-234352__2df0f80",
+    "perclass.wav2vec2_base_linear_probe.recall.discomfort": "E05__wav2vec2_base_probe__20261116-234352__2df0f80",
+    "perclass.wav2vec2_base_linear_probe.recall.hungry": "E05__wav2vec2_base_probe__20261116-234352__2df0f80",
+    "perclass.wav2vec2_base_linear_probe.recall.tired": "E05__wav2vec2_base_probe__20261116-234352__2df0f80",
+    "perclass.wav2vec2_base_lora.recall.belly_pain": "E13__w2v2_lora__20261117-190008__5a3ceae",
+    "perclass.wav2vec2_base_lora.recall.burping": "E13__w2v2_lora__20261117-190008__5a3ceae",
+    "perclass.wav2vec2_base_lora.recall.discomfort": "E13__w2v2_lora__20261117-190008__5a3ceae",
+    "perclass.wav2vec2_base_lora.recall.hungry": "E13__w2v2_lora__20261117-190008__5a3ceae",
+    "perclass.wav2vec2_base_lora.recall.tired": "E13__w2v2_lora__20261117-190008__5a3ceae",
+    "perclass.whisper_base_encoder_linear_probe.recall.belly_pain": "E08__whisper_base_probe__20261117-002638__9b88bc7",
+    "perclass.whisper_base_encoder_linear_probe.recall.burping": "E08__whisper_base_probe__20261117-002638__9b88bc7",
+    "perclass.whisper_base_encoder_linear_probe.recall.discomfort": "E08__whisper_base_probe__20261117-002638__9b88bc7",
+    "perclass.whisper_base_encoder_linear_probe.recall.hungry": "E08__whisper_base_probe__20261117-002638__9b88bc7",
+    "perclass.whisper_base_encoder_linear_probe.recall.tired": "E08__whisper_base_probe__20261117-002638__9b88bc7",
     "sig.ours_vs_deepinfant.ci95": "E36__crystal__20261119-063159__1c39f27__vs__E02__deepinfant_repro__20261116-220106__428232e.json",
     "sig.ours_vs_deepinfant.delta": "E36__crystal__20261119-063159__1c39f27__vs__E02__deepinfant_repro__20261116-220106__428232e.json",
     "sig.ours_vs_deepinfant.p": "E36__crystal__20261119-063159__1c39f27__vs__E02__deepinfant_repro__20261116-220106__428232e.json",
     "splits.folds_file_sha256": "splits_report.json"
   },
-  "_generated_utc": "2026-11-20T13:15:03Z"
+  "_generated_utc": "2026-11-20T18:08:03Z"
 }
