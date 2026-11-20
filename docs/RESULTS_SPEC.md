@@ -114,6 +114,7 @@ eval:
   "ece_15_uncal": 0.0, "ece_15_cal": 0.0,
   "aurc": 0.0,
   "precision_at_coverage": {"1.0": 0.0, "0.9": 0.0, "0.7": 0.0, "0.5": 0.0},
+  "macro_f1_at_coverage":  {"1.0": 0.0, "0.9": 0.0, "0.7": 0.0, "0.5": 0.0},
   "realised_coverage":     {"0.9": 0.0, "0.7": 0.0, "0.5": 0.0},
   "top2_accuracy": 0.0,
   "train_seconds": 0, "params_total": 0, "params_trainable": 0,
@@ -133,6 +134,11 @@ All metrics computed by ONE shared module `src/results/metrics.py` (unit-tested)
 - **precision_at_coverage[c]**: accuracy on the test clips whose confidence ≥ τ_c, where τ_c is the
   threshold that gives coverage c **on the validation set** (so realised test coverage may differ —
   record it in realised_coverage).
+- **macro_f1_at_coverage[c]** (added 2026-11-18, approved by Idris, BEFORE the final model E36 was run):
+  macro-F1 on the same kept test clips (confidence ≥ τ_c from validation), averaged over ALL classes of the
+  label set with zero_division=0 — a class with no kept clips and no kept predictions scores 0, so abstaining
+  on a whole minority class lowers the score. "1.0" equals macro_f1. Runs created before this date get it
+  recomputed by report.py from their saved predictions.csv (abstain@ columns), with no retraining.
 - **inference_ms_per_clip_cpu**: median over 50 clips, batch 1, CPU, after 5 warm-up calls.
 
 ## 6. calibration.json
@@ -193,9 +199,11 @@ Flat key → value map (values already formatted as strings for the paper, plus 
 | dapt.hours_unlabelled | Section 4.3 “[N hours]” |
 | T3.<row_slug>.{accuracy,macro_f1,balanced_acc,ece} | Table 3 cells as "mean ± std" |
 | T4.<row_slug>.{macro_f1,delta} | Table 4 ablation |
-| T5.{cov100,cov90,cov70,cov50}.{precision,threshold} | Table 5 |
+| T5.{cov100,cov90,cov70,cov50}.{precision,macro_f1,threshold} | Table 5 |
+| T5b.<row_slug>.{ece_before,ece_after,aurc,prec90,prec70,prec50,mf1_90,mf1_70,mf1_50} | Table 5b (every T3 model) |
 | T6.* | Detection results (Section 6.4) |
 | T2.* | Implementation details table (hardware, versions, hyperparameters actually used) |
+| eff.<row_slug>.{params_m,trainable_m,size_mb,cpu_ms,cpu_ms_1t}, eff.hardware | Efficiency (Phase 9, `src/efficiency.py` → results/efficiency.json): one machine for all models; median ms per input, batch 1, raw waveform → logits incl. features, 5 warm-ups, 50 fold-0 test clips (reason: 7 s clip; detectors: 1 s frame); size = serialized fp32 state_dict. Per-run `inference_ms_per_clip_cpu` is hardware-dependent and not compared across rows. (added 2026-11-20) |
 | sig.ours_vs_deepinfant.{delta,ci95,p} | Significance sentence in 6.1 |
 | leak.random_split_macro_f1 / leak.grouped_split_macro_f1 | Last row of Table 4 + discussion |
 

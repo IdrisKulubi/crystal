@@ -36,6 +36,6 @@ baselines/
 results/debug/
 
 # docs
-docs/
+docs
 
 .env.local
