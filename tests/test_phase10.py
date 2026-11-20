@@ -36,6 +36,7 @@ def numbers(tmp_path):
     return p
 
 
+@pytest.mark.skipif(not FP.TEMPLATE.is_file(), reason="paper template is kept locally, not in the public repo")
 def test_fill_copies_template_and_keeps_unfilled_highlighted(tmp_path, numbers, monkeypatch):
     monkeypatch.setattr(FP, "DRAFTS_SRC", tmp_path / "no_drafts")
     before = _sha(FP.TEMPLATE)

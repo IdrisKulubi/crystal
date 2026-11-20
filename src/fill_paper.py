@@ -420,6 +420,10 @@ def apply_rewrites(doc, spec: list[dict], numbers: dict, base_dir: Path = REPO_R
 def fill(template: Path = TEMPLATE, numbers_path: Path = NUMBERS, out_dir: Path = DRAFTS) -> Path:
     import docx
 
+    if not Path(template).is_file():
+        raise SystemExit(f"paper template not found: {template} (the Word template is not part of the "
+                         "public repo; pass --template path/to/template.docx)")
+
     project = load_project()
     numbers = json.loads(Path(numbers_path).read_text(encoding="utf-8"))
     out_dir.mkdir(parents=True, exist_ok=True)

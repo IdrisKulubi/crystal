@@ -36,7 +36,7 @@ failed ones.
 
 ```bash
 python -m src.report        # -> results/paper_numbers.json, RESULTS.md, tables/, figures/
-python -m src.fill_paper    # -> paper/drafts/CRYSTAL_paper_filled.docx (+ fill_report.md)
+python -m src.fill_paper --template <your.docx>   # optional: fill a Word template (not included) from paper_numbers.json
 ```
 
 On a fresh clone `src.report` reproduces the committed `paper_numbers.json` exactly (only the
@@ -103,7 +103,7 @@ python -m src.listen_check                         # optional: a few clips per c
 
 ## Experiments
 
-IDs, parents and paper rows are listed in `docs/HANDOFF.md` §7 and `configs/project.yaml`; each
+IDs, parents and paper rows are listed in `configs/project.yaml` and `results/registry.jsonl`; each
 config states only what differs from `configs/defaults.yaml` and, unless it is a baseline, changes
 one thing relative to its `parent_run`.
 
@@ -123,7 +123,7 @@ one thing relative to its `parent_run`.
 Each run writes `results/runs/<run_id>/` and appends one line to `results/registry.jsonl`; run
 folders are never overwritten. Tuning, early stopping, temperature scaling and abstention
 thresholds use validation data only; test folds are predicted once per finalised configuration.
-The full contract is in [`docs/RESULTS_SPEC.md`](docs/RESULTS_SPEC.md).
+Run folders hold `config.yaml`, `env.json`, `summary.json` and, per fold × seed, `metrics.json`, `calibration.json`, `predictions.csv` and the test/validation logits.
 
 ## Data, privacy and licences
 

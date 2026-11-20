@@ -39,3 +39,8 @@ results/debug/
 docs
 
 .env.local
+# Local-only working files (assistant instructions, plans, notebooks of the work, paper templates/drafts)
+CLAUDE.md
+docs/
+paper/
+.claude/

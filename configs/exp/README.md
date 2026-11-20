@@ -1,6 +1,6 @@
 # Experiment configs
 
-One YAML per experiment ID from HANDOFF §7, named `E<id>_<short_name>.yaml`
+One YAML per experiment ID, named `E<id>_<short_name>.yaml`
 (e.g. `E10_ast_ft.yaml`). Each file only states what differs from `configs/defaults.yaml`
 and must set `experiment_id`, `name`, `paper.table`, `paper.row`, and — unless it is a
 baseline — `parent_run` + `change_vs_parent` (one change at a time).
