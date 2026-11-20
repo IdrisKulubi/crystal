@@ -140,4 +140,4 @@ predictions, metrics and logs.
 
 ## Licence
 
-Code: Apache-2.0. Reused DeepInfant code keeps its Apache-2.0 notice.
+Code: Apache-2.0 (see [`LICENSE`](LICENSE)). Reused DeepInfant code keeps its Apache-2.0 notice.
