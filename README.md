@@ -1,3 +1,15 @@
+<p align="center"><img src="assets/banner.png" alt="CRYSTAL: leak-free, calibrated infant-cry analysis" width="100%"></p>
+
+<p align="center">
+  <img src="assets/badges/license.svg" alt="license: Apache 2.0">
+  <img src="assets/badges/framework.svg" alt="framework: PyTorch">
+  <img src="assets/badges/backbone.svg" alt="backbone: AST">
+  <img src="assets/badges/protocol.svg" alt="protocol: infant-grouped">
+  <img src="assets/badges/macro_f1.svg" alt="cry-reason macro-F1">
+  <img src="assets/badges/detection_f1.svg" alt="cry detection F1">
+  <img src="assets/badges/paper.svg" alt="paper: preprint in preparation">
+</p>
+
 # CRYSTAL — leak-free infant cry analysis
 
 **CRYSTAL** (CRY Self-supervised Transformer with Abstention Learning) is a two-stage infant-cry
@@ -8,7 +20,52 @@ is evaluated under the same **infant-grouped** 5-fold protocol (3 seeds, macro-F
 
 All results (good and bad) are in [`results/RESULTS.md`](results/RESULTS.md); the paper's numbers
 come only from [`results/paper_numbers.json`](results/paper_numbers.json). Neither file is edited
-by hand to ensure the expieriments and authentic and true 
+by hand, so every reported number can be traced back to a saved run.
+
+> **Not a medical device.** This is research code. Cry-reason predictions on current public data are
+> not reliable enough to act on; see the findings below.
+
+## At a glance
+
+**How it works.** Audio is screened by a small cry detector; each detected cry goes to an audio
+spectrogram transformer (AST) that predicts the reason, and the system says "uncertain" when its
+calibrated confidence is too low.
+
+<p align="center"><img src="results/figures/fig1_pipeline.png" alt="Two-stage pipeline" width="90%"></p>
+
+**1. Evaluated by baby, almost every model is close to chance.** Always answering "hungry" (the
+largest class) is a strong baseline. Our model edges past the reproduced DeepInfant by a small
+but statistically significant margin, and no method is far ahead of the dashed line.
+
+<p align="center"><img src="assets/model_comparison.png" alt="Macro-F1 of every model vs the majority-class baseline" width="80%"></p>
+
+**2. Leakage makes models look much better than they are.** When clips are split at random, the same
+baby ends up in training and test data. A model that learns from audio then memorises babies and its
+score jumps; the majority-class DeepInfant does not change.
+
+<p align="center"><img src="assets/leakage.png" alt="Grouped vs random split" width="60%"></p>
+
+**3. What the averages hide.** Almost every cry is predicted as "hungry"; the minority classes are
+rarely or never recognised.
+
+<p align="center">
+  <img src="results/figures/fig4_confusion_ours.png" alt="Confusion matrix of our model" width="45%">
+  <img src="results/figures/figA_per_class_recall.png" alt="Per-class recall, ours vs DeepInfant" width="50%">
+</p>
+
+**4. Calibration works, but abstention cannot create information.** Temperature scaling makes the
+confidence honest, and abstaining raises precision, mostly by keeping "hungry" cries.
+
+<p align="center">
+  <img src="results/figures/fig3_reliability_before_after.png" alt="Reliability before and after temperature scaling" width="55%">
+  <img src="results/figures/fig2_risk_coverage.png" alt="Risk-coverage curves" width="40%">
+</p>
+
+**5. Cry detection is the part that works**, including a tiny CNN suitable for always-on screening.
+Exact numbers for every table are in [`results/RESULTS.md`](results/RESULTS.md).
+
+All charts and badges are generated from the saved results:
+`python -m src.report && python scripts/make_readme_assets.py`.
 
 ## Three levels of reproduction
 
