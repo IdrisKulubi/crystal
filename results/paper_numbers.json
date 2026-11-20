@@ -67,8 +67,8 @@
   "T3.whisper_base_encoder_linear_probe.balanced_acc": "19.2 ± 2.6",
   "T3.whisper_base_encoder_linear_probe.ece": "0.167 ± 0.022",
   "T3.whisper_base_encoder_linear_probe.macro_f1": "0.184 ± 0.018",
-  "T4.deepinfant_random_clip_level_split.delta": null,
-  "T4.deepinfant_random_clip_level_split.macro_f1": null,
+  "T4.deepinfant_random_clip_level_split.delta": "-0.012",
+  "T4.deepinfant_random_clip_level_split.macro_f1": "0.182 ± 0.001",
   "T4.minus_context_features.delta": "-0.003",
   "T4.minus_context_features.macro_f1": "0.191 ± 0.036",
   "T4.minus_focal_loss.delta": "+0.003",
@@ -81,8 +81,8 @@
   "T4.minus_specaugment.macro_f1": "0.191 ± 0.023",
   "T4.ours_crystal.delta": "+0.000",
   "T4.ours_crystal.macro_f1": "0.194 ± 0.025",
-  "T4.ours_random_clip_level_split.delta": null,
-  "T4.ours_random_clip_level_split.macro_f1": null,
+  "T4.ours_random_clip_level_split.delta": "+0.086",
+  "T4.ours_random_clip_level_split.macro_f1": "0.280 ± 0.058",
   "T5.cov100.macro_f1": "0.194 ± 0.025",
   "T5.cov100.precision": "77.3 ± 7.3",
   "T5.cov100.threshold": "—",
@@ -284,7 +284,7 @@
   "datasets.names_for_abstract": "Donate-a-Cry",
   "leak.donateacry.random_split_test_share_group_with_train": "68.0",
   "leak.grouped_split_macro_f1": "0.194 ± 0.025",
-  "leak.random_split_macro_f1": null,
+  "leak.random_split_macro_f1": "0.280 ± 0.058",
   "model_name": "CRYSTAL",
   "overlap.deepinfant_v1.n_clips": "457",
   "overlap.deepinfant_v1.n_clips_duplicating_eval_set": "457",
@@ -538,6 +538,11 @@
       "mean": 0.1839267558877006,
       "std": 0.018138928931463134
     },
+    "T4.deepinfant_random_clip_level_split.delta": -0.011890507757170737,
+    "T4.deepinfant_random_clip_level_split.macro_f1": {
+      "mean": 0.18185859199401344,
+      "std": 0.000983169571971605
+    },
     "T4.minus_context_features.delta": -0.0029729213708251656,
     "T4.minus_context_features.macro_f1": {
       "mean": 0.190776178380359,
@@ -567,6 +572,11 @@
     "T4.ours_crystal.macro_f1": {
       "mean": 0.19374909975118418,
       "std": 0.02451118369734016
+    },
+    "T4.ours_random_clip_level_split.delta": 0.08583778925411681,
+    "T4.ours_random_clip_level_split.macro_f1": {
+      "mean": 0.279586889005301,
+      "std": 0.0583983815825737
     },
     "T5.cov100.macro_f1": {
       "mean": 0.19374909975118418,
@@ -1229,6 +1239,10 @@
       "mean": 0.19374909975118418,
       "std": 0.02451118369734016
     },
+    "leak.random_split_macro_f1": {
+      "mean": 0.279586889005301,
+      "std": 0.0583983815825737
+    },
     "overlap.deepinfant_v1.n_clips": 457,
     "overlap.deepinfant_v1.n_clips_duplicating_eval_set": 457,
     "overlap.deepinfant_v1.n_generated_copies": 0,
@@ -1307,6 +1321,8 @@
     "T3.whisper_base_encoder_linear_probe.balanced_acc": "E08__whisper_base_probe__20261117-002638__9b88bc7",
     "T3.whisper_base_encoder_linear_probe.ece": "E08__whisper_base_probe__20261117-002638__9b88bc7",
     "T3.whisper_base_encoder_linear_probe.macro_f1": "E08__whisper_base_probe__20261117-002638__9b88bc7",
+    "T4.deepinfant_random_clip_level_split.delta": "E90-deepinfant__leak_randomsplit_deepinfant__20261119-212432__bb98343",
+    "T4.deepinfant_random_clip_level_split.macro_f1": "E90-deepinfant__leak_randomsplit_deepinfant__20261119-212432__bb98343",
     "T4.minus_context_features.delta": "E36-noContext__crystal_nocontext__20261119-110044__1c39f27",
     "T4.minus_context_features.macro_f1": "E36-noContext__crystal_nocontext__20261119-110044__1c39f27",
     "T4.minus_focal_loss.delta": "E36-noFocal__crystal_nofocal__20261119-121954__1c39f27",
@@ -1319,6 +1335,8 @@
     "T4.minus_specaugment.macro_f1": "E36-noSpecAug__crystal_nospecaug__20261119-094740__1c39f27",
     "T4.ours_crystal.delta": "E36__crystal__20261119-063159__1c39f27",
     "T4.ours_crystal.macro_f1": "E36__crystal__20261119-063159__1c39f27",
+    "T4.ours_random_clip_level_split.delta": "E90-ours__leak_randomsplit_ours__20261119-215357__bb98343",
+    "T4.ours_random_clip_level_split.macro_f1": "E90-ours__leak_randomsplit_ours__20261119-215357__bb98343",
     "T5.cov100.macro_f1": "E36__crystal__20261119-063159__1c39f27",
     "T5.cov100.precision": "E36__crystal__20261119-063159__1c39f27",
     "T5.cov100.threshold": "E36__crystal__20261119-063159__1c39f27",
@@ -1509,6 +1527,7 @@
     "datasets.names_for_abstract": "dataset_stats.json",
     "leak.donateacry.random_split_test_share_group_with_train": "splits_report.json",
     "leak.grouped_split_macro_f1": "E36__crystal__20261119-063159__1c39f27",
+    "leak.random_split_macro_f1": "E90-ours__leak_randomsplit_ours__20261119-215357__bb98343",
     "model_name": "configs/project.yaml",
     "overlap.deepinfant_v1.n_clips": "dataset_stats.json",
     "overlap.deepinfant_v1.n_clips_duplicating_eval_set": "dataset_stats.json",
@@ -1521,5 +1540,5 @@
     "sig.ours_vs_deepinfant.p": "E36__crystal__20261119-063159__1c39f27__vs__E02__deepinfant_repro__20261116-220106__428232e.json",
     "splits.folds_file_sha256": "splits_report.json"
   },
-  "_generated_utc": "2026-11-19T21:17:56Z"
+  "_generated_utc": "2026-11-20T07:21:06Z"
 }

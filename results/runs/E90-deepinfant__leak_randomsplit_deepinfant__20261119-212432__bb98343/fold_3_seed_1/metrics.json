@@ -1,0 +1,115 @@
+{
+  "n_test": 91,
+  "n_classes": 5,
+  "labels": [
+    "belly_pain",
+    "burping",
+    "discomfort",
+    "hungry",
+    "tired"
+  ],
+  "accuracy": 0.8351648351648352,
+  "macro_f1": 0.18203592814371256,
+  "weighted_f1": 0.7601500296111074,
+  "balanced_accuracy": 0.2,
+  "per_class": {
+    "belly_pain": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 3
+    },
+    "burping": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 2
+    },
+    "discomfort": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 5
+    },
+    "hungry": {
+      "precision": 0.8351648351648352,
+      "recall": 1.0,
+      "f1": 0.9101796407185628,
+      "support": 76
+    },
+    "tired": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 5
+    }
+  },
+  "confusion_matrix": [
+    [
+      0,
+      0,
+      0,
+      3,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      2,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      5,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      76,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      5,
+      0
+    ]
+  ],
+  "nll": 0.6818717339333139,
+  "brier": 0.29654273789539654,
+  "ece_15_uncal": 0.04884361317305713,
+  "ece_15_cal": 0.018969911715499974,
+  "aurc": 0.12072367947356363,
+  "precision_at_coverage": {
+    "1.0": 0.8351648351648352,
+    "0.9": 0.868421052631579,
+    "0.7": 0.8333333333333334,
+    "0.5": 0.8285714285714286
+  },
+  "macro_f1_at_coverage": {
+    "1.0": 0.18203592814371256,
+    "0.9": 0.18591549295774648,
+    "0.7": 0.18181818181818182,
+    "0.5": 0.18125
+  },
+  "realised_coverage": {
+    "0.9": 0.8351648351648352,
+    "0.7": 0.5934065934065934,
+    "0.5": 0.38461538461538464
+  },
+  "top2_accuracy": 0.8901098901098901,
+  "train_seconds": 115.46,
+  "params_total": 19797141,
+  "params_trainable": 19797141,
+  "inference_ms_per_clip_cpu": null,
+  "model_selection": {
+    "best_epoch": 1,
+    "best_val_acc": 0.8363636363636363
+  }
+}

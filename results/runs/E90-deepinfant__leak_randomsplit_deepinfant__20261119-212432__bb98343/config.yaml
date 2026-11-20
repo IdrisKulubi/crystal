@@ -1,0 +1,60 @@
+experiment_id: E90-deepinfant
+name: leak_randomsplit_deepinfant
+parent_run: E02__deepinfant_repro__20261116-220106__428232e
+change_vs_parent: random clip-level split (data/metadata_randomsplit.csv; babies shared
+  between train and test) instead of the grouped folds
+paper:
+  table: T4
+  row: DeepInfant, random clip-level split
+task: reason
+data:
+  metadata: data/metadata_randomsplit.csv
+  base_metadata: data/metadata.csv
+  datasets:
+  - donateacry
+  label_set: donateacry_v1
+  sample_rate: 16000
+  clip_seconds: 7.0
+model:
+  type: deepinfant_repro
+  backbone: null
+  init_checkpoint: null
+  head: mean_pool
+  peft: null
+  context_features: []
+  source: skytells-research/DeepInfant train.py @ 7526568 (deviations D1-D5 in src/models/deepinfant_repro.py)
+train:
+  epochs: 50
+  batch_size: 32
+  grad_accum: 1
+  lr: 0.001
+  weight_decay: 0.0
+  warmup_ratio: 0.0
+  loss: ce
+  focal_gamma: 2.0
+  augment:
+    noise_snr_db: null
+    noise_prob: 0.5
+    specaugment: false
+    mixup_alpha: null
+    pitch_shift: false
+    time_shift_ms: 100
+    noise_std: 0.005
+    noise_p: 0.3
+  sampler: shuffle
+  early_stopping_metric: val_acc
+  patience: null
+eval:
+  folds:
+  - 0
+  - 1
+  - 2
+  - 3
+  - 4
+  seeds:
+  - 0
+  - 1
+  - 2
+  val_group_fraction: 0.15
+notes: 'Phase 8 leakage demo ONLY: deliberately leaky split to measure score inflation.
+  Never used for model choice.'
