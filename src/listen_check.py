@@ -3,7 +3,7 @@
     python -m src.listen_check [--per-class 5] [--seed 0]
 
 Writes data/listen/<label>/<n>_<clip>.wav and data/listen/listen_sheet.csv with empty columns
-``is_cry`` / ``label_plausible`` / ``notes`` for Idris to fill in. data/ is git-ignored.
+``is_cry`` / ``label_plausible`` / ``notes`` for the author to fill in. data/ is git-ignored.
 """
 from __future__ import annotations
 

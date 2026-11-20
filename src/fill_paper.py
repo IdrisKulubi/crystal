@@ -9,7 +9,7 @@ Rules (CLAUDE.md, HANDOFF §9-10):
   inserted is plain fact from the repo's own config (encoder list, test name, label names).
 * A filled run loses its yellow highlight; anything not filled stays yellow, so what is left to do is
   visible in Word. Writing tasks ("[Describe ...]", "[Interpret ...]") are never auto-filled: they are
-  drafted in paper/drafts/*.md for Idris to review.
+  drafted in paper/drafts/*.md for the author to review.
 * Tables 3-5 in the template have fewer / different rows than the experiments; their body rows are
   rebuilt from the report's tables (same keys as RESULTS.md), keeping the template's formatting.
 """
@@ -31,7 +31,7 @@ NUMBERS = REPO_ROOT / "results" / "paper_numbers.json"
 
 # Body paragraphs: anchor text (unique substring of the paragraph) -> one spec per highlighted run, in
 # order. Spec: "key" (value as stored), "mean:key" (value before " ±"), "tmpl:...{key}..." (key inside
-# fixed text), "lit:text" (fact from config), None (leave highlighted for Idris / the drafts).
+# fixed text), "lit:text" (fact from config), None (leave highlighted for the author / the drafts).
 BODY = {
     "Automatic analysis of infant cries promises": [
         "model_name", "datasets.names_for_abstract", "model_name", "mean:abstract.detection_acc",
@@ -291,9 +291,9 @@ def render_drafts(numbers: dict, src_dir: Path = DRAFTS_SRC, out_dir: Path = DRA
 
 
 # --------------------------------------------------------------------------- whole-paragraph rewrites
-# paper/drafts_src/word_rewrites.yaml (local, Idris's text) lists edits applied to the filled copy, so the
+# paper/drafts_src/word_rewrites.yaml (local, the author's text) lists edits applied to the filled copy, so the
 # template's prose can be replaced with what was actually built. Text uses {key} tokens (render_text);
-# **bold** and ==highlight== (a placeholder left for Idris) are the only markup. Ops (each matches exactly ONE
+# **bold** and ==highlight== (a placeholder left for the author) are the only markup. Ops (each matches exactly ONE
 # body paragraph whose text starts with `find` / `after`, otherwise it is reported and skipped):
 #   {find, text}                    replace the paragraph's runs (style / list numbering kept)
 #   {find, delete: true}            remove the paragraph
@@ -453,7 +453,7 @@ def fill(template: Path = TEMPLATE, numbers_path: Path = NUMBERS, out_dir: Path 
     if rewrites or problems:
         lines += ["", f"## Rewrites from {REWRITES.name} ({len(rewrites)} applied)", ""]
         lines += [f"- {x}" for x in rewrites] + [f"- **NOT applied:** {x}" for x in problems]
-    lines += ["", "## Still highlighted (writing tasks, decisions for Idris, or numbers not yet produced)", ""]
+    lines += ["", "## Still highlighted (writing tasks, decisions for the author, or numbers not yet produced)", ""]
     lines += [f"- [ ] {x}" for x in left]
     if f.missing:
         lines += ["", "## Mapped keys with no value yet", ""] + [f"- `{k}`" for k in sorted(set(f.missing))]
