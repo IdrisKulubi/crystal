@@ -1,4 +1,17 @@
 {
+  "T2.augmentation": "SpecAugment 1 frequency mask ≤ 24 bins + 1 time mask ≤ 96 frames; mixup α 0.4; ESC-50 background noise, SNR 0–20 dB, p 0.5",
+  "T2.clip_seconds": "7",
+  "T2.dapt.batch": "16",
+  "T2.dapt.lr": "5e-05",
+  "T2.dapt.mask_prob": "0.65",
+  "T2.dapt.steps": "10000",
+  "T2.finetune.snr_range": "0–20",
+  "T2.finetuning": "15 epochs max (early stopping on val macro-F1, patience 5), batch 8 × 4 accumulation, AdamW LR 3e-05, weight decay 0.01, warm-up 10%, loss focal (γ 2), full fine-tuning (no LoRA)",
+  "T2.framework": "PyTorch 2.11.0, Hugging Face Transformers 5.20.2, PEFT 0.21.2",
+  "T2.hardware": "1× Tesla T4 (kaggle)",
+  "T2.n_folds": "5",
+  "T2.pretraining": "10000 steps, batch 16, LR 5e-05, masking p 0.65 (span 10)",
+  "T2.seeds": "0–2",
   "T3.ast_fine_tuned.accuracy": "71.5 ± 11.4",
   "T3.ast_fine_tuned.balanced_acc": "19.7 ± 2.9",
   "T3.ast_fine_tuned.ece": "0.158 ± 0.053",
@@ -68,6 +81,7 @@
   "T3.whisper_base_encoder_linear_probe.ece": "0.167 ± 0.022",
   "T3.whisper_base_encoder_linear_probe.macro_f1": "0.184 ± 0.018",
   "T4.deepinfant_random_clip_level_split.delta": "-0.012",
+  "T4.deepinfant_random_clip_level_split.delta_vs_grouped": "+0.000",
   "T4.deepinfant_random_clip_level_split.macro_f1": "0.182 ± 0.001",
   "T4.minus_context_features.delta": "-0.003",
   "T4.minus_context_features.macro_f1": "0.191 ± 0.036",
@@ -82,6 +96,7 @@
   "T4.ours_crystal.delta": "+0.000",
   "T4.ours_crystal.macro_f1": "0.194 ± 0.025",
   "T4.ours_random_clip_level_split.delta": "+0.086",
+  "T4.ours_random_clip_level_split.delta_vs_grouped": "+0.086",
   "T4.ours_random_clip_level_split.macro_f1": "0.280 ± 0.058",
   "T5.cov100.macro_f1": "0.194 ± 0.025",
   "T5.cov100.precision": "77.3 ± 7.3",
@@ -570,6 +585,7 @@
       "std": 0.018138928931463134
     },
     "T4.deepinfant_random_clip_level_split.delta": -0.011890507757170737,
+    "T4.deepinfant_random_clip_level_split.delta_vs_grouped": 8.320808121836665e-05,
     "T4.deepinfant_random_clip_level_split.macro_f1": {
       "mean": 0.18185859199401344,
       "std": 0.000983169571971605
@@ -605,6 +621,7 @@
       "std": 0.02451118369734016
     },
     "T4.ours_random_clip_level_split.delta": 0.08583778925411681,
+    "T4.ours_random_clip_level_split.delta_vs_grouped": 0.08583778925411681,
     "T4.ours_random_clip_level_split.macro_f1": {
       "mean": 0.279586889005301,
       "std": 0.0583983815825737
@@ -1327,6 +1344,19 @@
     "sig.ours_vs_deepinfant.p": 0.0306
   },
   "_sources": {
+    "T2.augmentation": "E36__crystal__20261119-063159__1c39f27",
+    "T2.clip_seconds": "E36__crystal__20261119-063159__1c39f27",
+    "T2.dapt.batch": "D01__w2v2_cryceleb__20261118-111057__72875a9",
+    "T2.dapt.lr": "D01__w2v2_cryceleb__20261118-111057__72875a9",
+    "T2.dapt.mask_prob": "D01__w2v2_cryceleb__20261118-111057__72875a9",
+    "T2.dapt.steps": "D01__w2v2_cryceleb__20261118-111057__72875a9",
+    "T2.finetune.snr_range": "E36__crystal__20261119-063159__1c39f27",
+    "T2.finetuning": "E36__crystal__20261119-063159__1c39f27",
+    "T2.framework": "E36__crystal__20261119-063159__1c39f27",
+    "T2.hardware": "E36__crystal__20261119-063159__1c39f27",
+    "T2.n_folds": "E36__crystal__20261119-063159__1c39f27",
+    "T2.pretraining": "D01__w2v2_cryceleb__20261118-111057__72875a9",
+    "T2.seeds": "E36__crystal__20261119-063159__1c39f27",
     "T3.ast_fine_tuned.accuracy": "E10__ast_ft__20261117-165906__5a3ceae",
     "T3.ast_fine_tuned.balanced_acc": "E10__ast_ft__20261117-165906__5a3ceae",
     "T3.ast_fine_tuned.ece": "E10__ast_ft__20261117-165906__5a3ceae",
@@ -1392,6 +1422,7 @@
     "T3.whisper_base_encoder_linear_probe.ece": "E08__whisper_base_probe__20261117-002638__9b88bc7",
     "T3.whisper_base_encoder_linear_probe.macro_f1": "E08__whisper_base_probe__20261117-002638__9b88bc7",
     "T4.deepinfant_random_clip_level_split.delta": "E90-deepinfant__leak_randomsplit_deepinfant__20261119-212432__bb98343",
+    "T4.deepinfant_random_clip_level_split.delta_vs_grouped": "E90-deepinfant__leak_randomsplit_deepinfant__20261119-212432__bb98343",
     "T4.deepinfant_random_clip_level_split.macro_f1": "E90-deepinfant__leak_randomsplit_deepinfant__20261119-212432__bb98343",
     "T4.minus_context_features.delta": "E36-noContext__crystal_nocontext__20261119-110044__1c39f27",
     "T4.minus_context_features.macro_f1": "E36-noContext__crystal_nocontext__20261119-110044__1c39f27",
@@ -1406,6 +1437,7 @@
     "T4.ours_crystal.delta": "E36__crystal__20261119-063159__1c39f27",
     "T4.ours_crystal.macro_f1": "E36__crystal__20261119-063159__1c39f27",
     "T4.ours_random_clip_level_split.delta": "E90-ours__leak_randomsplit_ours__20261119-215357__bb98343",
+    "T4.ours_random_clip_level_split.delta_vs_grouped": "E90-ours__leak_randomsplit_ours__20261119-215357__bb98343",
     "T4.ours_random_clip_level_split.macro_f1": "E90-ours__leak_randomsplit_ours__20261119-215357__bb98343",
     "T5.cov100.macro_f1": "E36__crystal__20261119-063159__1c39f27",
     "T5.cov100.precision": "E36__crystal__20261119-063159__1c39f27",
@@ -1641,5 +1673,5 @@
     "sig.ours_vs_deepinfant.p": "E36__crystal__20261119-063159__1c39f27__vs__E02__deepinfant_repro__20261116-220106__428232e.json",
     "splits.folds_file_sha256": "splits_report.json"
   },
-  "_generated_utc": "2026-11-20T10:14:24Z"
+  "_generated_utc": "2026-11-20T13:15:03Z"
 }

@@ -205,6 +205,16 @@ def build(results_dir: Path = DEFAULT_RESULTS_DIR, project: dict | None = None) 
             nums.set(f1_key, fmt("f3", mean, std), raw={"mean": mean, "std": std}, source=rec["run_id"])
             if ours_f1 is not None:
                 nums.set(d_key, fmt_delta(mean - ours_f1), raw=mean - ours_f1, source=rec["run_id"])
+        # leakage rows: also the change vs the SAME model under the grouped protocol (Phase 8 discussion)
+        base_role = {"leak_random_ours": "ours", "leak_random_deepinfant": "deepinfant_repro"}
+        for leak_role, grouped_role in base_role.items():
+            if roles.get(leak_role, {}).get("row") == row and mean is not None:
+                g = roles.get(grouped_role, {})
+                g_mean, _ = _metric(summaries.get((g.get("table"), g.get("row"))), "macro_f1")
+                dg_key = f"T4.{slug}.delta_vs_grouped"
+                nums.declare(dg_key)
+                if g_mean is not None:
+                    nums.set(dg_key, fmt_delta(mean - g_mean), raw=mean - g_mean, source=rec["run_id"])
         t4_table.append({"row": row, "macro_f1": nums.values[f1_key], "delta": nums.values[d_key],
                          "run_id": (rec or {}).get("run_id")})
 
@@ -376,6 +386,55 @@ def build(results_dir: Path = DEFAULT_RESULTS_DIR, project: dict | None = None) 
         fig_sources = make_figures(results_dir, chosen, project["figures"],
                                    project.get("evaluation", {}).get("ece_bins", 15))
         write_json(results_dir / "figures" / "figure_sources.json", fig_sources)
+
+    # ---- T2 implementation details, read from the saved config/env of the final model and DAPT run
+    if ours_rec:
+        import yaml
+
+        rd = results_dir / "runs" / ours_rec["run_id"]
+        if (rd / "config.yaml").is_file() and (rd / "env.json").is_file():
+            c, env = yaml.safe_load((rd / "config.yaml").read_text(encoding="utf-8")), read_json(rd / "env.json")
+            tr, aug, ev = c["train"], c["train"].get("augment") or {}, c.get("eval", {})
+            src = ours_rec["run_id"]
+            nums.set("T2.framework", f"PyTorch {env.get('torch', '?').split('+')[0]}, Hugging Face Transformers "
+                     f"{env.get('transformers', '?')}, PEFT {env.get('peft', '?')}", source=src)
+            nums.set("T2.hardware", f"1× {env.get('gpu', 'CPU')} ({env.get('platform', '?')})", source=src)
+            nums.set("T2.clip_seconds", f"{float(c['data']['clip_seconds']):g}", source=src)
+            ft = (f"{tr['epochs']} epochs max (early stopping on val macro-F1, patience {tr.get('patience')}), "
+                  f"batch {tr['batch_size']} × {tr['grad_accum']} accumulation, AdamW LR {tr['lr']:g}, "
+                  f"weight decay {tr['weight_decay']:g}, warm-up {float(tr.get('warmup_ratio', 0)) * 100:g}%, "
+                  f"loss {tr.get('loss')}" + (f" (γ {tr.get('focal_gamma'):g})" if tr.get("loss") == "focal" else "")
+                  + (", full fine-tuning (no LoRA)" if not c["model"].get("peft") else ", LoRA"))
+            nums.set("T2.finetuning", ft, source=src)
+            parts = []
+            sa = aug.get("specaugment")
+            if sa:
+                parts.append(f"SpecAugment {sa['n_masks']} frequency mask ≤ {sa['freq_mask']} bins + "
+                             f"{sa['n_masks']} time mask ≤ {sa['time_mask']} frames")
+            if aug.get("mixup_alpha"):
+                parts.append(f"mixup α {aug['mixup_alpha']:g}")
+            if aug.get("noise_snr_db"):
+                lo, hi = aug["noise_snr_db"]
+                parts.append(f"ESC-50 background noise, SNR {lo:g}–{hi:g} dB, p {aug.get('noise_prob', 1):g}")
+                nums.set("T2.finetune.snr_range", f"{lo:g}–{hi:g}", source=src)
+            nums.set("T2.augmentation", "; ".join(parts) if parts else "none", source=src)
+            seeds = ev.get("seeds") or []
+            if seeds:
+                nums.set("T2.seeds", f"{min(seeds)}–{max(seeds)}" if len(seeds) > 1 else str(seeds[0]), source=src)
+                nums.set("T2.n_folds", str(len(ev.get("folds") or [])), source=src)
+    if dapt_runs:
+        import yaml
+
+        dd = max(dapt_runs)[1]
+        if (dd / "config.yaml").is_file():
+            dc = yaml.safe_load((dd / "config.yaml").read_text(encoding="utf-8"))
+            for k, v in (("steps", dc.get("max_steps")), ("batch", dc.get("batch_size")), ("lr", dc.get("lr")),
+                         ("mask_prob", dc.get("mask_prob"))):
+                if v is not None:
+                    nums.set(f"T2.dapt.{k}", f"{v:g}" if isinstance(v, float) else str(v), source=dd.name)
+            nums.set("T2.pretraining", f"{dc.get('max_steps')} steps, batch {dc.get('batch_size')}, LR "
+                     f"{float(dc.get('lr')):g}, masking p {dc.get('mask_prob')} (span {dc.get('mask_length')})",
+                     source=dd.name)
 
     # ---- Phase 9 efficiency (one machine for every model: src/efficiency.py)
     teff_table = []

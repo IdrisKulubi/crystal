@@ -59,6 +59,7 @@ roles:
   deepinfant_repro:   {table: T3, row: "DeepInfant (reproduced)"}
   detector:           {table: T6, row: "AST detector"}
   leak_random_ours:   {table: T4, row: "Ours, random clip-level split"}
+  leak_random_deepinfant: {table: T4, row: "DeepInfant, random clip-level split"}
 
 # Phase 6 figures: T3 rows to plot. fig3 uses the FIRST row that has a run (so it becomes "Ours" once E36 exists).
 figures:
