@@ -8,7 +8,7 @@ is evaluated under the same **infant-grouped** 5-fold protocol (3 seeds, macro-F
 
 All results (good and bad) are in [`results/RESULTS.md`](results/RESULTS.md); the paper's numbers
 come only from [`results/paper_numbers.json`](results/paper_numbers.json). Neither file is edited
-by hand.
+by hand to ensure the expieriments and authentic and true 
 
 ## Three levels of reproduction
 
