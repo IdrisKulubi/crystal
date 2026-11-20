@@ -377,6 +377,32 @@ def build(results_dir: Path = DEFAULT_RESULTS_DIR, project: dict | None = None) 
                                    project.get("evaluation", {}).get("ece_bins", 15))
         write_json(results_dir / "figures" / "figure_sources.json", fig_sources)
 
+    # ---- Phase 9 efficiency (one machine for every model: src/efficiency.py)
+    teff_table = []
+    eff_path = results_dir / "efficiency.json"
+    if eff_path.is_file():
+        eff = read_json(eff_path)
+        hw = eff.get("hardware", {})
+        nums.set("eff.hardware", f"{hw.get('processor', '?')}, {hw.get('cpu_count_logical', '?')} logical CPUs, "
+                 f"torch {hw.get('torch', '?')}", raw=hw, source="efficiency.json")
+        for m in eff.get("models", {}).values():
+            slug = slugify(m["row"])
+            vals = {"params_m": (m["params_total"] / 1e6, "{:.2f}"),
+                    "trainable_m": (m["params_trainable"] / 1e6, "{:.3f}"),
+                    "size_mb": (m["size_mb_fp32"], "{:.1f}" if m["size_mb_fp32"] >= 10 else "{:.2f}"),
+                    "cpu_ms": (m["ms_cpu_all_threads"]["median"], "{:.0f}" if m["ms_cpu_all_threads"]["median"] >= 10 else "{:.1f}"),
+                    "cpu_ms_1t": (m["ms_cpu_1_thread"]["median"], "{:.0f}" if m["ms_cpu_1_thread"]["median"] >= 10 else "{:.1f}")}
+            cells = {}
+            for suffix, (v, f) in vals.items():
+                key = f"eff.{slug}.{suffix}"
+                nums.declare(key)
+                nums.set(key, f.format(v), raw=v, source=f"efficiency.json ({m['experiment_id']})")
+                cells[suffix] = nums.values[key]
+            teff_table.append({"row": m["row"], "unit": "1 s frame" if m["table"] == "T6" else "7 s clip",
+                               **cells, "run_id": m["experiment_id"]})
+    else:
+        warnings.append("results/efficiency.json not found (Phase 9: python -m src.efficiency)")
+
     # ---- protocol warnings: all reason-task paper runs must share one folds file (E90 excluded)
     hashes: dict[str, list[str]] = {}
     for rec in chosen.values():
@@ -396,7 +422,8 @@ def build(results_dir: Path = DEFAULT_RESULTS_DIR, project: dict | None = None) 
         "numbers": nums, "warnings": warnings, "records": list(resolved.values()),
         "superseded": superseded, "failed": failed, "sig_files": sig_files,
         "fig_sources": fig_sources,
-        "tables": {"T3": t3_table, "T4": t4_table, "T5": t5_table, "T5b": t5b_table, "T6": t6_table},
+        "tables": {"T3": t3_table, "T4": t4_table, "T5": t5_table, "T5b": t5b_table, "T6": t6_table,
+                   "Teff": teff_table},
     }
 
 
@@ -425,11 +452,16 @@ TABLE_SPECS = {
     "T6": (["Detector", "Accuracy (%)", "F1", "Precision (%)", "Recall (%)", "ROC-AUC", "False alarms / h", "Run"],
            lambda r: [r["row"], r["accuracy"], r["f1"], r["precision"], r["recall"], r["roc_auc"],
                       r["false_alarms_per_hour"], r["run_id"] or ""]),
+    "Teff": (["Model", "Input", "Params (M)", "Trainable (M)", "Size fp32 (MB)", "CPU ms (all threads)",
+              "CPU ms (1 thread)", "Experiment"],
+             lambda r: [r["row"], r["unit"], r["params_m"], r["trainable_m"], r["size_mb"], r["cpu_ms"],
+                        r["cpu_ms_1t"], r["run_id"] or ""]),
 }
 TABLE_TITLES = {"T3": "Table 3 — Cry-reason classification (mean ± std over folds × seeds)",
                 "T4": "Table 4 — Ablations", "T5": "Table 5 — Selective prediction (ours)",
                 "T5b": "Table 5b — Calibration and selective prediction, every model (test folds; τ from val)",
-                "T6": "Table 6 — Stage-1 cry detection"}
+                "T6": "Table 6 — Stage-1 cry detection",
+                "Teff": "Efficiency — one machine, batch 1, raw audio to logits incl. features (src/efficiency.py)"}
 
 
 def write_outputs(result: dict, results_dir: Path = DEFAULT_RESULTS_DIR) -> dict[str, Path]:
@@ -479,7 +511,7 @@ def write_outputs(result: dict, results_dir: Path = DEFAULT_RESULTS_DIR) -> dict
         else "_No runs registered yet._",
         "",
     ]
-    for t in ("T3", "T4", "T5", "T5b", "T6"):
+    for t in ("T3", "T4", "T5", "T5b", "T6", "Teff"):
         parts += [f"## {TABLE_TITLES[t]}", "", table_md[t], ""]
     parts += ["## Figures", "", md_table(["file", "paper figure", "exists", "source runs (Phase 6 figures)"], fig_rows), "",
               "## Significance", ""]

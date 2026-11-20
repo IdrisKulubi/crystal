@@ -1,0 +1,7 @@
+Model,Input,Params (M),Trainable (M),Size fp32 (MB),CPU ms (all threads),CPU ms (1 thread),Experiment
+DeepInfant (reproduced),7 s clip,19.80,19.797,79.2,83,106,E02
+"AST, linear probe",7 s clip,86.19,0.004,344.8,1729,4289,E07
+"wav2vec2-base, fine-tuned",7 s clip,94.38,90.175,377.6,797,1319,E12
+Ours (CRYSTAL),7 s clip,86.34,86.339,345.4,1612,3481,E36
+AST detector,1 s frame,85.37,85.368,341.5,552,694,E40
+Small CNN detector,1 s frame,0.06,0.060,0.25,6.3,5.9,E41

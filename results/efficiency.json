@@ -1,0 +1,124 @@
+{
+  "protocol": "median ms per input, batch 1, CPU, raw waveform -> logits incl. features, 5 warm-up calls; reason models: 7 s clip; detectors: 1 s frame",
+  "hardware": {
+    "machine": "AMD64",
+    "processor": "Intel64 Family 6 Model 154 Stepping 4, GenuineIntel",
+    "system": "Windows-11-10.0.26300-SP0",
+    "cpu_count_logical": 12,
+    "torch": "2.15.0+cpu",
+    "torch_threads_default": 10,
+    "python": "3.13.5"
+  },
+  "n_clips": 50,
+  "created_utc": "2026-11-20T09:58:28Z",
+  "models": {
+    "deepinfant": {
+      "table": "T3",
+      "row": "DeepInfant (reproduced)",
+      "experiment_id": "E02",
+      "params_total": 19797141,
+      "params_trainable": 19797141,
+      "size_mb_fp32": 79.21,
+      "ms_cpu_all_threads": {
+        "median": 83.46890000029816,
+        "p90": 108.06558999829579,
+        "n": 50
+      },
+      "ms_cpu_1_thread": {
+        "median": 105.91455000030692,
+        "p90": 143.42334999819286,
+        "n": 50
+      }
+    },
+    "ast_probe": {
+      "table": "T3",
+      "row": "AST, linear probe",
+      "experiment_id": "E07",
+      "params_total": 86191109,
+      "params_trainable": 3845,
+      "size_mb_fp32": 344.81,
+      "ms_cpu_all_threads": {
+        "median": 1729.3078000002424,
+        "p90": 2255.5813900005887,
+        "n": 50
+      },
+      "ms_cpu_1_thread": {
+        "median": 4289.225850003277,
+        "p90": 7871.760289998929,
+        "n": 50
+      }
+    },
+    "w2v2_ft": {
+      "table": "T3",
+      "row": "wav2vec2-base, fine-tuned",
+      "experiment_id": "E12",
+      "params_total": 94375557,
+      "params_trainable": 90175109,
+      "size_mb_fp32": 377.57,
+      "ms_cpu_all_threads": {
+        "median": 797.3150500001793,
+        "p90": 935.0331700021343,
+        "n": 50
+      },
+      "ms_cpu_1_thread": {
+        "median": 1318.8996499993664,
+        "p90": 1598.6998900014441,
+        "n": 50
+      }
+    },
+    "ours": {
+      "table": "T3",
+      "row": "Ours (CRYSTAL)",
+      "experiment_id": "E36",
+      "params_total": 86338985,
+      "params_trainable": 86338985,
+      "size_mb_fp32": 345.42,
+      "ms_cpu_all_threads": {
+        "median": 1612.1999500028323,
+        "p90": 1770.8495500017307,
+        "n": 50
+      },
+      "ms_cpu_1_thread": {
+        "median": 3481.2923499957833,
+        "p90": 5247.792889998529,
+        "n": 50
+      }
+    },
+    "ast_detector": {
+      "table": "T6",
+      "row": "AST detector",
+      "experiment_id": "E40",
+      "params_total": 85367809,
+      "params_trainable": 85367809,
+      "size_mb_fp32": 341.53,
+      "ms_cpu_all_threads": {
+        "median": 551.6548499981582,
+        "p90": 771.7995499937388,
+        "n": 50
+      },
+      "ms_cpu_1_thread": {
+        "median": 693.6720000012428,
+        "p90": 774.0787900023861,
+        "n": 50
+      }
+    },
+    "cnn_detector": {
+      "table": "T6",
+      "row": "Small CNN detector",
+      "experiment_id": "E41",
+      "params_total": 60465,
+      "params_trainable": 60465,
+      "size_mb_fp32": 0.25,
+      "ms_cpu_all_threads": {
+        "median": 6.327999999484746,
+        "p90": 8.017299998027738,
+        "n": 50
+      },
+      "ms_cpu_1_thread": {
+        "median": 5.860699999175267,
+        "p90": 9.492590001173085,
+        "n": 50
+      }
+    }
+  }
+}
